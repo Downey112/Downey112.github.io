@@ -805,18 +805,40 @@
       margin-bottom: 18px;
     }
 
-    .project-shot {
-      display: block;
+    .project-shots {
+      display: flex;
+      gap: 10px;
       margin-bottom: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    }
+
+    .project-shots figure {
+      flex: 0 0 100%;
+      margin: 0;
+      scroll-snap-align: start;
+    }
+
+    .project-shots a {
+      display: block;
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
       overflow: hidden;
     }
 
-    .project-shot img {
+    .project-shots img {
       display: block;
       width: 100%;
       height: auto;
+    }
+
+    .project-shots figcaption {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      padding: 6px 0 4px;
     }
 
     .project-desc ul {
@@ -1467,9 +1489,26 @@
             <span class="lap-delta">1,116 REAL EMPLOYEES</span>
           </div>
           <h3 class="project-title">Employee Turnover: Who Leaves, and Is Retention Worth Paying For?</h3>
-          <a class="project-shot" href="assets/hr-attrition-powerbi.webp" target="_blank" rel="noopener">
-            <img src="assets/hr-attrition-powerbi.webp" width="1200" height="674" loading="lazy" alt="Power BI retention decision simulator: dropdowns for loss, programme cost and effectiveness above KPI cards (risk threshold 33.3%, 4 staff to target, back-tested gain 0.0%), a histogram of 12-month leaving risk with the few bins above the threshold in blue, targeting rates by gender and age at hire, and the list of the 4 staff to target.">
-          </a>
+          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
+            <figure>
+              <a href="assets/hr-attrition-who-leaves.webp" target="_blank" rel="noopener">
+                <img src="assets/hr-attrition-who-leaves.webp" width="1200" height="674" loading="lazy" alt="Power BI page 'who leaves, and how fast': KPI cards (1,116 employees, median tenure 51 months, 14.4% leave within 12 months, C-index 0.60), Kaplan–Meier curves by industry, first-year leaving rate by industry from 25% (state sector) to 11% (manufacturing), and tables of hazard ratios and factor tests.">
+              </a>
+              <figcaption>1 / 3 · Who leaves →</figcaption>
+            </figure>
+            <figure>
+              <a href="assets/hr-attrition-decision.webp" target="_blank" rel="noopener">
+                <img src="assets/hr-attrition-decision.webp" width="1200" height="674" loading="lazy" alt="Power BI retention decision simulator: dropdowns for loss, programme cost and effectiveness above KPI cards (risk threshold 33.3%, 4 staff to target, back-tested gain 0.0%), a histogram of 12-month leaving risk with the few bins above the threshold in blue, targeting rates by gender and age at hire, and the list of the 4 staff to target.">
+              </a>
+              <figcaption>2 / 3 · Decision simulator →</figcaption>
+            </figure>
+            <figure>
+              <a href="assets/hr-attrition-model-check.webp" target="_blank" rel="noopener">
+                <img src="assets/hr-attrition-model-check.webp" width="1200" height="674" loading="lazy" alt="Power BI model check page: predicted vs observed 12-month leaving by risk quintile (predictions squeezed, 9–21% vs 7–24% observed), the back-test table of 45 cost scenarios with the best gain 4.3%, calibration by age and gender showing under-prediction for hires aged 36+, and a how-to-read note.">
+              </a>
+              <figcaption>3 / 3 · Model check</figcaption>
+            </figure>
+          </div>
           <div class="project-desc">
             <ul>
               <li>Kaplan–Meier curves, log-rank and cluster-robust tests (BH-corrected) and a Cox model on real survey data: grey-wage staff stay a median 26 months vs 54; probation mentoring shows no effect.</li>
