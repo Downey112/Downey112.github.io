@@ -805,6 +805,20 @@
       margin-bottom: 18px;
     }
 
+    .project-shot {
+      display: block;
+      margin-bottom: 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .project-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .project-desc ul {
       padding-left: 18px;
       display: flex;
@@ -1453,6 +1467,9 @@
             <span class="lap-delta">1,116 REAL EMPLOYEES</span>
           </div>
           <h3 class="project-title">Employee Turnover: Who Leaves, and Is Retention Worth Paying For?</h3>
+          <a class="project-shot" href="assets/hr-attrition-powerbi.webp" target="_blank" rel="noopener">
+            <img src="assets/hr-attrition-powerbi.webp" width="1200" height="674" loading="lazy" alt="Power BI retention decision simulator: dropdowns for loss, programme cost and effectiveness above KPI cards (risk threshold 33.3%, 4 staff to target, back-tested gain 0.0%), a histogram of 12-month leaving risk with the few bins above the threshold in blue, targeting rates by gender and age at hire, and the list of the 4 staff to target.">
+          </a>
           <div class="project-desc">
             <ul>
               <li>Kaplan–Meier curves, log-rank and cluster-robust tests (BH-corrected) and a Cox model on real survey data: grey-wage staff stay a median 26 months vs 54; probation mentoring shows no effect.</li>
