@@ -1585,6 +1585,52 @@
         </div>
       </article>
 
+      <!-- 2d. MPL MY S18 playoffs forecast -->
+      <article class="project-card" data-category="econometrics">
+        <div>
+          <div class="project-top">
+            <span class="sector-tag">OCT 2026 // SPORTS ANALYTICS + MONTE CARLO</span>
+            <span class="lap-delta">50,000 BRACKETS</span>
+          </div>
+          <h3 class="project-title">Who Wins MPL Malaysia Season 18?</h3>
+          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
+            <figure>
+              <a href="assets/mpl-s18-forecast.webp" target="_blank" rel="noopener">
+                <img src="assets/mpl-s18-forecast.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'MPL MY S18 playoffs forecast' in a dark navy and gold esports theme: KPI cards (title favourite SRG 62.9%, race for the second M8 slot TR 50% vs VMS 43%, most likely Grand Final SRG vs TR 39.7%, title chance for seeds 4 to 6 combined 4.1%), bars of title and Grand Final odds by team, each team's finishing distribution in medal colours, key series odds and the regular-season standings.">
+              </a>
+              <figcaption>1 / 2 · Playoffs forecast →</figcaption>
+            </figure>
+            <figure>
+              <a href="assets/mpl-s18-model-check.webp" target="_blank" rel="noopener">
+                <img src="assets/mpl-s18-model-check.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Model check, how much to trust the forecast': standardised logistic regression weights led by towers per game (+1.07) with pre-match Elo at −1.06, a cross-validation table (blended model ROC-AUC 0.776 vs 0.675 for the leak-free pre-match Elo reference), and a list of limitations.">
+              </a>
+              <figcaption>2 / 2 · Model check</figcaption>
+            </figure>
+          </div>
+          <div class="project-desc">
+            <ul>
+              <li>Forecasts the Mobile Legends MPL Malaysia S18 playoffs (Oct 28 – Nov 1, 2026) from the 56 regular-season Bo3 results, all checked against Liquipedia: Elo, Bradley-Terry and a from-scratch NumPy logistic model give game odds, exact Bo5/Bo7 maths turns them into series odds, and 50,000 simulated brackets give each team's finish.</li>
+              <li>SRG win the title in 62.9% of runs and take an M8 World Championship slot in 86.9%; the second slot is close (TR 50% vs VMS 43%).</li>
+              <li>A review found the team-season averages leak the outcome, so the model's cross-validation (AUC 0.776) is optimistic; the report shows the leak-free pre-match Elo bar (AUC 0.675) beside it. Two-page Power BI report generated from code (TMDL + PBIR).</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="tech-stack">
+            <span class="tech-pill">NumPy</span>
+            <span class="tech-pill">Monte Carlo</span>
+            <span class="tech-pill">Power BI (PBIP)</span>
+            <span class="tech-pill">Esports Data</span>
+          </div>
+          <div class="project-footer">
+            <span>Sports Analytics</span>
+            <div class="project-links">
+              <a href="https://github.com/Downey112/mpl-my-s18-ml-predictor" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
       <!-- 3. Multi-Channel Marketing ROI (simulation study) -->
       <article class="project-card" data-category="econometrics">
         <div>
