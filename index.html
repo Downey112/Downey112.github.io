@@ -1533,6 +1533,58 @@
         </div>
       </article>
 
+      <!-- 2c. PriceCatcher anomaly triage -->
+      <article class="project-card" data-category="pipelines">
+        <div>
+          <div class="project-top">
+            <span class="sector-tag">OCT 2026 // ANOMALY DETECTION + BI</span>
+            <span class="lap-delta">16.6M REAL PRICES</span>
+          </div>
+          <h3 class="project-title">Which Shop Prices Should Inspectors Check This Week?</h3>
+          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
+            <figure>
+              <a href="assets/pricecatcher-this-week.webp" target="_blank" rel="noopener">
+                <img src="assets/pricecatcher-this-week.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Which shop prices should inspectors check this week?': KPI cards (3,285 flagged prices, 165 districts, typical flagged price 1.22 times peers, 45% persistent premium, 209 possible data issues), bars of flags by state, likely cause and item category, and the inspection shortlist table for the week of 19 Oct 2026 led by cooking oil at RM32.80 against a RM6.90 peer median.">
+              </a>
+              <figcaption>1 / 3 · This week's shortlist →</figcaption>
+            </figure>
+            <figure>
+              <a href="assets/pricecatcher-over-time.webp" target="_blank" rel="noopener">
+                <img src="assets/pricecatcher-over-time.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Is the pattern stable week to week?': stacked weekly columns of about 3,300 flagged prices across 40 weeks of 2026, split by likely cause (persistent premium in dark blue, spikes in red), and a table of the items flagged most often, led by an infant formula at 8.8%.">
+              </a>
+              <figcaption>2 / 3 · Over time →</figcaption>
+            </figure>
+            <figure>
+              <a href="assets/pricecatcher-does-it-work.webp" target="_blank" rel="noopener">
+                <img src="assets/pricecatcher-does-it-work.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Does the detector catch overpricing?': share of planted price rises caught by the MAD baseline, Isolation Forest and ECOD (baseline 21% of held +20% rises vs 9 to 11%), a paired bootstrap table of the differences with 95% intervals, and the data funnel from 16,572,022 raw records to 7,375,691 scored prices.">
+              </a>
+              <figcaption>3 / 3 · Does it work?</figcaption>
+            </figure>
+          </div>
+          <div class="project-desc">
+            <ul>
+              <li>Scored every KPDN PriceCatcher price from Jan to Oct 2026 (16.6M records, 7.4M shop-item-weeks) against the same item at similar shops nearby, and turned it into a weekly shortlist of 20 prices per district.</li>
+              <li>No profiteering labels exist, so I planted known price rises in held-out weeks: a simple robust z-score beat Isolation Forest and ECOD on modest and held markups (21% vs 9–11% of held +20% rises caught, paired bootstrap), while Isolation Forest wins only on big one-week jumps.</li>
+              <li>An adversarial review led to 12 fixes (batch-independent scoring, a held-markup test, 21-day history rule). Three-page Power BI report generated from code (TMDL + PBIR); a flag is presented as a lead, not proof.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="tech-stack">
+            <span class="tech-pill">scikit-learn</span>
+            <span class="tech-pill">Anomaly Detection</span>
+            <span class="tech-pill">Power BI (PBIP)</span>
+            <span class="tech-pill">Open Data (data.gov.my)</span>
+          </div>
+          <div class="project-footer">
+            <span>Public Sector Analytics</span>
+            <div class="project-links">
+              <a href="https://github.com/Downey112/pricecatcher-anomaly" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
       <!-- 3. Multi-Channel Marketing ROI (simulation study) -->
       <article class="project-card" data-category="econometrics">
         <div>
