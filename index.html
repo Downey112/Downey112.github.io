@@ -1636,34 +1636,40 @@
         <div>
           <div class="project-top">
             <span class="sector-tag">OCT 2026 // TRANSPORT + CAUSAL INFERENCE</span>
-            <span class="lap-delta">155 PLACEBO DATES</span>
+            <span class="lap-delta">6 EVENTS · 3 CHECKS</span>
           </div>
           <h3 class="project-title">Did Fares and Network Changes Move KL Rail Riders?</h3>
           <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
             <figure>
               <a href="assets/lrt-overview.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-overview.webp" width="1200" height="675" loading="lazy" alt="Power BI page with a Kelana Jaya LRT train photo panel and the question 'Did fares and network changes move rail riders?': cards of riders vs 2019 for Jan to Aug 2026 (LRT Kelana Jaya 96%, LRT Ampang/Sri Petaling 114%, MRT Kajang 153%, KL Monorail 177%) in each line's map colour, monthly average riders per day from 2019 to 2026 showing the COVID collapse and recovery, the three events tested, and a note that My50 can't be measured.">
+                <img src="assets/lrt-overview.webp" width="1200" height="675" loading="lazy" alt="Power BI page with a Kelana Jaya LRT train photo panel and the question 'Did fares and network changes move rail riders?': cards of riders vs 2019 for Jan to Aug 2026 (LRT Kelana Jaya 96%, LRT Ampang/Sri Petaling 114%, MRT Kajang 153%, KL Monorail 177%) in each line's map colour, monthly riders per day from 2019 to 2026 on seven lines including MRT Putrajaya and LRT Shah Alam, the six events tested, and a summary of what changed riders.">
               </a>
-              <figcaption>1 / 3 · Overview →</figcaption>
+              <figcaption>1 / 4 · Overview →</figcaption>
             </figure>
             <figure>
               <a href="assets/lrt-event-effects.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-event-effects.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'What did each event change?' for the June to July 2022 free month: a table of effects by line (LRT Kelana Jaya +14% clear rise, Ampang/Sri Petaling +16% but not robust, MRT Kajang +29%, KL Monorail +31%) with the normal-noise band, and a daily chart of Kelana Jaya actual riders above the dashed expected line.">
+                <img src="assets/lrt-event-effects.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'What did each event change?' for the June to July 2022 free month: a table of effects by line with the noise band and two checks (LRT Kelana Jaya +16% but not robust against the comparison line, Ampang/Sri Petaling +19%, MRT Kajang +30% and KL Monorail +34% clear rises), and a daily chart of Kelana Jaya actual riders against two expected lines.">
               </a>
-              <figcaption>2 / 3 · Event effects →</figcaption>
+              <figcaption>2 / 4 · Event effects →</figcaption>
             </figure>
             <figure>
               <a href="assets/lrt-recovery-my50.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-recovery-my50.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Are riders back to 2019 levels?': monthly riders as a share of the same month in 2019 by line from 2022 to 2026, weekly riders from July 2021 to June 2022 showing the climb began before the My50 relaunch, and a list of limits.">
+                <img src="assets/lrt-recovery-my50.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Are riders back to 2019 levels?': monthly riders as a share of the same month in 2019 by line from 2022 to 2026, weekly riders around the My50 relaunch, Monorail riders per 100 LRT riders stepping up in Nov 2022 and Feb 2023, and a list of limits.">
               </a>
-              <figcaption>3 / 3 · Recovery &amp; My50</figcaption>
+              <figcaption>3 / 4 · Recovery &amp; My50 →</figcaption>
+            </figure>
+            <figure>
+              <a href="assets/lrt-new-lines.webp" target="_blank" rel="noopener">
+                <img src="assets/lrt-new-lines.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'How are the newer lines doing?': monthly riders on MRT Putrajaya (rising to about 165,000 a day), KTM Komuter in the Klang Valley (slipping) and LRT Shah Alam, and LRT Shah Alam weekday riders by fare phase: 55,418 while free, 45,839 in the extension and 33,729 once paid.">
+              </a>
+              <figcaption>4 / 4 · New lines</figcaption>
             </figure>
           </div>
           <div class="project-desc">
             <ul>
-              <li>Daily ridership on four Rapid KL lines, 2019 to Aug 2026 (data.gov.my): for each dated event, actual riders are compared with a holiday-, Ramadan- and trend-aware baseline, and every effect is checked against fake effects at 155 ordinary dates and against the level just before the event.</li>
-              <li>The June 2022 free month lifted Kelana Jaya (+14.5%), MRT Kajang (+29%) and the Monorail (+31%); in the Nov 2022 Kelana Jaya shutdown that line lost 81% while the Monorail gained 14%; MRT Putrajaya Phase 2 left the other lines unchanged.</li>
-              <li>The My50 pass can't be measured: it began as COVID rules lifted, on every line at once, with no comparison line. Three-page LRT-themed Power BI report generated from code (TMDL + PBIR) and validated against Microsoft's schemas.</li>
+              <li>Daily ridership on seven Klang Valley rail lines, 2019 to Aug 2026 (data.gov.my), including MRT Putrajaya and the new LRT Shah Alam: for six dated events, each line is compared with a holiday-, Ramadan-, school-break- and trend-aware baseline, then checked against placebo dates, the level just before, and KTM Komuter Utara as a comparison line.</li>
+              <li>Free fares added riders: +19% to +34% on three lines in the June 2022 free month, and LRT Shah Alam lost about 4 in 10 weekday riders when its free rides ended (55k to 34k). While Kelana Jaya was shut, the Monorail gained 16%.</li>
+              <li>The My50 pass still can't be measured: inside ±12–17% noise, and the comparison line is distorted by holiday travel. Four-page LRT-themed Power BI report generated from code (TMDL + PBIR) and validated against Microsoft's schemas.</li>
             </ul>
           </div>
         </div>
