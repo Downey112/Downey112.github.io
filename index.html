@@ -1376,8 +1376,7 @@
         animation: none !important;
         transition: none !important;
       }
-      #speed-canvas,
-      .helmet-rig {
+      #speed-canvas {
         display: none;
       }
     }
@@ -2529,7 +2528,7 @@
     // Helmet moment: scroll progress lowers the helmet, the visor drops in the last 18%.
     const helmetRig = document.getElementById('helmet-rig');
     const helmetVisor = document.getElementById('helmet-visor');
-    if (!reduceMotion && helmetRig && helmetVisor) {
+    if (helmetRig && helmetVisor) {
       let helmetRange = 240;
       let helmetTicking = false;
       const clamp01 = (v) => Math.min(1, Math.max(0, v));
@@ -2543,7 +2542,9 @@
 
       const renderHelmet = () => {
         helmetTicking = false;
-        const p = clamp01(window.scrollY / helmetRange);
+        let p = clamp01(window.scrollY / helmetRange);
+        // Reduced motion: no travel. The helmet just appears seated, visor down, past halfway.
+        if (reduceMotion) p = p >= 0.5 ? 1 : 0;
         const drop = 1 - Math.pow(1 - p, 3);            // ease-out cubic
         const v = clamp01((p - 0.82) / 0.18);
         const visor = 1 - Math.pow(1 - v, 3);
