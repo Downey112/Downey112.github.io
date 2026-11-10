@@ -1511,66 +1511,103 @@
         <div class="helmet-rig" id="helmet-rig">
           <svg viewBox="0 0 400 440" aria-hidden="true" focusable="false">
             <defs>
-              <pattern id="hm-carbon" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <rect width="8" height="8" fill="#14161d"/>
-                <rect width="4" height="4" fill="#1d2029"/>
-                <rect x="4" y="4" width="4" height="4" fill="#1d2029"/>
-              </pattern>
-              <linearGradient id="hm-shell" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#00706c"/>
-                <stop offset="0.38" stop-color="#00b9b3"/>
-                <stop offset="0.62" stop-color="#14d6cf"/>
-                <stop offset="1" stop-color="#006a66"/>
-              </linearGradient>
-              <linearGradient id="hm-visor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#1b2a33"/>
-                <stop offset="0.55" stop-color="#0a1016"/>
-                <stop offset="1" stop-color="#05080b"/>
-              </linearGradient>
-              <linearGradient id="hm-glint" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
-                <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-              </linearGradient>
               <clipPath id="hm-clip">
                 <path d="M200 18C322 18 386 104 386 220c0 80-12 138-40 184l-46 22c-30 7-170 7-200 0l-46-22C26 358 14 300 14 220 14 104 78 18 200 18Z"/>
               </clipPath>
+              <linearGradient id="hm-teal" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#1fe0c6"/>
+                <stop offset="0.7" stop-color="#5ff7e2"/>
+                <stop offset="1" stop-color="#8dfbea"/>
+              </linearGradient>
+              <linearGradient id="hm-white" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#e6ebef"/>
+                <stop offset="0.5" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#e6ebef"/>
+              </linearGradient>
+              <linearGradient id="hm-red" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#ff4a26"/>
+                <stop offset="0.35" stop-color="#ff3a1a"/>
+                <stop offset="1" stop-color="#c81e08"/>
+              </linearGradient>
+              <linearGradient id="hm-iridium" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#e9b949"/>
+                <stop offset="0.16" stop-color="#7a2a12"/>
+                <stop offset="0.5" stop-color="#3a0b10"/>
+                <stop offset="0.84" stop-color="#7a2a12"/>
+                <stop offset="1" stop-color="#f2c75a"/>
+              </linearGradient>
+              <linearGradient id="hm-gloss" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff" stop-opacity="0.7"/>
+                <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <radialGradient id="hm-shade" cx="0.5" cy="0.38" r="0.62">
+                <stop offset="0.6" stop-color="#000000" stop-opacity="0"/>
+                <stop offset="1" stop-color="#000000" stop-opacity="0.32"/>
+              </radialGradient>
             </defs>
           
-            <!-- shell -->
-            <path d="M200 18C322 18 386 104 386 220c0 80-12 138-40 184l-46 22c-30 7-170 7-200 0l-46-22C26 358 14 300 14 220 14 104 78 18 200 18Z" fill="url(#hm-shell)"/>
             <g clip-path="url(#hm-clip)">
-              <!-- carbon crown + chin bar -->
-              <path d="M0 0h400v74C330 56 270 50 200 50S70 56 0 74Z" fill="url(#hm-carbon)"/>
-              <path d="M0 300c70 18 130 24 200 24s130-6 200-24v140H0Z" fill="url(#hm-carbon)"/>
-              <!-- red race stripe over the crown -->
-              <path d="M182 0h36l-4 176h-28Z" fill="#e10600"/>
-              <path d="M168 0h8l6 176h-6Z M224 0h8l-8 176h-6Z" fill="#ffffff" opacity="0.85"/>
-              <!-- side flash -->
-              <path d="M0 250c40-14 70-18 96-16l-10 46C60 284 30 292 0 304Z M400 250c-40-14-70-18-96-16l10 46c26-4 56 4 86 16Z" fill="#e10600"/>
-              <!-- chin vents -->
-              <g fill="#05080b" opacity="0.9">
-                <rect x="150" y="350" width="100" height="9" rx="4.5"/>
-                <rect x="160" y="368" width="80" height="9" rx="4.5"/>
-                <rect x="172" y="386" width="56" height="9" rx="4.5"/>
+              <!-- tricolour bands: teal / white / red -->
+              <rect x="0" y="0" width="152" height="440" fill="url(#hm-teal)"/>
+              <rect x="152" y="0" width="96" height="440" fill="url(#hm-white)"/>
+              <rect x="248" y="0" width="152" height="440" fill="url(#hm-red)"/>
+          
+              <!-- gold faceted pinstripes -->
+              <g fill="none" stroke="#d8b25a" stroke-width="2.4" stroke-linejoin="round" opacity="0.95">
+                <path d="M8 300 72 262 46 206 118 150 92 96 150 52"/>
+                <path d="M30 360 104 318 86 268 152 236"/>
+                <path d="M392 300 328 262 354 206 282 150 308 96 250 52"/>
+                <path d="M370 360 296 318 314 268 248 236"/>
+                <path d="M152 300 196 340 248 300"/>
+                <path d="M0 130 60 110 40 60"/>
+                <path d="M400 130 340 110 360 60"/>
               </g>
-              <!-- top highlight -->
-              <ellipse cx="150" cy="96" rx="92" ry="40" fill="url(#hm-glint)" opacity="0.6"/>
+          
+              <!-- black name band above the visor -->
+              <path d="M34 138c60-30 272-30 332 0l-4 34c-62-24-262-24-324 0Z" fill="#0b0d13"/>
+          
+              <!-- chin vents -->
+              <rect x="98" y="300" width="64" height="12" rx="6" fill="#c9cfd6" stroke="#5b6470" stroke-width="2"/>
+              <rect x="238" y="300" width="64" height="12" rx="6" fill="#c9cfd6" stroke="#5b6470" stroke-width="2"/>
+              <g stroke="#5b6470" stroke-width="1.5">
+                <path d="M108 302v8M118 302v8M128 302v8M138 302v8M148 302v8M252 302v8M262 302v8M272 302v8M282 302v8M292 302v8"/>
+              </g>
+          
+              <!-- shell shading + gloss -->
+              <rect width="400" height="440" fill="url(#hm-shade)"/>
+              <ellipse cx="146" cy="78" rx="70" ry="30" fill="url(#hm-gloss)" opacity="0.75"/>
+          
+              <!-- black trim at the bottom edge -->
+              <path d="M0 400c80 26 320 26 400 0v40H0Z" fill="#0b0d13"/>
             </g>
-            <!-- LH/26 forehead mark -->
-            <text x="200" y="138" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="900" font-size="34" letter-spacing="2" fill="#ffffff">LH/26</text>
           
-            <!-- eye port (face shows through until visor closes) -->
-            <path d="M58 186c50-22 234-22 284 0l6 70c-58-18-238-18-296 0Z" fill="#05080b"/>
+            <!-- band lettering -->
+            <text x="200" y="152" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="900" font-size="21" letter-spacing="3" fill="#ffffff">LH//26</text>
+            <path d="M86 150l10-9h12l-10 9Z M100 150l10-9h12l-10 9Z M314 150l-10-9h-12l10 9Z M300 150l-10-9h-12l10 9Z" fill="#19e3cf"/>
           
-            <!-- visor: slides down over the eye port at the end -->
+            <!-- chin number -->
+            <text x="200" y="380" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="900" font-style="italic" font-size="44" fill="#e10600" stroke="#0b0d13" stroke-width="1.5">26</text>
+          
+            <!-- eye port -->
+            <path d="M46 196c56-18 252-18 308 0l2 76c-62-20-250-20-312 0Z" fill="#120406"/>
+          
+            <!-- visor (gold iridium), slides down last -->
             <g class="helmet-visor" id="helmet-visor">
-              <path d="M50 176c56-26 244-26 300 0l8 88c-64-22-252-22-316 0Z" fill="url(#hm-visor)" stroke="#05080b" stroke-width="4"/>
-              <path d="M78 186c40-12 120-16 170-12l-22 26c-50-2-110 2-150 12Z" fill="url(#hm-glint)" opacity="0.5"/>
-              <rect x="60" y="244" width="280" height="5" rx="2.5" fill="#e10600" opacity="0.9"/>
+              <path d="M38 188c60-24 264-24 324 0l4 90c-66-24-266-24-332 0Z" fill="url(#hm-iridium)" stroke="#0b0d13" stroke-width="3"/>
+              <path d="M70 200c48-14 150-16 196-10l-18 22c-50-4-130 0-170 10Z" fill="#ffffff" opacity="0.22"/>
+              <rect x="48" y="262" width="304" height="4" rx="2" fill="#0b0d13" opacity="0.6"/>
+            </g>
+          
+            <!-- red visor pivots -->
+            <g>
+              <circle cx="30" cy="236" r="13" fill="#d61a0b" stroke="#5a0a04" stroke-width="2"/>
+              <circle cx="30" cy="236" r="4.5" fill="#2a0a06"/>
+              <circle cx="370" cy="236" r="13" fill="#d61a0b" stroke="#5a0a04" stroke-width="2"/>
+              <circle cx="370" cy="236" r="4.5" fill="#2a0a06"/>
             </g>
           
             <!-- shell rim -->
-            <path d="M200 18C322 18 386 104 386 220c0 80-12 138-40 184l-46 22c-30 7-170 7-200 0l-46-22C26 358 14 300 14 220 14 104 78 18 200 18Z" fill="none" stroke="#04312f" stroke-width="5"/>
+            <path d="M200 18C322 18 386 104 386 220c0 80-12 138-40 184l-46 22c-30 7-170 7-200 0l-46-22C26 358 14 300 14 220 14 104 78 18 200 18Z" fill="none" stroke="#0b0d13" stroke-width="6"/>
           </svg>
         </div>
       </div>
