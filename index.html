@@ -2688,7 +2688,7 @@
     const helmetRig = document.getElementById('helmet-rig');
     const helmetHint = document.getElementById('helmet-hint');
     if (helmetRig) {
-      const touchOnly = window.matchMedia('(hover: none)').matches;
+      const touchOnly = window.matchMedia('(hover: none), (pointer: coarse)').matches;
       // The 3D helmet (assets/helmet3d.js) loads after the page; switch it on at its first frame.
       helmetRig.addEventListener('helmet:ready', () => {
         helmetRig.classList.add('is-on');
