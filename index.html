@@ -166,7 +166,6 @@
       position: sticky;
       top: 0;
       z-index: 99;
-      backdrop-filter: blur(10px);
     }
 
     .brand-logo {
@@ -559,12 +558,11 @@
       padding: 10px 22px;
       border-radius: 999px;
       border: 1.8px solid #ffffff;
-      background: rgba(0, 48, 46, 0.35);
+      background: rgba(0, 48, 46, 0.55);
       color: #ffffff;
       font-size: 13px;
       font-weight: 700;
       text-decoration: none;
-      backdrop-filter: blur(6px);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
     }
@@ -2786,9 +2784,18 @@
         sCtx.lineTo(st.x, st.y);
         sCtx.stroke();
       }
-      requestAnimationFrame(animateAero);
+      aeroRaf = heroVisible ? requestAnimationFrame(animateAero) : 0;
     }
-    if (!reduceMotion) animateAero();
+    // Only draw the speed lines while the hero is on screen (saves every frame after you scroll past it).
+    let aeroRaf = 0;
+    let heroVisible = true;
+    if (!reduceMotion) {
+      new IntersectionObserver(([entry]) => {
+        heroVisible = entry.isIntersecting;
+        if (heroVisible && !aeroRaf) aeroRaf = requestAnimationFrame(animateAero);
+      }).observe(hero);
+      aeroRaf = requestAnimationFrame(animateAero);
+    }
 
     // ================= 3. SCROLL INTERSECTION OBSERVER & FILTERS =================
     const observer = new IntersectionObserver((entries) => {
