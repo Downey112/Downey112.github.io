@@ -17,15 +17,41 @@ function decal(text, w, h, font, color) {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 
-// Shell paint: teal / white / red bands front-to-back with gold edge lines,
-// 26 on the chin, LH // 26 on the brow, black rubber lip. Model units: width 1.374, front = +Z.
+// Jalur Gemilang crescent and 14-point star, yellow on transparent (flag proportions).
+function crescentStar(w, h) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d'); const cy = h / 2, R = h * 0.42;
+  g.fillStyle = '#ffcc00';
+  g.beginPath(); g.arc(w * 0.36, cy, R, 0, Math.PI * 2); g.fill();
+  g.globalCompositeOperation = 'destination-out';
+  g.beginPath(); g.arc(w * 0.36 + R * 0.25, cy, R * 0.86, 0, Math.PI * 2); g.fill();
+  g.globalCompositeOperation = 'source-over';
+  const sx = w * 0.66, sr = h * 0.36, ir = sr * 0.55; g.beginPath();
+  for (let i = 0; i < 28; i++) { const a = -Math.PI / 2 + i * Math.PI / 14, r = i % 2 ? ir : sr; g.lineTo(sx + r * Math.cos(a), cy + r * Math.sin(a)); }
+  g.closePath(); g.fill();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+
+function outlinedNumber(text) {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 256;
+  const g = c.getContext('2d'); g.font = 'italic 900 200px Arial'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.lineJoin = 'round'; g.lineWidth = 26; g.strokeStyle = '#010066'; g.strokeText(text, 256, 128);
+  g.fillStyle = '#ffffff'; g.fillText(text, 256, 128);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+
+// Shell paint, Malaysia themed (Jalur Gemilang): navy crown as the canton with the yellow
+// crescent and star on the forehead, red/white stripes around the lower shell, gold pinstripe
+// on the boundary, 26 on the chin, LH // 26 on the back, black rubber lip.
+// Model units: width 1.374, height 1.562, front = +Z.
 function shellMaterial() {
   const U = {
-    uW: { value: 0.15 }, uLip: { value: -0.7 },
-    uTeal: { value: new THREE.Color('#00b8a8') }, uWhite: { value: new THREE.Color('#f2f4f5') },
-    uRed: { value: new THREE.Color('#e3260f') }, uGold: { value: new THREE.Color('#c99a3c') },
-    uChin: { value: decal('26', 512, 256, 'italic 900 200px Arial', '#d21f0c') }, uChinR: { value: new THREE.Vector4(0, -0.45, 0.4, 0.2) },
-    uBrow: { value: decal('LH // 26', 1024, 180, '700 120px Arial', '#0b0d13') }, uBrowR: { value: new THREE.Vector4(0, 0.45, 0.36, 0.064) },
+    uCrown: { value: 0.42 }, uStripe: { value: 0.16 }, uLip: { value: -0.7 },
+    uNavy: { value: new THREE.Color('#010066') }, uYellow: { value: new THREE.Color('#ffcc00') },
+    uRed: { value: new THREE.Color('#cc0001') }, uWhite: { value: new THREE.Color('#f4f5f6') }, uGold: { value: new THREE.Color('#d4a23a') },
+    uChin: { value: outlinedNumber('26') }, uChinR: { value: new THREE.Vector4(0, -0.45, 0.42, 0.21) },
+    uBrow: { value: crescentStar(512, 256) }, uBrowR: { value: new THREE.Vector4(0, 0.585, 0.4, 0.2) },
+    uBack: { value: decal('LH // 26', 1024, 180, '700 120px Arial', '#ffcc00') }, uBackR: { value: new THREE.Vector4(0, 0.5, 0.5, 0.088) },
   };
   const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.22, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.05 });
   mat.onBeforeCompile = (sh) => {
@@ -36,16 +62,19 @@ function shellMaterial() {
     sh.fragmentShader = sh.fragmentShader
       .replace('#include <common>', `#include <common>
 varying vec3 vOP; varying vec3 vON;
-uniform sampler2D uChin, uBrow; uniform float uW, uLip;
-uniform vec3 uTeal, uWhite, uRed, uGold; uniform vec4 uChinR, uBrowR;
+uniform sampler2D uChin, uBrow, uBack; uniform float uCrown, uStripe, uLip;
+uniform vec3 uNavy, uYellow, uWhite, uRed, uGold; uniform vec4 uChinR, uBrowR, uBackR;
 float gLip;`)
       .replace('#include <color_fragment>', `#include <color_fragment>
-vec3 liv = vOP.x < -uW ? uTeal : (vOP.x > uW ? uRed : uWhite);
-liv = mix(uGold, liv, smoothstep(0.003, 0.008, abs(abs(vOP.x) - uW)));
+float s = floor((uCrown - vOP.y) / uStripe);
+vec3 liv = vOP.y > uCrown ? uNavy : (mod(s, 2.) < 0.5 ? uRed : uWhite);
+liv = mix(uGold, liv, smoothstep(0.004, 0.01, abs(vOP.y - uCrown)));
 if (vON.z > 0.35) { vec2 cu = (vOP.xy - uChinR.xy) / uChinR.zw + 0.5;
   if (all(greaterThan(cu, vec2(0.))) && all(lessThan(cu, vec2(1.)))) { vec4 d = texture2D(uChin, cu); liv = mix(liv, d.rgb, d.a); } }
-if (vON.z > 0.3) { vec2 bu = (vOP.xy - uBrowR.xy) / uBrowR.zw + 0.5;
+if (vON.z > 0.2) { vec2 bu = (vOP.xy - uBrowR.xy) / uBrowR.zw + 0.5;
   if (all(greaterThan(bu, vec2(0.))) && all(lessThan(bu, vec2(1.)))) { vec4 d = texture2D(uBrow, bu); liv = mix(liv, d.rgb, d.a); } }
+if (vON.z < -0.3) { vec2 ku = vec2(-(vOP.x - uBackR.x), vOP.y - uBackR.y) / uBackR.zw + 0.5;
+  if (all(greaterThan(ku, vec2(0.))) && all(lessThan(ku, vec2(1.)))) { vec4 d = texture2D(uBack, ku); liv = mix(liv, d.rgb, d.a); } }
 gLip = 1. - smoothstep(uLip, uLip + 0.02, vOP.y);
 liv = mix(liv, vec3(0.04), gLip);
 diffuseColor.rgb = liv;`)
