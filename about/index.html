@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- impeccable-disable ai-color-palette: F1 timing purple marks the fastest lap, part of the LH/26 brand -->
+<!-- impeccable-disable ai-color-palette: F1 timing purple marks the live lap, part of the LH/26 brand -->
 <!-- impeccable-disable repeating-stripes-gradient: the one textured ground, a 2-3% livery stripe from the main site brand -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Luqman Hakim | Driver Profile</title>
-  <meta name="description" content="Background and website design work of Muhammad Luqman Hakim bin Syahrulnizam: UiTM statistics student, BA intern, three live sites and 23 café website concepts. Available for graduate AI Engineer roles from March 2027.">
+  <meta name="description" content="Muhammad Luqman Hakim: UiTM statistics student and Alto Soft BA intern who designs and builds websites. Three live sites, 22 café demos, 30 projects. Available for graduate AI Engineer roles from March 2027.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Luqman Hakim | Driver Profile">
-  <meta property="og:description" content="Three live sites, 23 café website concepts and the season so far. Available March 2027.">
+  <meta property="og:description" content="Three live sites, 22 café demos you can open, and the season so far. Available March 2027.">
   <meta property="og:image" content="https://downey112.github.io/assets/web/portfolio.webp">
   <meta name="theme-color" content="#0b0d13">
   <script>document.documentElement.classList.add('js');</script>
@@ -27,6 +27,7 @@
       --red-ink: #ff3b30;
       --teal: #00d2be;
       --purple: #b57cff;
+      --yellow: #ffd60a;
       --line: rgba(255, 255, 255, 0.12);
       --outline-num: rgba(255, 255, 255, 0.09);
       --weave: rgba(255, 255, 255, 0.022);
@@ -45,6 +46,7 @@
         --red-ink: #b80400;
         --teal: #00706b;
         --purple: #7e22ce;
+        --yellow: #8a6d00;
         --line: rgba(11, 13, 19, 0.14);
         --outline-num: rgba(11, 13, 19, 0.08);
         --weave: rgba(11, 13, 19, 0.03);
@@ -67,6 +69,7 @@
     p { text-wrap: pretty; }
     a { color: inherit; text-decoration: none; }
     :focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+    .orb { font-family: 'Orbitron', sans-serif; }
 
     .skip-link {
       position: absolute; left: 16px; top: -100px; z-index: 999;
@@ -79,7 +82,7 @@
     .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     @media (max-width: 600px) { .wrap { padding: 0 16px; } }
 
-    /* ===== Pit-lane top bar ===== */
+    /* ===== Top bar ===== */
     .bar { position: sticky; top: 0; z-index: 50; background: var(--surface); border-bottom: 1px solid var(--line); }
     .bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
     .brand { display: flex; align-items: center; gap: 18px; }
@@ -87,9 +90,7 @@
     .back { font-size: 14px; font-weight: 700; color: var(--dim); min-height: 44px; display: inline-flex; align-items: center; transition: color .2s var(--ui); }
     .back:hover { color: var(--teal); }
     .nav { display: flex; gap: 24px; list-style: none; }
-    .nav a, .draw {
-      position: relative; min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; font-size: 15px;
-    }
+    .nav a, .draw { position: relative; min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; font-size: 15px; }
     .nav a::after, .draw::after {
       content: ''; position: absolute; left: 0; right: 0; bottom: 9px; height: 2px; background: var(--teal);
       transform: scaleX(0); transform-origin: left; transition: transform .2s var(--ui);
@@ -105,79 +106,114 @@
     @media (max-width: 880px) { .nav { display: none; } }
     @media (max-width: 420px) { .back { display: none; } }
 
-    /* ===== Hero: driver profile ===== */
-    .hero { min-height: calc(100svh - 64px); display: flex; align-items: center; padding: 40px 0; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
-    .hero::before, .hero::after {
-      content: ''; position: absolute; left: 0; right: 0; height: 6px; pointer-events: none;
-    }
+    /* ===== Hero ===== */
+    .hero { min-height: calc(100svh - 64px); display: flex; align-items: center; padding: 36px 0 44px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+    .hero::before, .hero::after { content: ''; position: absolute; left: 0; right: 0; height: 6px; pointer-events: none; }
     .hero::before { top: 0; background: var(--red); }
     .hero::after { bottom: 0; background: var(--teal); }
-    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; width: 100%; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 32px; align-items: center; width: 100%; }
+
+    /* Start lights: five pods light up one by one, then all go out. Runs once. */
+    .lights { display: flex; gap: 10px; margin-bottom: 22px; }
+    .pod { width: 30px; height: 64px; background: #1b1d27; border: 2px solid #2a2d3a; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-around; align-items: center; padding: 4px 0; }
+    .pod i { width: 18px; height: 18px; border-radius: 50%; background: #2c2f3b; position: relative; }
+    .pod i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--red); opacity: 0; }
+    .js .pod i::after { animation: lamp-on .01s steps(1) var(--on) forwards, lamp-off .01s steps(1) 1.75s forwards; }
+    .pod:nth-child(1) { --on: .25s; } .pod:nth-child(2) { --on: .5s; } .pod:nth-child(3) { --on: .75s; }
+    .pod:nth-child(4) { --on: 1s; } .pod:nth-child(5) { --on: 1.25s; }
+    @keyframes lamp-on { to { opacity: 1; } }
+    @keyframes lamp-off { to { opacity: 0; } }
+    .lights-label { display: grid; } .lights-label > * { grid-area: 1 / 1; }
+    .lights-label { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--dim); align-self: flex-end; margin-left: 6px; }
+    .js .lights-label b { opacity: 0; animation: lamp-on .01s steps(1) 1.75s forwards; color: var(--teal); }
+    .js .lights-label .wait { animation: lamp-off .01s steps(1) 1.75s forwards; }
+
     .hero-copy { animation: enter .7s var(--enter) both; }
     .first { font-family: 'Caveat', cursive; font-size: clamp(40px, 5vw, 58px); line-height: 1; display: inline-block; transform: rotate(-3deg); color: var(--teal); }
-    .last { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(36px, 5.6vw, 72px); line-height: 1.02; letter-spacing: .02em; margin: 4px 0 18px; }
-    h1 { font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; line-height: 1.25; max-width: 30ch; margin-bottom: 26px; text-wrap: balance; }
-    .readout {
-      display: grid; grid-template-columns: repeat(3, auto); width: fit-content; max-width: 100%;
-      border: 1px solid var(--line); border-radius: 6px; background: var(--card); margin-bottom: 30px;
-    }
-    .readout div { padding: 12px 20px; border-left: 1px solid var(--line); }
+    .last { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(36px, 5.6vw, 74px); line-height: 1.02; letter-spacing: .02em; margin: 4px 0 16px; }
+    h1 { font-size: clamp(22px, 2.5vw, 30px); font-weight: 700; line-height: 1.25; max-width: 28ch; margin-bottom: 10px; text-wrap: balance; }
+    .bio { color: var(--dim); max-width: 46ch; margin-bottom: 22px; }
+    .readout { display: grid; grid-template-columns: repeat(4, auto); width: fit-content; max-width: 100%; border: 1px solid var(--line); border-radius: 6px; background: var(--card); margin-bottom: 26px; }
+    .readout div { padding: 10px 18px; border-left: 1px solid var(--line); }
     .readout div:first-child { border-left: 0; }
-    .readout b { display: block; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; }
-    .readout span { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+    .readout b { display: block; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.15; }
+    .readout span { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
     .readout .live b { color: var(--purple); }
     .actions { display: flex; flex-wrap: wrap; gap: 14px; }
-    .btn {
-      min-height: 48px; padding: 0 26px; border-radius: 6px; font-weight: 700; font-size: 16px;
-      display: inline-flex; align-items: center; transition: transform .2s var(--ui), border-color .2s var(--ui);
-    }
+    .btn { min-height: 48px; padding: 0 26px; border-radius: 6px; font-weight: 700; font-size: 16px; display: inline-flex; align-items: center; transition: transform .2s var(--ui), border-color .2s var(--ui); }
     .btn:hover { transform: translateY(-2px); }
     .btn:active { transform: translateY(0); }
     .btn-red { background: var(--red); color: #fff; }
     .btn-ghost { border: 1px solid var(--line); }
     .btn-ghost:hover { border-color: var(--teal); }
-    .hero-visual { position: relative; display: flex; justify-content: center; align-items: flex-end; min-height: 460px; animation: enter .9s .1s var(--enter) both; }
-    .num {
-      position: absolute; right: 0; bottom: -10px; font-family: 'Orbitron', sans-serif; font-weight: 900;
-      font-size: clamp(170px, 22vw, 320px); line-height: .8; color: transparent; -webkit-text-stroke: 3px var(--outline-num);
-      user-select: none;
+
+    .hero-visual { position: relative; min-height: 600px; display: flex; justify-content: center; align-items: flex-end; animation: enter .9s .1s var(--enter) both; }
+    .num { position: absolute; right: -10px; top: 0; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(180px, 24vw, 340px); line-height: .8; color: transparent; -webkit-text-stroke: 3px var(--outline-num); user-select: none; }
+    .portrait { position: relative; max-height: 600px; width: auto; height: auto; }
+    .spec {
+      position: absolute; left: -8px; bottom: 26px; z-index: 2; width: 250px;
+      background: rgba(11, 13, 19, .94); color: #fff; border: 1px solid rgba(255, 255, 255, .14); border-radius: 6px; overflow: hidden;
+      box-shadow: 0 20px 34px -18px rgba(0, 0, 0, .7);
     }
-    .portrait { position: relative; max-height: 560px; width: auto; height: auto; }
+    .spec-head { display: flex; justify-content: space-between; align-items: center; background: var(--red); padding: 7px 12px; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 13px; letter-spacing: .06em; }
+    .spec dl { display: grid; grid-template-columns: auto 1fr; gap: 0 12px; padding: 10px 12px 12px; font-size: 14px; line-height: 1.45; }
+    .spec dt { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #a3b1c6; text-transform: uppercase; padding: 3px 0; }
+    .spec dd { font-weight: 600; padding: 3px 0; text-align: right; }
     @keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 1100px) { .readout { grid-template-columns: repeat(2, auto); } .readout div:nth-child(3) { border-left: 0; } .readout div:nth-child(n+3) { border-top: 1px solid var(--line); } }
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; }
-      .hero-visual { min-height: 0; order: -1; }
-      .portrait { max-height: 300px; }
-      .num { font-size: 170px; }
-    }
-    @media (max-width: 480px) {
-      .readout { grid-template-columns: 1fr 1fr; }
-      .readout div:nth-child(3) { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+      .hero-visual { min-height: 0; flex-direction: column; align-items: center; }
+      .portrait { max-height: 320px; }
+      .num { font-size: 200px; right: 0; }
+      .spec { position: relative; left: auto; bottom: auto; width: 100%; max-width: 420px; margin-top: -18px; }
     }
 
     /* ===== Sections ===== */
     section.block { padding: 96px 0; border-bottom: 1px solid var(--line); }
-    h2 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.15; letter-spacing: .01em; margin-bottom: 14px; }
-    .lead { color: var(--dim); max-width: 58ch; margin-bottom: 44px; }
+    h2 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.15; letter-spacing: .01em; margin-bottom: 16px; }
+    .lead { color: var(--dim); max-width: 58ch; margin-bottom: 40px; }
 
-    /* ===== Season so far ===== */
-    .laps { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; counter-reset: lap; }
-    .lap {
-      background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 20px;
-      display: flex; flex-direction: column; gap: 8px; transition: transform .2s var(--ui);
+    /* Team radio line under each heading */
+    .radio { display: flex; align-items: stretch; width: fit-content; max-width: 100%; margin-bottom: 18px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: var(--card); }
+    .radio-tag { display: flex; align-items: center; gap: 8px; background: var(--ink); color: var(--bg); padding: 8px 12px; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: .08em; white-space: nowrap; }
+    .wave { display: inline-flex; gap: 2px; align-items: center; height: 14px; }
+    .wave i { width: 3px; background: currentColor; border-radius: 1px; }
+    .wave i:nth-child(1) { height: 6px; } .wave i:nth-child(2) { height: 13px; } .wave i:nth-child(3) { height: 9px; } .wave i:nth-child(4) { height: 12px; } .wave i:nth-child(5) { height: 5px; }
+    .radio q { padding: 8px 14px; font-style: italic; font-weight: 700; quotes: none; }
+    @media (max-width: 520px) { .radio { flex-direction: column; } .radio-tag { padding: 6px 12px; } }
+
+    /* ===== Timing tower ===== */
+    .tower { list-style: none; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--card); }
+    .tower-head { display: grid; grid-template-columns: 56px 72px 1fr 190px 18px; gap: 16px; align-items: center; padding: 10px 18px; background: var(--surface); font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--dim); }
+    .row { display: grid; grid-template-columns: 56px 72px 1fr 190px 18px; gap: 16px; align-items: start; padding: 16px 18px; border-top: 1px solid var(--line); transition: background-color .2s var(--ui); }
+    .row:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+    .pos { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 18px; width: 40px; height: 34px; display: grid; place-items: center; background: var(--ink); color: var(--bg); border-radius: 4px; }
+    .code { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 20px; letter-spacing: .04em; padding-top: 2px; }
+    .row h3 { font-size: 18px; line-height: 1.3; }
+    .row p { color: var(--dim); font-size: 15px; line-height: 1.5; margin-top: 3px; max-width: 62ch; }
+    .time { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .03em; text-align: right; padding-top: 5px; }
+    .sec { width: 14px; height: 14px; border-radius: 3px; margin-top: 6px; }
+    .s1 { background: var(--teal); } .s2 { background: var(--red); } .s3 { background: var(--yellow); }
+    .row.live { background: color-mix(in srgb, var(--purple) 10%, transparent); }
+    .row.live .pos { background: var(--purple); color: #fff; }
+    .row.live .time { color: var(--purple); }
+    .livedot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--purple); margin-right: 6px; vertical-align: 1px; }
+    .js .livedot { animation: blink 1.6s ease-in-out infinite; }
+    @keyframes blink { 50% { opacity: .25; } }
+    .row.live .sec { background: var(--purple); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; font-size: 14px; color: var(--dim); }
+    .legend span { display: inline-flex; align-items: center; gap: 8px; }
+    .legend .sec { margin: 0; }
+    @media (max-width: 760px) {
+      .tower-head { display: none; }
+      .row { grid-template-columns: 44px 1fr 14px; gap: 6px 12px; }
+      .pos { width: 36px; height: 30px; font-size: 15px; }
+      .code { display: none; }
+      .time { grid-column: 2; grid-row: 1; text-align: left; padding: 0; font-size: 12px; color: var(--dim); }
+      .row-main { grid-column: 2; }
+      .sec { grid-column: 3; grid-row: 1; margin-top: 2px; }
     }
-    .lap:hover { transform: translateY(-2px); }
-    .lap-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .sector { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
-    .s1 { color: var(--teal); background: color-mix(in srgb, var(--teal) 14%, transparent); }
-    .s2 { color: var(--red-ink); background: color-mix(in srgb, var(--red) 14%, transparent); }
-    .s3 { color: var(--ink); background: color-mix(in srgb, var(--ink) 10%, transparent); }
-    .fl { color: var(--purple); background: color-mix(in srgb, var(--purple) 16%, transparent); }
-    .lapno { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; color: var(--dim); }
-    .when { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .04em; }
-    .lap h3 { font-size: 17px; line-height: 1.3; }
-    .lap p { font-size: 15px; color: var(--dim); line-height: 1.5; }
-    .lap.current { border-color: color-mix(in srgb, var(--purple) 55%, transparent); }
 
     /* ===== Garage ===== */
     .builds { display: flex; flex-direction: column; gap: 88px; }
@@ -188,40 +224,37 @@
     .desk { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); aspect-ratio: 16 / 10; }
     .desk img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .35s var(--ui); }
     .build:hover .desk img { transform: scale(1.025); }
-    .phone {
-      position: absolute; right: -14px; bottom: 0; width: 26%; max-width: 150px; aspect-ratio: 390 / 844;
-      border: 3px solid #1d1f2b; border-radius: 16px; overflow: hidden; background: #000;
-      box-shadow: 0 18px 30px -12px rgba(0, 0, 0, .55);
-    }
+    .phone { position: absolute; right: -14px; bottom: 0; width: 26%; max-width: 150px; aspect-ratio: 390 / 844; border: 3px solid #1d1f2b; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 18px 30px -12px rgba(0, 0, 0, .55); }
     .build.flip .phone { right: auto; left: -14px; }
     .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-    .tag { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .1em; color: var(--dim); }
-    .build h3 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(22px, 2.4vw, 28px); margin: 6px 0 12px; }
+    .carno { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 64px; line-height: .9; color: transparent; -webkit-text-stroke: 2px var(--red-ink); display: block; margin-bottom: 4px; }
+    .build h3 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(22px, 2.4vw, 28px); margin-bottom: 4px; }
+    .where { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--dim); margin-bottom: 12px; }
     .build p { color: var(--dim); max-width: 50ch; margin-bottom: 16px; }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-bottom: 14px; }
     .chips li { font-size: 13px; font-weight: 600; border: 1px solid var(--line); background: var(--surface); padding: 3px 10px; border-radius: 4px; }
     .golink { color: var(--teal); font-weight: 700; }
+    .inline { color: var(--teal); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
     @media (max-width: 900px) {
-      .build, .build.flip { grid-template-columns: 1fr; gap: 28px; }
+      .build, .build.flip { grid-template-columns: 1fr; gap: 24px; }
       .build.flip .shots { order: 0; }
       .phone, .build.flip .phone { right: 8px; left: auto; width: 28%; }
+      .carno { font-size: 48px; }
     }
 
-    /* ===== Design lab: the dealt grid ===== */
-    .grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px; }
-    .concept-tile figure { background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; height: 100%; transition: transform .2s var(--ui); }
-    .concept-tile figure:hover { transform: translateY(-2px); }
+    /* ===== Design lab ===== */
+    .grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+    .tile { display: flex; flex-direction: column; height: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; transition: transform .2s var(--ui), border-color .2s var(--ui); }
+    .tile:hover { transform: translateY(-2px); border-color: var(--teal); }
+    .tile:active { transform: translateY(0); }
     .tile-shot { position: relative; aspect-ratio: 8 / 5; overflow: hidden; background: var(--surface); }
     .tile-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s var(--ui); }
-    .concept-tile figure:hover img, .concept-tile figure:focus-visible img { transform: scale(1.03); }
-    .grid-pos {
-      position: absolute; top: 10px; left: 10px; z-index: 2; background: rgba(11, 13, 19, .9); color: #fff;
-      font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: .06em; padding: 3px 8px; border-radius: 3px;
-    }
-    .concept-tile:nth-child(-n+3) .grid-pos { background: var(--red); }
-    figcaption { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 2px; }
-    figcaption strong { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; }
-    figcaption span { font-size: 14px; color: var(--dim); line-height: 1.45; }
+    .tile:hover img, .tile:focus-visible img { transform: scale(1.03); }
+    .grid-pos { position: absolute; top: 10px; left: 10px; z-index: 2; background: rgba(11, 13, 19, .9); color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: .06em; padding: 3px 8px; border-radius: 3px; }
+    .tile-cap { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .tile-cap strong { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; }
+    .tile-cap span { font-size: 14px; color: var(--dim); line-height: 1.45; }
+    .tile-cap em { font-style: normal; font-weight: 700; font-size: 14px; color: var(--teal); margin-top: auto; padding-top: 8px; }
     .js .concept-tile { opacity: 0; transform: translateY(28px) rotate(-1.2deg); transition: opacity .55s var(--enter), transform .55s var(--enter); transition-delay: var(--d, 0ms); }
     .js .concept-tile:nth-child(even) { transform: translateY(28px) rotate(1.2deg); }
     .js .concept-tile.dealt { opacity: 1; transform: none; }
@@ -234,33 +267,29 @@
     .steps b { display: block; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 34px; color: var(--red-ink); line-height: 1; margin-bottom: 14px; }
     .steps h3 { font-size: 18px; margin-bottom: 8px; }
     .steps p { color: var(--dim); font-size: 15px; }
-    @media (max-width: 900px) {
-      .steps { grid-template-columns: 1fr 1fr; gap: 28px 0; }
-      .steps li:nth-child(3) { padding-left: 0; border-left: 0; }
-    }
-    @media (max-width: 520px) {
-      .steps { grid-template-columns: 1fr; }
-      .steps li + li { padding-left: 0; border-left: 0; }
-    }
+    @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; gap: 28px 0; } .steps li:nth-child(3) { padding-left: 0; border-left: 0; } }
+    @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } .steps li + li { padding-left: 0; border-left: 0; } }
 
-    /* ===== Pit wall (contact) ===== */
+    /* ===== Pit wall ===== */
     .pitwall { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: end; }
     .pitwall h2 { font-size: clamp(30px, 4.4vw, 52px); }
     .channels { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
     .channels li { border-bottom: 1px solid var(--line); }
-    .channels a { display: flex; justify-content: space-between; align-items: center; min-height: 56px; font-weight: 700; transition: color .2s var(--ui); }
+    .channels a { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 56px; font-weight: 700; transition: color .2s var(--ui); overflow-wrap: anywhere; }
     .channels a:hover { color: var(--teal); }
-    .channels small { font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: .08em; color: var(--dim); font-weight: 700; }
+    .channels small { font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: .08em; color: var(--dim); font-weight: 700; white-space: nowrap; }
     @media (max-width: 800px) { .pitwall { grid-template-columns: 1fr; } }
 
     footer { padding: 28px 0 36px; color: var(--dim); font-size: 14px; }
     footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
-    footer a { text-decoration: underline; text-underline-offset: 3px; }
+    footer a { text-decoration: underline; text-underline-offset: 3px; display: inline-block; min-height: 24px; }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
       .js .concept-tile, .js .concept-tile:nth-child(even) { opacity: 1; transform: none; }
+      .js .lights-label b { opacity: 1; }
+      .js .lights-label .wait { display: none; }
     }
   </style>
 </head>
@@ -289,12 +318,18 @@
     <section class="hero" aria-labelledby="h1">
       <div class="wrap hero-grid">
         <div class="hero-copy">
+          <div class="lights" aria-hidden="true">
+            <span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span>
+            <span class="lights-label"><span class="wait">FORMATION LAP</span><b>LIGHTS OUT</b></span>
+          </div>
           <span class="first">Muhammad</span>
           <p class="last">LUQMAN HAKIM</p>
-          <h1 id="h1">Statistics student from UiTM who designs and builds websites</h1>
+          <h1 id="h1">Statistics student who designs and builds websites</h1>
+          <p class="bio">Final year at UiTM, BA intern at Alto Soft right now. Away from class I build sites, three of them live, and data and AI projects, thirty so far.</p>
           <div class="readout">
+            <div><b>30</b><span>Projects</span></div>
             <div><b>3</b><span>Live sites</span></div>
-            <div><b>23</b><span>Café concepts</span></div>
+            <div><b>22</b><span>Café demos</span></div>
             <div class="live"><b>MAR 2027</b><span>Available</span></div>
           </div>
           <div class="actions">
@@ -304,7 +339,18 @@
         </div>
         <div class="hero-visual">
           <span class="num" aria-hidden="true">26</span>
-          <img class="portrait" src="../assets/web/portrait.webp" width="584" height="720" alt="Luqman Hakim in a dark suit" fetchpriority="high">
+          <img class="portrait" src="../assets/web/portrait.webp" width="584" height="720" alt="Luqman Hakim in a dark suit and striped tie" fetchpriority="high">
+          <aside class="spec" aria-label="Driver card">
+            <div class="spec-head"><span>DRIVER CARD</span><span>#26</span></div>
+            <dl>
+              <dt>Nation</dt><dd>Malaysia</dd>
+              <dt>Base</dt><dd>Kuala Lumpur</dd>
+              <dt>Chassis</dt><dd>B.Sc. Statistics, UiTM</dd>
+              <dt>Engine</dt><dd>Python · R · SQL</dd>
+              <dt>Team</dt><dd>Alto Soft (intern)</dd>
+              <dt>Seat</dt><dd>Graduate AI Engineer</dd>
+            </dl>
+          </aside>
         </div>
       </div>
     </section>
@@ -312,58 +358,55 @@
     <section class="block" id="season" aria-labelledby="season-h">
       <div class="wrap">
         <h2 id="season-h">Season so far</h2>
-        <p class="lead">Seven laps from an engineering foundation to statistics, a few jobs on the way, and a BA internship running now. Purple is the lap in progress.</p>
-        <ol class="laps">
-          <li class="lap">
-            <div class="lap-top"><span class="sector s1">Sector 1</span><span class="lapno">LAP 01</span></div>
-            <span class="when">AUG 2022 – JUN 2023</span>
-            <h3>Foundation in Engineering, UiTM Selangor</h3>
-            <p>CGPA 3.44. Silver medal at PIITRAM 2023 (UPM) and a consolation prize at the UiTM Arduino Showcase 2022.</p>
+        <p class="radio"><span class="radio-tag"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>RADIO #26</span><q>Lap five is live. UAT at Alto Soft, then the grid opens in March.</q></p>
+        <p class="lead">From an engineering foundation to statistics, with jobs on the way. Purple is the lap I'm on.</p>
+        <ol class="tower">
+          <li class="tower-head" aria-hidden="true"><span>LAP</span><span>CODE</span><span>SESSION</span><span style="text-align:right">TIME</span><span></span></li>
+          <li class="row">
+            <span class="pos">1</span><span class="code">FND</span>
+            <div class="row-main"><h3>Foundation in Engineering, UiTM Selangor</h3><p>CGPA 3.44. Silver at PIITRAM 2023 (UPM), consolation prize at the UiTM Arduino Showcase 2022.</p></div>
+            <span class="time">AUG 22 – JUN 23</span><span class="sec s1" title="Sector 1: study"></span>
           </li>
-          <li class="lap">
-            <div class="lap-top"><span class="sector s1">Sector 1</span><span class="lapno">LAP 02</span></div>
-            <span class="when">OCT 2023 – FEB 2024</span>
-            <h3>Multimedia &amp; Publicity, COMOBISTA, UiTM</h3>
-            <p>Made the posters and digital publicity for faculty events, on deadlines. The first design work I did for someone else.</p>
+          <li class="row">
+            <span class="pos">2</span><span class="code">PUB</span>
+            <div class="row-main"><h3>Multimedia &amp; Publicity, COMOBISTA, UiTM</h3><p>Posters and digital publicity for faculty events, on deadline. My first design work for other people.</p></div>
+            <span class="time">OCT 23 – FEB 24</span><span class="sec s3" title="Sector 3: design"></span>
           </li>
-          <li class="lap">
-            <div class="lap-top"><span class="sector s2">Sector 2</span><span class="lapno">LAP 03</span></div>
-            <span class="when">OCT 2023 – FEB 2027</span>
-            <h3>B.Sc. (Hons.) Statistics, UiTM Kota Bharu</h3>
-            <p>CGPA 3.11. Programming for Data Science in R and Python, Business Data Analytics, Data Reporting &amp; Visualisation.</p>
+          <li class="row">
+            <span class="pos">3</span><span class="code">STA</span>
+            <div class="row-main"><h3>B.Sc. (Hons.) Statistics, UiTM Kota Bharu</h3><p>CGPA 3.11. Data science in R and Python, business analytics, data reporting and visualisation.</p></div>
+            <span class="time">OCT 23 – FEB 27</span><span class="sec s1" title="Sector 1: study"></span>
           </li>
-          <li class="lap">
-            <div class="lap-top"><span class="sector s2">Sector 2</span><span class="lapno">LAP 04</span></div>
-            <span class="when">AUG 2025 – SEP 2025</span>
-            <h3>Customer Service Agent, SRG Asia Pacific / Maxis</h3>
-            <p>Part-time. Sorted out 20+ technical and billing questions a day in the CRM.</p>
+          <li class="row">
+            <span class="pos">4</span><span class="code">MXS</span>
+            <div class="row-main"><h3>Customer Service Agent, SRG Asia Pacific / Maxis</h3><p>Part-time. 20+ technical and billing questions a day, worked in the CRM.</p></div>
+            <span class="time">AUG 25 – SEP 25</span><span class="sec s2" title="Sector 2: work"></span>
           </li>
-          <li class="lap current">
-            <div class="lap-top"><span class="sector fl">Fastest lap</span><span class="lapno">LAP 05</span></div>
-            <span class="when">OCT 2026 – NOW</span>
-            <h3>Business Analyst Intern, Alto Soft Sdn Bhd</h3>
-            <p>Preparing UAT scripts and sessions for a multi-role government attendance, booking and complaints system before its December 2026 rollout. Writing the user manuals, SOPs and meeting minutes.</p>
+          <li class="row live">
+            <span class="pos">5</span><span class="code">ALT</span>
+            <div class="row-main"><h3>Business Analyst Intern, Alto Soft Sdn Bhd</h3><p>Preparing UAT scripts and sessions for a multi-role government attendance, booking and complaints system before its December 2026 rollout. I also write the user manuals, SOPs and meeting minutes.</p></div>
+            <span class="time"><span class="livedot" aria-hidden="true"></span>OCT 26 – NOW</span><span class="sec" title="Live lap"></span>
           </li>
-          <li class="lap">
-            <div class="lap-top"><span class="sector s3">Sector 3</span><span class="lapno">LAP 06</span></div>
-            <span class="when">NOV 2026</span>
-            <h3>AI Engineer certifications</h3>
-            <p>DataCamp AI Engineer for Data Scientists Associate and AI Engineer for Developers Associate. My final agent in the Hugging Face Agents Course scored 85% on GAIA.</p>
+          <li class="row">
+            <span class="pos">6</span><span class="code">AIE</span>
+            <div class="row-main"><h3>AI Engineer certifications</h3><p>DataCamp AI Engineer for Data Scientists Associate and AI Engineer for Developers Associate. My Hugging Face Agents Course agent scored 85% on GAIA.</p></div>
+            <span class="time">NOV 26</span><span class="sec s1" title="Sector 1: study"></span>
           </li>
-          <li class="lap">
-            <div class="lap-top"><span class="sector s3">Sector 3</span><span class="lapno">LAP 07</span></div>
-            <span class="when">MAR 2027</span>
-            <h3>Next: graduate AI Engineer</h3>
-            <p>Looking for a graduate AI Engineer seat in the Klang Valley. The <a class="draw" href="../#projects">30 projects on the main page</a> are the testing miles.</p>
+          <li class="row">
+            <span class="pos">7</span><span class="code">NXT</span>
+            <div class="row-main"><h3>Next: graduate AI Engineer</h3><p>A graduate seat in the Klang Valley. The <a class="inline" href="../#projects">30 projects on the main page</a> are my testing miles.</p></div>
+            <span class="time">MAR 27</span><span class="sec s2" title="Sector 2: work"></span>
           </li>
         </ol>
+        <div class="legend" aria-label="Colour key"><span><i class="sec s1"></i>Study</span><span><i class="sec s2"></i>Work</span><span><i class="sec s3"></i>Design</span><span><i class="sec" style="background:var(--purple)"></i>Live lap</span></div>
       </div>
     </section>
 
     <section class="block" id="garage" aria-labelledby="garage-h">
       <div class="wrap">
         <h2 id="garage-h">The garage</h2>
-        <p class="lead">Three sites I designed and built, all live now. The phone shots are the same pages at 390px wide.</p>
+        <p class="radio"><span class="radio-tag"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>RADIO #26</span><q>Three cars on track. All live, open any of them.</q></p>
+        <p class="lead">Designed and built by me. The phone shots are the same pages at 390px wide.</p>
         <div class="builds">
           <article class="build">
             <div class="shots">
@@ -371,10 +414,11 @@
               <div class="phone"><img src="../assets/web/portfolio-phone.webp" width="390" height="844" loading="lazy" decoding="async" alt="The same portfolio at phone width"></div>
             </div>
             <div>
-              <span class="tag">CAR 01 · GITHUB PAGES</span>
+              <span class="carno" aria-hidden="true">01</span>
               <h3>LH//26 portfolio</h3>
-              <p>The main site, themed as an F1 driver page. A real 3D helmet, repainted in my LH/26 livery, sits over my portrait; move the cursor and a window opens through it to the driver. It holds 30 data and AI projects.</p>
-              <ul class="chips" aria-label="Built with"><li>HTML &amp; CSS</li><li>three.js</li><li>Vanilla JS</li><li>Power BI images</li></ul>
+              <p class="where">GITHUB PAGES</p>
+              <p>My main site, built as an F1 driver page. A real 3D helmet in my LH/26 livery sits over my portrait. Move the cursor and a window opens through it. Thirty data and AI projects inside.</p>
+              <ul class="chips" aria-label="Built with"><li>HTML &amp; CSS</li><li>three.js</li><li>Vanilla JS</li></ul>
               <a class="golink draw" href="https://downey112.github.io/" target="_blank" rel="noopener">Open the live site ↗</a>
             </div>
           </article>
@@ -384,9 +428,10 @@
               <div class="phone"><img src="../assets/web/rasa-phone.webp" width="390" height="844" loading="lazy" decoding="async" alt="Rasa Kampung at phone width"></div>
             </div>
             <div>
-              <span class="tag">CAR 02 · VERCEL + NEON</span>
+              <span class="carno" aria-hidden="true">02</span>
               <h3>Rasa Kampung</h3>
-              <p>An order site for my family's kuih and cake business: kuih raya, kek, kuih-muih and lauk. Customers choose pickup or delivery and pay by bank transfer or cash; the admin side runs the orders. The whole site is in Bahasa Melayu, in banana-leaf green, with a hanging ketupat that sways and has a pause button.</p>
+              <p class="where">VERCEL + NEON</p>
+              <p>Order site for my family's kuih and cake business: kuih raya, kek, kuih-muih, lauk. Pickup or delivery, bank transfer or cash, plus an admin side for orders. All in Bahasa Melayu, banana-leaf green, with a swaying ketupat you can pause.</p>
               <ul class="chips" aria-label="Built with"><li>Next.js 16</li><li>Prisma</li><li>Postgres (Neon)</li><li>Auth.js</li></ul>
               <a class="golink draw" href="https://rasa-kampung.vercel.app/" target="_blank" rel="noopener">Open the live site ↗</a>
             </div>
@@ -397,9 +442,10 @@
               <div class="phone"><img src="../assets/web/residual-phone.webp" width="390" height="844" loading="lazy" decoding="async" alt="The Residual at phone width"></div>
             </div>
             <div>
-              <span class="tag">CAR 03 · VERCEL</span>
+              <span class="carno" aria-hidden="true">03</span>
               <h3>The Residual</h3>
-              <p>An editorial site for statistics graduates about the anomalies in Malaysian open data, the part the fitted line leaves out. Obsidian and amber, set in Cinzel and Space Grotesk, with procedural 3D pieces you can drag.</p>
+              <p class="where">VERCEL</p>
+              <p>Editorial site for statistics graduates about the anomalies in Malaysian open data, the part the fitted line leaves out. Obsidian and amber, Cinzel and Space Grotesk, procedural 3D pieces you can drag.</p>
               <ul class="chips" aria-label="Built with"><li>Next.js 15</li><li>React Three Fiber</li><li>Framer Motion</li></ul>
               <a class="golink draw" href="https://the-residual-lilac.vercel.app/" target="_blank" rel="noopener">Open the live site ↗</a>
             </div>
@@ -410,230 +456,222 @@
 
     <section class="block" id="lab" aria-labelledby="lab-h">
       <div class="wrap">
-        <h2 id="lab-h">23 café sites, one brief each</h2>
-        <p class="lead">Design practice. I gave myself one made-up coffee shop at a time and one idea to carry it: a pressure gauge, a sticker tray, a roast slider, a 3D roastery. Each is a single HTML file. These cafés are fictional; none of this is client work.</p>
+        <h2 id="lab-h">22 café sites, one idea each</h2>
+        <p class="radio"><span class="radio-tag"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>RADIO #26</span><q>Practice sessions. Every tile opens the working page.</q></p>
+        <p class="lead">One made-up coffee shop at a time, one idea to carry it: a pressure gauge, a sticker tray, a roast slider, a 3D roastery. Each is a single HTML file.</p>
         <ol class="grid" id="grid">
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c1">
+            <a class="tile" href="lab/1-arang-coffee-motion.html" aria-labelledby="c1">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P1</span>
-                <img src="../assets/web/coffee-1-arang-coffee-motion.webp" alt="Home screen of the Arang café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-1-arang-coffee-motion.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c1"><strong>Arang</strong><span>Dark espresso bar with a video hero: “Slow coffee, fast city.”</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c1"><strong>Arang</strong><span>Dark espresso bar. Video hero, “Slow coffee, fast city.”</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c2">
+            <a class="tile" href="lab/2-teduh-roastery-warm-minimal.html" aria-labelledby="c2">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P2</span>
-                <img src="../assets/web/coffee-2-teduh-roastery-warm-minimal.webp" alt="Home screen of the Teduh Roastery café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-2-teduh-roastery-warm-minimal.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c2"><strong>Teduh Roastery</strong><span>Warm, minimal bean shop with subscriptions.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c2"><strong>Teduh Roastery</strong><span>Warm, minimal bean shop with subscriptions.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c3">
+            <a class="tile" href="lab/3-laju-coffee-app-first.html" aria-labelledby="c3">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P3</span>
-                <img src="../assets/web/coffee-3-laju-coffee-app-first.webp" alt="Home screen of the Laju café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-3-laju-coffee-app-first.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c3"><strong>Laju</strong><span>App-first chain built around ordering ahead.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c3"><strong>Laju</strong><span>App-first chain. Order ahead, skip the queue.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c4">
+            <a class="tile" href="lab/4-kopitiam-heritage.html" aria-labelledby="c4">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P4</span>
-                <img src="../assets/web/coffee-4-kopitiam-heritage.webp" alt="Home screen of the Kopitiam Tanjung Rambai café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-4-kopitiam-heritage.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c4"><strong>Kopitiam Tanjung Rambai</strong><span>Heritage kopitiam with a tap-to-learn kopi glossary.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c4"><strong>Kopitiam Tanjung Rambai</strong><span>Heritage kopitiam with a tap-to-learn kopi glossary.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c5">
+            <a class="tile" href="lab/6-tanah-terroir-roasters.html" aria-labelledby="c5">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P5</span>
-                <img src="../assets/web/coffee-5-kopi-ulam-upm-preview.webp" alt="Home screen of the Kopi &amp; Ulam café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-6-tanah-terroir-roasters.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c5"><strong>Kopi &amp; Ulam</strong><span>Garden social diner with an ulam glossary.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c5"><strong>Tanah</strong><span>Terroir roaster on a contour-map ground.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c6">
+            <a class="tile" href="lab/7-tekanan-espresso-works.html" aria-labelledby="c6">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P6</span>
-                <img src="../assets/web/coffee-6-tanah-terroir-roasters.webp" alt="Home screen of the Tanah café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-7-tekanan-espresso-works.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c6"><strong>Tanah</strong><span>Terroir roaster laid on a contour-map ground.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c6"><strong>Tekanan</strong><span>Gear shop with a live 9-bar pressure gauge.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c7">
+            <a class="tile" href="lab/8-sejuk-cold-brew-club.html" aria-labelledby="c7">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P7</span>
-                <img src="../assets/web/coffee-7-tekanan-espresso-works.webp" alt="Home screen of the Tekanan café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-8-sejuk-cold-brew-club.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c7"><strong>Tekanan</strong><span>Espresso gear shop with a live 9-bar pressure gauge.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c7"><strong>Sejuk</strong><span>Cold-brew cans for hot KL days.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c8">
+            <a class="tile" href="lab/9-titis-pour-over-bar.html" aria-labelledby="c8">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P8</span>
-                <img src="../assets/web/coffee-8-sejuk-cold-brew-club.webp" alt="Home screen of the Sejuk café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-9-titis-pour-over-bar.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c8"><strong>Sejuk</strong><span>Cold-brew can subscription for hot KL days.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c8"><strong>Titis</strong><span>Scroll down and the pour-over pours.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c9">
+            <a class="tile" href="lab/10-biji-roast-levels.html" aria-labelledby="c9">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P9</span>
-                <img src="../assets/web/coffee-9-titis-pour-over-bar.webp" alt="Home screen of the Titis café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-10-biji-roast-levels.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c9"><strong>Titis</strong><span>Pour-over bar where scrolling pours the brew.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c9"><strong>Biji</strong><span>Drag a 3D bean from light to dark roast.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c10">
+            <a class="tile" href="lab/11-ladang-liberica.html" aria-labelledby="c10">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P10</span>
-                <img src="../assets/web/coffee-10-biji-roast-levels.webp" alt="Home screen of the Biji café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-11-ladang-liberica.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c10"><strong>Biji</strong><span>Drag a 3D bean from light to dark roast.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c10"><strong>Ladang</strong><span>Johor Liberica, farm to cup in chapters.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c11">
+            <a class="tile" href="lab/12-krim-espresso-bar.html" aria-labelledby="c11">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P11</span>
-                <img src="../assets/web/coffee-11-ladang-liberica.webp" alt="Home screen of the Ladang café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-12-krim-espresso-bar.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c11"><strong>Ladang</strong><span>Johor Liberica told in farm-to-cup chapters.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c11"><strong>Krim</strong><span>Crema-texture hero. “Pulled at nine bars.”</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c12">
+            <a class="tile" href="lab/13-huruf-type-cafe.html" aria-labelledby="c12">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P12</span>
-                <img src="../assets/web/coffee-12-krim-espresso-bar.webp" alt="Home screen of the Krim café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-13-huruf-type-cafe.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c12"><strong>Krim</strong><span>Crema-texture hero: “Pulled at nine bars.”</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c12"><strong>Huruf</strong><span>Roast strength set as type weight.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c13">
+            <a class="tile" href="lab/14-rak-kopi-bean-shelf.html" aria-labelledby="c13">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P13</span>
-                <img src="../assets/web/coffee-13-huruf-type-cafe.webp" alt="Home screen of the Huruf café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-14-rak-kopi-bean-shelf.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c13"><strong>Huruf</strong><span>Roast strength set as type weight.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c13"><strong>Rak Kopi</strong><span>Pull bags off a shelf to build a bundle.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c14">
+            <a class="tile" href="lab/15-lekat-sticker-cafe.html" aria-labelledby="c14">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P14</span>
-                <img src="../assets/web/coffee-14-rak-kopi-bean-shelf.webp" alt="Home screen of the Rak Kopi café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-15-lekat-sticker-cafe.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c14"><strong>Rak Kopi</strong><span>Pick bags off a shelf to build a bundle.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c14"><strong>Lekat</strong><span>Order by sticking drink stickers on a tray.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c15">
+            <a class="tile" href="lab/16-tarik-kopi-bar.html" aria-labelledby="c15">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P15</span>
-                <img src="../assets/web/coffee-15-lekat-sticker-cafe.webp" alt="Home screen of the Lekat café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-16-tarik-kopi-bar.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c15"><strong>Lekat</strong><span>Order by sticking drink stickers on a tray.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c15"><strong>Tarik</strong><span>Pull the kopi tarik with your pointer.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c16">
+            <a class="tile" href="lab/17-jalan-asal-origin-road.html" aria-labelledby="c16">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P16</span>
-                <img src="../assets/web/coffee-16-tarik-kopi-bar.webp" alt="Home screen of the Tarik café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-17-jalan-asal-origin-road.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c16"><strong>Tarik</strong><span>Pull the kopi tarik with your pointer.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c16"><strong>Jalan Asal</strong><span>A road trip through Malaysian origins.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c17">
+            <a class="tile" href="lab/18-kaw-canned-kopi.html" aria-labelledby="c17">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P17</span>
-                <img src="../assets/web/coffee-17-jalan-asal-origin-road.webp" alt="Home screen of the Jalan Asal café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-18-kaw-canned-kopi.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c17"><strong>Jalan Asal</strong><span>A road trip through Malaysian coffee origins.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c17"><strong>KAW</strong><span>Brutalist yellow. Heavy kopi, cold cans.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c18">
+            <a class="tile" href="lab/19-kaca-cold-cafe.html" aria-labelledby="c18">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P18</span>
-                <img src="../assets/web/coffee-18-kaw-canned-kopi.webp" alt="Home screen of the KAW café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-19-kaca-cold-cafe.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c18"><strong>KAW</strong><span>Brutalist yellow for heavy canned kopi.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c18"><strong>Kaca</strong><span>Iced-only café behind frosted glass.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c19">
+            <a class="tile" href="lab/20-seduh-brew-guides.html" aria-labelledby="c19">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P19</span>
-                <img src="../assets/web/coffee-19-kaca-cold-cafe.webp" alt="Home screen of the Kaca café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-20-seduh-brew-guides.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c19"><strong>Kaca</strong><span>Iced-only café behind frosted glass.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c19"><strong>Seduh</strong><span>Brew guides with a step timer.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c20">
+            <a class="tile" href="lab/21-gudang-kopi-3d-roastery.html" aria-labelledby="c20">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P20</span>
-                <img src="../assets/web/coffee-20-seduh-brew-guides.webp" alt="Home screen of the Seduh café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-21-gudang-kopi-3d-roastery.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c20"><strong>Seduh</strong><span>Brew guides with a step-by-step timer.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c20"><strong>Gudang Kopi</strong><span>Walk-in 3D roastery, after dark.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c21">
+            <a class="tile" href="lab/22-sangai-3d-roastery.html" aria-labelledby="c21">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P21</span>
-                <img src="../assets/web/coffee-21-gudang-kopi-3d-roastery.webp" alt="Home screen of the Gudang Kopi café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-22-sangai-3d-roastery.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c21"><strong>Gudang Kopi</strong><span>Walk-in 3D roastery you look around.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c21"><strong>Sangai</strong><span>3D roastery on a checker floor.</span><em>Open the demo →</em></div>
+            </a>
           </li>
           <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c22">
+            <a class="tile" href="lab/23-hening-white-minimal.html" aria-labelledby="c22">
               <div class="tile-shot">
                 <span class="grid-pos" aria-hidden="true">P22</span>
-                <img src="../assets/web/coffee-22-sangai-3d-roastery.webp" alt="Home screen of the Sangai café concept" width="960" height="600" loading="lazy" decoding="async">
+                <img src="../assets/web/coffee-23-hening-white-minimal.webp" alt="" width="960" height="600" loading="lazy" decoding="async">
               </div>
-              <figcaption id="c22"><strong>Sangai</strong><span>3D roastery on a checker floor.</span></figcaption>
-            </figure>
-          </li>
-          <li class="concept-tile">
-            <figure tabindex="0" aria-labelledby="c23">
-              <div class="tile-shot">
-                <span class="grid-pos" aria-hidden="true">P23</span>
-                <img src="../assets/web/coffee-23-hening-white-minimal.webp" alt="Home screen of the Hening café concept" width="960" height="600" loading="lazy" decoding="async">
-              </div>
-              <figcaption id="c23"><strong>Hening</strong><span>White, minimal coffee bar in Bangsar.</span></figcaption>
-            </figure>
+              <div class="tile-cap" id="c22"><strong>Hening</strong><span>White, quiet coffee bar in Bangsar.</span><em>Open the demo →</em></div>
+            </a>
           </li>
         </ol>
-        <p class="lab-note">P1 to P3 in red are the first three on the grid, not a ranking. Ask me for a walkthrough of any of them.</p>
+        <p class="lab-note">All 22 cafés are fictional. Names, menus, prices and addresses are made up, and each demo says so at the top. Photo and video credits are inside each demo.</p>
       </div>
     </section>
 
     <section class="block" id="engineering" aria-labelledby="eng-h">
       <div class="wrap">
         <h2 id="eng-h">Race engineering</h2>
-        <p class="lead">How a site gets from a blank file to the grid.</p>
+        <p class="radio"><span class="radio-tag"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>RADIO #26</span><q>Same checklist before every race.</q></p>
         <ol class="steps">
-          <li><b>01</b><h3>Brief first</h3><p>Who the page is for, the one thing they should do, and the three reasons they might not. That goes on paper before any layout.</p></li>
-          <li><b>02</b><h3>Many directions</h3><p>Several looks for the same brief, then I keep the one that fits the client. The café set is 23 of these.</p></li>
-          <li><b>03</b><h3>Measure the slop</h3><p>My own anti-slop playbook, plus the Impeccable detector, flags AI-template habits: gradient text, glow shadows, filler copy. Target is zero findings.</p></li>
-          <li><b>04</b><h3>Test like race day</h3><p>Playwright runs at desktop and phone width, in dark mode and with reduced motion, and checks for console errors, broken images and sideways scroll.</p></li>
+          <li><b>01</b><h3>Brief first</h3><p>Who it's for, the one thing they should do, and why they might not. Written down before any layout.</p></li>
+          <li><b>02</b><h3>Try several setups</h3><p>A few looks for one brief, then keep the one that fits. The café lab is that habit, 22 times.</p></li>
+          <li><b>03</b><h3>Measure the slop</h3><p>The Impeccable detector and my own checklist flag template habits like gradient text and glow shadows. Target: zero.</p></li>
+          <li><b>04</b><h3>Race-day checks</h3><p>Playwright at desktop and phone width, dark mode and reduced motion. A console error, broken image or sideways scroll is a DNF.</p></li>
         </ol>
       </div>
     </section>
@@ -641,8 +679,9 @@
     <section class="block" id="pitwall" aria-labelledby="pit-h">
       <div class="wrap pitwall">
         <div>
-          <h2 id="pit-h">Pit wall is open</h2>
-          <p class="lead">Graduate AI Engineer roles from March 2027, Klang Valley. If you need a website for a small business, ask about that too.</p>
+          <h2 id="pit-h">Box, box</h2>
+          <p class="radio"><span class="radio-tag"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>RADIO #26</span><q>Seat wanted from March 2027.</q></p>
+          <p class="lead">Graduate AI Engineer roles in the Klang Valley. Need a website for a small business? Ask about that too.</p>
           <a class="btn btn-red" href="mailto:luqmansyahrulnizam@gmail.com?subject=Graduate%20role">Email me about a role</a>
         </div>
         <ul class="channels">
@@ -672,8 +711,7 @@
         return;
       }
       var io = new IntersectionObserver(function (entries) {
-        var batch = entries.filter(function (e) { return e.isIntersecting; });
-        batch.forEach(function (e, i) {
+        entries.filter(function (e) { return e.isIntersecting; }).forEach(function (e, i) {
           e.target.style.setProperty('--d', (i * 40) + 'ms');
           e.target.classList.add('dealt');
           io.unobserve(e.target);

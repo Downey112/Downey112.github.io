@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ladang Liberica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Public+Sans:wght@400;500;700&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+/* Layout: single-style preview — SCROLLYTELLING. Peat-dark green, jackfruit yellow, cherry red.
+   Five chapters scroll past a pinned illustration that redraws for each stage of Johor Liberica, with a counting stat. */
+:root{
+  color-scheme: dark;
+  --bg:#0f1a14; --bg2:#15241b; --panel:#1b2d22; --ink:#eef0e6; --ink2:#a9b5a6; --line:#2b4233;
+  --leaf:#3f7a4c; --leaf2:#2c5a37; --jack:#f2c14e; --cherry:#d2402e; --trunk:#6b4a2e; --bean:#6e4426; --sky:#1d3326;
+  --f-d:"DM Serif Display",Georgia,serif; --f-b:"Public Sans",system-ui,sans-serif; --f-m:"Fragment Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  color-scheme: light; --bg:#eef1e8; --bg2:#e2e8db; --panel:#f8faf4; --ink:#14201a; --ink2:#4c5a4f; --line:#c6d1c2;
+  --leaf:#3f7a4c; --leaf2:#2c5a37; --jack:#c9921a; --cherry:#b8321f; --trunk:#6b4a2e; --bean:#6e4426; --sky:#d7e2d3;}}
+:root[data-theme="light"]{
+  color-scheme: light; --bg:#eef1e8; --bg2:#e2e8db; --panel:#f8faf4; --ink:#14201a; --ink2:#4c5a4f; --line:#c6d1c2;
+  --leaf:#3f7a4c; --leaf2:#2c5a37; --jack:#c9921a; --cherry:#b8321f; --trunk:#6b4a2e; --bean:#6e4426; --sky:#d7e2d3;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--f-b);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:400;line-height:1.04;text-wrap:balance}
+:focus-visible{outline:2px solid var(--jack);outline-offset:3px}
+.shell{max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.k{font:13px/1.3 var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--jack)}
+.head .shell{display:flex;justify-content:space-between;align-items:center;padding-block:18px}
+.logo{font:400 24px/1 var(--f-d);text-decoration:none}.logo i{color:var(--jack)}
+.head a.cta{font-weight:700;text-decoration:none;border-bottom:2px solid var(--jack)}
+.hero{padding-block:48px 72px}
+.hero h1{font-size:clamp(46px,7.4vw,100px);max-width:13ch}
+.hero h1 i{color:var(--jack)}
+.hero p{max-width:48ch;color:var(--ink2);font-size:19px;margin-top:20px}
+.story{border-top:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px}
+.pin{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;display:flex;flex-direction:column;justify-content:center;gap:18px;align-self:start}
+.pin svg{width:100%;height:auto;max-height:62vh}
+.stat{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.stat b{font:400 clamp(52px,6vw,88px)/1 var(--f-d);color:var(--jack)}
+.stat span{font:14px var(--f-m);color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
+.ch{min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:14px;padding-block:40px}
+.ch h2{font-size:clamp(34px,4vw,54px)}
+.ch p{color:var(--ink2);max-width:40ch;font-size:18px}
+@supports (animation-timeline: view()){ .ch > *{animation:rise linear both;animation-timeline:view();animation-range:entry 10% cover 40%} }
+@keyframes rise{from{opacity:.15;transform:translateY(30px)}to{opacity:1;transform:none}}
+/* svg parts: shown per stage */
+.part{opacity:0;transition:opacity .6s, transform .8s cubic-bezier(.2,.8,.2,1);transform-box:fill-box;transform-origin:center}
+[data-s="0"] .s0,[data-s="1"] .s1,[data-s="2"] .s2,[data-s="3"] .s3,[data-s="4"] .s4{opacity:1}
+[data-s="1"] .s1{transform:scale(1)}
+.sec{padding-block:88px;border-top:1px solid var(--line)}
+.sec h2{font-size:clamp(34px,4.6vw,56px);margin-bottom:28px}
+.shop{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px}
+.shop article{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.shop h3{font-size:24px}
+.shop p{color:var(--ink2);font-size:15px}
+.shop b{margin-top:auto;padding-top:8px;font:15px var(--f-m);color:var(--jack)}
+.visit{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:32px}
+.visit p{color:var(--ink2);max-width:52ch}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px}.kv dt{color:var(--ink2)}.kv dd{margin:0}
+.foot{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--ink2);font-size:14px}
+@media (prefers-reduced-motion: reduce){ .part{transition:none} .ch > *{animation:none!important} }
+@media (max-width:820px){
+  .grid{grid-template-columns:1fr;gap:0}
+  .pin{height:auto;top:env(safe-area-inset-top,0px);z-index:3;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);flex-direction:row;align-items:center;gap:12px}
+  .pin svg{width:40%;max-height:150px}
+  .stat b{font-size:40px}
+  .ch{min-height:70vh}
+  .visit{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P10</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<header class="head"><div class="shell"><a class="logo" href="#top">Ladang <i>Liberica</i></a><a class="cta" href="#shop">Order beans</a></div></header>
+<main id="top">
+  <section class="shell hero">
+    <div class="k">Real Johor Liberica, from lowland soil</div>
+    <h1 style="margin-top:14px">Malaysia's own tree, <i>farm to cup.</i></h1>
+    <p>Liberica has grown on Johor's coast for more than a century. Scroll through five chapters, from a tree taller than a house to a thick cup of kopi.</p>
+  </section>
+  <section class="story" aria-label="Five chapters of Johor Liberica">
+    <div class="shell grid">
+      <div class="pin" aria-hidden="true">
+        <svg id="art" data-s="0" viewBox="0 0 400 320">
+          <rect x="0" y="0" width="400" height="320" rx="10" fill="var(--sky)"/>
+          <rect x="0" y="270" width="400" height="50" fill="var(--trunk)" opacity=".55"/>
+          <!-- 0: tree with a person for scale -->
+          <g class="part s0"><rect x="192" y="130" width="16" height="145" fill="var(--trunk)"/>
+            <ellipse cx="200" cy="110" rx="120" ry="72" fill="var(--leaf2)"/><ellipse cx="170" cy="95" rx="70" ry="48" fill="var(--leaf)"/><ellipse cx="240" cy="120" rx="66" ry="40" fill="var(--leaf)"/>
+            <g fill="var(--ink)"><circle cx="300" cy="238" r="6"/><rect x="296" y="244" width="8" height="26" rx="3"/></g>
+            <line x1="330" y1="40" x2="330" y2="270" stroke="var(--ink2)" stroke-dasharray="4 4"/><text x="336" y="160" font-family="Fragment Mono, monospace" font-size="12" fill="var(--ink2)">up to 12 m</text></g>
+          <!-- 1: branch with flowers, green and red cherries together -->
+          <g class="part s1"><path d="M40 160 C 140 120, 260 200, 370 150" stroke="var(--trunk)" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <ellipse cx="120" cy="120" rx="44" ry="18" fill="var(--leaf)" transform="rotate(-20 120 120)"/><ellipse cx="280" cy="205" rx="44" ry="18" fill="var(--leaf)" transform="rotate(15 280 205)"/>
+            <g fill="var(--cherry)" stroke="var(--ink)" stroke-width="1.5"><circle cx="160" cy="160" r="15"/><circle cx="186" cy="168" r="16"/><circle cx="214" cy="172" r="14"/></g>
+            <g fill="var(--leaf2)" stroke="var(--ink)" stroke-width="1.5"><circle cx="250" cy="172" r="12"/><circle cx="272" cy="166" r="11"/></g>
+            <g fill="var(--panel)"><circle cx="315" cy="150" r="6"/><circle cx="326" cy="146" r="6"/><circle cx="320" cy="140" r="6"/></g>
+            <text x="40" y="260" font-family="Fragment Mono, monospace" font-size="12" fill="var(--ink2)">flowers, green and ripe fruit on one branch</text></g>
+          <!-- 2: raised drying beds -->
+          <g class="part s2"><g fill="var(--trunk)"><rect x="40" y="200" width="320" height="10"/><rect x="50" y="210" width="8" height="60"/><rect x="342" y="210" width="8" height="60"/></g>
+            <g fill="var(--cherry)"><circle cx="80" cy="192" r="8"/><circle cx="110" cy="190" r="8"/><circle cx="140" cy="193" r="8"/><circle cx="170" cy="190" r="8"/></g>
+            <g fill="var(--bean)"><circle cx="210" cy="193" r="8"/><circle cx="240" cy="191" r="8"/><circle cx="270" cy="193" r="8"/><circle cx="300" cy="190" r="8"/><circle cx="330" cy="192" r="8"/></g>
+            <circle cx="320" cy="70" r="30" fill="var(--jack)"/></g>
+          <!-- 3: drum roaster -->
+          <g class="part s3"><rect x="110" y="110" width="180" height="110" rx="20" fill="var(--panel)" stroke="var(--ink)" stroke-width="3"/>
+            <circle cx="200" cy="165" r="38" fill="var(--bean)" stroke="var(--ink)" stroke-width="3"/><path d="M180 150 q20 -20 40 0 M175 170 q25 20 50 0" stroke="var(--jack)" stroke-width="3" fill="none"/>
+            <rect x="185" y="60" width="30" height="50" fill="var(--panel)" stroke="var(--ink)" stroke-width="3"/><rect x="130" y="220" width="140" height="40" rx="6" fill="var(--trunk)"/></g>
+          <!-- 4: kopi in a cup -->
+          <g class="part s4"><path d="M130 150 h140 l-14 100 h-112z" fill="var(--panel)" stroke="var(--ink)" stroke-width="3"/>
+            <ellipse cx="200" cy="152" rx="70" ry="12" fill="var(--bean)"/><path d="M270 170 c 34 0, 34 50, -4 52" fill="none" stroke="var(--ink)" stroke-width="3"/>
+            <path d="M175 120 q10 -20 0 -40 M200 120 q10 -20 0 -40 M225 120 q10 -20 0 -40" stroke="var(--ink2)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="200" cy="262" rx="100" ry="10" fill="var(--trunk)" opacity=".6"/></g>
+        </svg>
+        <div><div class="stat"><b id="sv">12</b><span id="sl">m · unpruned tree height</span></div><div class="k" id="sk">01 · The tree</div></div>
+      </div>
+      <div id="chapters"></div>
+    </div>
+  </section>
+  <section class="sec" id="shop"><div class="shell"><h2>From our holdings</h2><div class="shop" id="shop-list"></div></div></section>
+  <section class="sec" id="visit"><div class="shell visit">
+    <div><h2>Taste it in Johor Bahru</h2><p>We work with second-generation smallholders around Batu Pahat and Pontian to keep Malaysia's main coffee species in good hands, and roast single-farm lots for home brewers and our tasting room.</p></div>
+    <dl class="kv"><dt>Tasting room</dt><dd>Jalan Tan Hiok Nee, Johor Bahru</dd><dt>Hours</dt><dd>Wed–Mon · 9 am–6 pm</dd></dl>
+  </div></section>
+</main>
+<footer class="foot"><div class="shell">Ladang Liberica · design preview, not a live business</div></footer>
+<script>
+(function(){
+"use strict";
+var CH = [
+  {k:"01 · The tree", t:"Trees taller than houses", b:"Arabica is a shrub. Coffea liberica grows into a real tree, with big leathery leaves, and thrives in the hot, humid lowlands where Arabica struggles.", v:"12", l:"m · unpruned tree height"},
+  {k:"02 · The fruit", t:"Flowers and fruit together", b:"A Liberica branch can carry flowers, green cherries and red ones at the same time, so pickers return again and again. Tall trees mean ladders.", v:"3", l:"stages on one branch"},
+  {k:"03 · Drying", t:"Weeks on raised beds", b:"Whole cherries dry slowly on raised mesh beds under the sun. Turning them by hand keeps the fruit sweet and the drying even.", v:"24", l:"days of drying"},
+  {k:"04 · The roast", t:"Taming a dense, big seed", b:"Liberica beans are large and asymmetric, with a hooked tip. We roast them slowly to bring out jackfruit sweetness without scorching the outside.", v:"218", l:"°C drop temperature"},
+  {k:"05 · The cup", t:"Malaysia's everyday kopi", b:"Most of Malaysia's coffee is Liberica. Brewed thick, it tastes of jackfruit, dark cacao and a little smoke, the flavour behind a lot of kopitiam cups.", v:"87", l:"% of Malaysia's coffee is Liberica"}
+];
+var SHOP = [
+  ["Batu Pahat Honey, 250 g","Pulped and sun-dried. Jackfruit, smoky honey, cacao nib.","RM 68"],
+  ["Rengit Natural, 250 g","Whole cherry on raised beds. Dark berry, woodsmoke, molasses.","RM 72"],
+  ["Liberica Cascara, 100 g","Dried cherry husks. Hibiscus and tamarind.","RM 38"],
+  ["Green Liberica, 1 kg","Unroasted, sorted, from Batu Pahat smallholders.","RM 88"]
+];
+function $(id){ return document.getElementById(id); }
+$("chapters").innerHTML = CH.map(function(c,i){ return '<article class="ch" data-i="'+i+'"><div class="k">'+c.k+'</div><h2>'+c.t+'</h2><p>'+c.b+'</p></article>'; }).join("");
+$("shop-list").innerHTML = SHOP.map(function(s){ return '<article><h3>'+s[0]+'</h3><p>'+s[1]+'</p><b>'+s[2]+'</b></article>'; }).join("");
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, active = -1;
+function count(c){ var el = $("sv"), end = +c.v; $("sl").textContent = c.l; $("sk").textContent = c.k; if(reduce){ el.textContent = c.v; return; }
+  var t0 = performance.now(); (function s(now){ var t = Math.min(1, (now - t0)/700); el.textContent = Math.round(end*(1 - Math.pow(1-t,3))); if(t < 1) requestAnimationFrame(s); })(t0); }
+function set(i){ if(i === active) return; active = i; $("art").setAttribute("data-s", String(i)); count(CH[i]); }
+var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) set(+e.target.dataset.i); }); }, {rootMargin:"-45% 0px -45% 0px"});
+document.querySelectorAll(".ch").forEach(function(c){ io.observe(c); });
+set(0);
+})();
+</script>
+</body>
+</html>

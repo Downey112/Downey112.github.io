@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kaca Cold Café</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* Layout: single-style preview — LIQUID GLASS. Glacier light drifting behind frosted menu panels; each panel catches a
+   specular highlight that follows the pointer. backdrop-filter only on a few layers to keep it smooth. */
+:root{
+  color-scheme: light;
+  --bg:#e7eff3; --ink:#0f1d24; --ink2:#4a5d66; --line:rgba(15,29,36,.12);
+  --l1:#8fd3e6; --l2:#c9a27a; --l3:#5f8fd6; --l4:#e9f6fb;
+  --glass:rgba(255,255,255,.4); --edge:rgba(255,255,255,.8); --hi:rgba(255,255,255,.75); --shadow:rgba(15,29,36,.12);
+  --f-d:"Instrument Serif",Georgia,serif; --f-b:"Geist",system-ui,sans-serif; --f-m:"Geist Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme: dark; --bg:#071016; --ink:#e8f2f6; --ink2:#9db2bc; --line:rgba(232,242,246,.12);
+  --l1:#1d6f86; --l2:#7a5434; --l3:#27448a; --l4:#0f2a36; --glass:rgba(16,30,38,.42); --edge:rgba(255,255,255,.14); --hi:rgba(143,211,230,.3); --shadow:rgba(0,0,0,.5);}}
+:root[data-theme="dark"]{ color-scheme: dark; --bg:#071016; --ink:#e8f2f6; --ink2:#9db2bc; --line:rgba(232,242,246,.12);
+  --l1:#1d6f86; --l2:#7a5434; --l3:#27448a; --l4:#0f2a36; --glass:rgba(16,30,38,.42); --edge:rgba(255,255,255,.14); --hi:rgba(143,211,230,.3); --shadow:rgba(0,0,0,.5);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-b);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:400;line-height:1;text-wrap:balance}
+:focus-visible{outline:2px solid var(--l3);outline-offset:3px}
+.light{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.light i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.8;animation:drift 16s ease-in-out infinite alternate}
+.light i:nth-child(1){width:46vmax;height:46vmax;background:var(--l1);left:-10vmax;top:-12vmax}
+.light i:nth-child(2){width:30vmax;height:30vmax;background:var(--l2);right:-6vmax;top:30vh;animation-duration:20s;animation-delay:-7s}
+.light i:nth-child(3){width:38vmax;height:38vmax;background:var(--l3);left:30vw;bottom:-18vmax;animation-duration:13s;animation-delay:-3s;opacity:.55}
+.light i:nth-child(4){width:24vmax;height:24vmax;background:var(--l4);left:55vw;top:5vh;animation-duration:11s}
+@keyframes drift{to{transform:translate(10vw,8vh) scale(1.2)}}
+.page{position:relative;z-index:1}
+.shell{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.m{font:400 12px/1.3 var(--f-m);letter-spacing:.08em;text-transform:uppercase}
+.glass{position:relative;border-radius:22px;background:radial-gradient(280px circle at var(--mx,30%) var(--my,0%),var(--hi),transparent 65%),var(--glass);border:1px solid var(--edge);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);box-shadow:0 30px 60px -30px var(--shadow)}
+.head{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:5;margin-top:10px}
+.head .glass{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-radius:999px}
+.logo{font:italic 400 28px/1 var(--f-d);text-decoration:none}
+.head nav{display:flex;gap:18px}.head nav a{text-decoration:none;color:var(--ink2)}
+.hero{padding-block:72px 56px}
+.hero .glass{padding:clamp(24px,5vw,56px)}
+.hero h1{font-size:clamp(52px,8.4vw,120px)}
+.hero h1 i{color:var(--l3)}
+.hero p{max-width:44ch;color:var(--ink2);font-size:18px;margin-top:16px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{font:500 15px/1 var(--f-b);padding:14px 20px;border-radius:999px;border:1px solid var(--edge);background:var(--glass);color:var(--ink);text-decoration:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn.solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sec{padding-block:48px}
+.sec h2{font-size:clamp(38px,5.4vw,68px);margin-bottom:20px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px}
+.menu .glass{padding:22px;display:flex;flex-direction:column;gap:8px}
+.menu h3{font-size:32px}
+.menu p{color:var(--ink2);font-size:15px}
+.menu b{font:400 14px var(--f-m);margin-top:auto;padding-top:6px}
+.std{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px}
+.std .glass{padding:20px}
+.std b{display:block;font:400 46px/1 var(--f-d);margin:6px 0}
+.std p{color:var(--ink2);font-size:14px}
+.visit .glass{padding:28px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+.visit p{color:var(--ink2);max-width:50ch}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px}.kv dt{color:var(--ink2)}.kv dd{margin:0}
+.foot{padding-block:24px 40px;color:var(--ink2);font-size:14px}
+@media (prefers-reduced-motion: reduce){.light i{animation:none}}
+@media (max-width:760px){.head nav{display:none}.visit .glass{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P18</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<div class="light" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="page">
+  <header class="shell head"><div class="glass"><a class="logo" href="#top">kaca</a><nav class="m" aria-label="Main"><a href="#menu">Ice menu</a><a href="#ice">The ice</a><a href="#visit">Visit</a></nav></div></header>
+  <main id="top">
+    <section class="shell hero"><div class="glass">
+      <div class="m" style="color:var(--ink2)">Clear ice, clear coffee</div>
+      <h1 style="margin-top:12px">Specialty coffee, <i>only on ice.</i></h1>
+      <p>No hot drinks at all. Slow cold extractions poured over hand-cut clear ice, in an old shophouse on Carpenter Street, Kuching.</p>
+      <div class="btns"><a class="btn solid" href="#menu">See the ice menu</a><a class="btn" href="#visit">Book a cold session</a></div>
+    </div></section>
+    <section class="shell sec" id="menu" aria-labelledby="menu-h"><h2 id="menu-h">The ice menu</h2><div class="menu" id="menu-list"></div></section>
+    <section class="shell sec" id="ice" aria-labelledby="ice-h"><h2 id="ice-h">The cold standard</h2><div class="std">
+      <div class="glass"><span class="m">Ice</span><b>Clear</b><p>Directionally frozen blocks, hand-cut so they melt slowly and stay transparent.</p></div>
+      <div class="glass"><span class="m">Drip water</span><b>1.5 °C</b><p>Kept near freezing through the whole slow drip.</p></div>
+      <div class="glass"><span class="m">Drip rate</span><b>~1 / 2 s</b><p>One drop every couple of seconds through a tall glass tower.</p></div>
+      <div class="glass"><span class="m">Served at</span><b>2 °C</b><p>Cold enough to mute bitterness and lift citrus.</p></div>
+    </div></section>
+    <section class="shell sec visit" id="visit" aria-labelledby="v-h"><div class="glass">
+      <div><h2 id="v-h">Cool down on Carpenter Street</h2><p>Kaca brews only cold coffee, pairing slow-drip towers with clear ice to take away harsh bitterness and show the bean's sweetness.</p></div>
+      <dl class="kv"><dt>Address</dt><dd>41 Carpenter Street, Kuching, Sarawak</dd><dt>Hours</dt><dd>Wed–Mon · 10 am–6 pm</dd></dl>
+    </div></section>
+  </main>
+  <footer class="shell foot">Kaca Cold Café · design preview, not a live business</footer>
+</div>
+<script>
+(function(){
+"use strict";
+var MENU = [["Crystal Americano","Flash-chilled washed Ethiopian over a 50 mm ice sphere.","RM 14"],["Ice-Drip Liberica","Twelve-hour slow drip over a hand-carved ice spear.","RM 16"],["Espresso Tonic","Double espresso floated on cold tonic and lime peel.","RM 15"],["Cascara Spritz","Coffee-cherry tea, soda and mint.","RM 13"],["White Cold Brew","Long cold steep with chilled fresh milk.","RM 15"],["Sarawak Honey Mist","Ba'kelalan filter shaken with Borneo wild honey.","RM 16"]];
+document.getElementById("menu-list").innerHTML = MENU.map(function(m){ return '<article class="glass"><h3>'+m[0]+'</h3><p>'+m[1]+'</p><b>'+m[2]+'</b></article>'; }).join("");
+// specular highlight follows the pointer on every glass panel near it
+var panels = Array.prototype.slice.call(document.querySelectorAll(".glass")), pend = false, last = null;
+function apply(){ pend = false; if(!last) return; panels.forEach(function(p){ var r = p.getBoundingClientRect(); if(r.bottom < -200 || r.top > innerHeight + 200) return; p.style.setProperty("--mx", (last.x - r.left) + "px"); p.style.setProperty("--my", (last.y - r.top) + "px"); }); }
+document.addEventListener("pointermove", function(e){ last = {x:e.clientX, y:e.clientY}; if(!pend){ pend = true; requestAnimationFrame(apply); } }, {passive:true});
+})();
+</script>
+</body>
+</html>

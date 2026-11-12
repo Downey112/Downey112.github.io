@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gudang Kopi 3D Roastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: explorable 3D roastery (Three.js, procedural geometry, no model files). Deliberately one dark look.
+   Click an object: the camera flies to it and a panel opens. "Plain" switches to an ordinary page with the same content. */
+:root{ color-scheme: dark; --bg:#0b0907; --panel:rgba(18,14,11,.82); --ink:#f3ece3; --ink2:#b4a596; --line:rgba(243,236,227,.14); --amber:#ffab3d; --red:#ff5a36; --on:#140e0a;
+  --f-d:"Space Grotesk",system-ui,sans-serif; --f-b:"Inter Tight",system-ui,sans-serif; --f-m:"JetBrains Mono",ui-monospace,monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--f-b);-webkit-font-smoothing:antialiased;overflow:hidden}
+body.plain{overflow:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.m{font:500 11px/1.3 var(--f-m);letter-spacing:.1em;text-transform:uppercase}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.nav{position:fixed;z-index:10;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(rgba(11,9,7,.85),rgba(11,9,7,0))}
+.logo{font:700 22px/1 var(--f-d);text-decoration:none;letter-spacing:-.01em}
+.logo span{color:var(--amber)}
+.nav nav{display:flex;gap:18px;align-items:center}
+.nav button.link{background:none;border:0;color:var(--ink2);font:500 14px var(--f-b);cursor:pointer}
+.nav button.link:hover{color:var(--ink)}
+.order{font:500 12px var(--f-m);border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:rgba(0,0,0,.35)}
+.order b{color:var(--amber)}
+.hs{position:fixed;z-index:6;left:0;top:0;transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;padding:6px 10px 6px 6px;border-radius:999px;border:1px solid var(--line);background:rgba(11,9,7,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:var(--ink);font:500 12px var(--f-m);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:opacity .3s,background .2s;white-space:nowrap}
+.hs i{width:12px;height:12px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 rgba(255,171,61,.6);animation:ping 2s infinite}
+.hs:hover,.hs.hot{background:var(--amber);color:var(--on)}
+.hs:hover i,.hs.hot i{background:var(--on)}
+@keyframes ping{70%{box-shadow:0 0 0 10px rgba(255,171,61,0)}100%{box-shadow:0 0 0 0 rgba(255,171,61,0)}}
+.hide-hs .hs{opacity:0;pointer-events:none}
+.intro{position:fixed;z-index:5;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 86px);max-width:420px;pointer-events:none;transition:opacity .4s}
+.intro h1{font:700 clamp(34px,4.4vw,58px)/.98 var(--f-d);letter-spacing:-.02em}
+.intro h1 span{color:var(--amber)}
+.intro p{color:var(--ink2);margin-top:10px;max-width:38ch}
+.hide-hs .intro{opacity:0}
+.mode{position:fixed;z-index:10;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);display:flex;border:1px solid var(--line);border-radius:999px;background:rgba(11,9,7,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:4px}
+.mode button{white-space:nowrap;font:600 12px var(--f-m);letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;border-radius:999px;border:0;background:none;color:var(--ink2);cursor:pointer}
+.mode button[aria-pressed="true"]{background:var(--amber);color:var(--on)}
+.panel{position:fixed;z-index:12;top:calc(env(safe-area-inset-top,0px) + 70px);right:max(16px,env(safe-area-inset-right,0px));width:min(400px,calc(100% - 32px));max-height:calc(100% - 170px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transform:translateX(30px);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.panel.open{transform:none;opacity:1;pointer-events:auto}
+.panel h2{font:700 30px/1 var(--f-d);letter-spacing:-.01em;margin:6px 0 10px}
+.panel p{color:var(--ink2)}
+.panel .close{position:absolute;top:14px;right:14px;border:1px solid var(--line);background:none;color:var(--ink);border-radius:999px;padding:6px 10px;font:500 11px var(--f-m);cursor:pointer}
+.rows{display:flex;flex-direction:column;margin-top:14px}
+.rows div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.rows small{display:block;color:var(--ink2)}
+.rows b{font:500 13px var(--f-m);color:var(--amber);white-space:nowrap}
+.btn{font:600 14px/1 var(--f-b);padding:12px 16px;border-radius:999px;border:0;background:var(--amber);color:var(--on);cursor:pointer;margin-top:14px}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+.gauge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.gauge div{border:1px solid var(--line);border-radius:10px;padding:8px}
+.gauge b{display:block;font:700 22px/1.1 var(--f-d)}
+.curve{width:100%;height:120px;margin-top:12px;border:1px solid var(--line);border-radius:10px}
+.curve path{fill:none;stroke:var(--amber);stroke-width:2}
+.curve line{stroke:var(--red);stroke-dasharray:4 4}
+.curve text{font:9px var(--f-m);fill:var(--ink2)}
+.loader{position:fixed;z-index:20;inset:0;display:grid;place-items:center;background:var(--bg);transition:opacity .6s}
+.loader.done{opacity:0;pointer-events:none}
+.loader div{text-align:center}
+.loader b{font:700 34px var(--f-d)}
+.toast{position:fixed;z-index:30;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 80px);transform:translate(-50%,10px);opacity:0;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:999px;font-weight:600;transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+/* plain page */
+.plainview{display:none;max-width:860px;margin:0 auto;padding:96px max(16px,env(safe-area-inset-right,0px)) 120px max(16px,env(safe-area-inset-left,0px))}
+body.plain .plainview{display:block}
+body.plain #c,body.plain .hs,body.plain .intro,body.plain .panel{display:none}
+.plainview h1{font:700 clamp(36px,6vw,64px)/1 var(--f-d)}
+.plainview h2{font:700 26px/1.1 var(--f-d);margin-top:44px}
+.plainview p{color:var(--ink2);margin-top:10px}
+@media (prefers-reduced-motion: reduce){.hs i{animation:none}.panel{transition:none}}
+@media (max-width:760px){
+  .nav nav button.link{display:none}
+  .panel{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 74px);max-height:44%;transform:translateY(30px);padding:18px}
+  .panel h2{font-size:24px}
+  .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 64px)}
+  .intro{bottom:calc(env(safe-area-inset-bottom,0px) + 92px)}
+  .intro p{display:none}
+  .mode button{padding:8px 12px}
+  .hs{font-size:10px}
+}
+</style>
+</head>
+<body class="hide-hs"><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P20</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<canvas id="c" aria-label="An explorable 3D roastery. Use the labelled buttons to visit each part." role="img"></canvas>
+<header class="nav">
+  <a class="logo" href="#" id="home-link">gudang<span>.</span></a>
+  <nav aria-label="Main">
+    <button type="button" class="link" data-go="roaster">Roaster</button>
+    <button type="button" class="link" data-go="bar">Bar</button>
+    <button type="button" class="link" data-go="shelf">Beans</button>
+    <button type="button" class="link" data-go="menu">Menu</button>
+    <button type="button" class="link" data-go="visit">Visit</button>
+    <span class="order" aria-live="polite">Order <b id="order-n">0</b></span>
+  </nav>
+</header>
+<div class="intro" id="intro">
+  <div class="m" style="color:var(--amber)">Night roastery · Jalan Sultan, KL</div>
+  <h1 style="margin-top:8px">Step inside <span>the gudang.</span></h1>
+  <p>Look around, then click the roaster, the bar, the bean wall or the menu board.</p>
+</div>
+<div id="hs-layer"></div>
+<aside class="panel" id="panel" aria-live="polite"><button type="button" class="close" id="close">Back · Esc</button><div id="panel-body"></div></aside>
+<div class="mode" role="group" aria-label="View"><button type="button" id="m3d" aria-pressed="true">3D room</button><button type="button" id="mplain" aria-pressed="false">Plain page</button></div>
+<div class="loader" id="loader"><div><b>gudang.</b><p class="m" id="load-msg" style="margin-top:10px;color:var(--ink2)">Lighting the roaster…</p></div></div>
+<div class="toast" id="toast" role="status"></div>
+<main class="plainview" id="plain"></main>
+
+<script>
+/* Content shared by the 3D panels and the plain page (plain JS so the page works even if 3D fails). */
+window.GUDANG = {
+  menu: [["Kopi O Kaw","Batu Pahat Liberica, black and strong.","RM 6"],["Flat White","Double shot, 150 ml milk.","RM 13"],["Ranau Filter","Sabah Arabica, V60, light roast.","RM 16"],["Iced Gula Melaka Latte","Palm sugar, fresh milk, double shot.","RM 15"],["Espresso Tonic","Double shot over tonic and lime.","RM 14"],["Kaya Butter Toast","Charcoal toast, house kaya.","RM 7"]],
+  beans: [["Ranau Highland","Sabah · washed · light","RM 72","#2f5a46"],["Batu Pahat Liberica","Johor · natural · medium","RM 62","#8a3b24"],["Guji Uraga","Ethiopia · washed · light","RM 78","#4b3f7a"],["Huila Caturra","Colombia · washed · light-medium","RM 68","#b0621f"],["Gayo Wet-Hulled","Sumatra · wet-hulled · medium","RM 64","#24425e"],["Gudang House","Espresso blend · medium-dark","RM 55","#2a2a2e"]],
+  visit: {addr:"Jalan Sultan, Kuala Lumpur", hours:"Daily · 8 am–11 pm · roasting Tue and Fri nights", note:"Roaster demos every Friday from 8 pm. Bring your own cup for RM 1 off."}
+};
+(function(){
+  var G = window.GUDANG, el = document.getElementById("plain");
+  function rows(list){ return '<div class="rows">' + list.map(function(r){ return '<div><span>'+r[0]+'<small>'+r[1]+'</small></span><b>'+r[2]+'</b></div>'; }).join("") + "</div>"; }
+  el.innerHTML = '<div class="m" style="color:var(--amber)">Night roastery · Jalan Sultan, KL</div><h1 style="margin-top:8px">Gudang Kopi</h1><p>A small roastery and bar in an old KL warehouse. We roast twice a week at night and pour until late.</p>' +
+    '<h2>The bar</h2>' + rows(G.menu) + '<h2>Beans, 250 g</h2>' + rows(G.beans) + '<h2>Visit</h2><p>' + G.visit.addr + '<br>' + G.visit.hours + '<br>' + G.visit.note + '</p>';
+  function setPlain(on){ document.body.classList.toggle("plain", on); document.getElementById("m3d").setAttribute("aria-pressed", String(!on)); document.getElementById("mplain").setAttribute("aria-pressed", String(on)); window.dispatchEvent(new CustomEvent("gudang-mode", {detail:{plain:on}})); }
+  document.getElementById("m3d").addEventListener("click", function(){ setPlain(false); });
+  document.getElementById("mplain").addEventListener("click", function(){ setPlain(true); });
+  window.gudangPlain = setPlain;
+  // if 3D hasn't started after 12 s (offline, no WebGL), fall back to the plain page
+  setTimeout(function(){ if(!window.__gudang3d){ document.getElementById("loader").classList.add("done"); setPlain(true); document.getElementById("m3d").disabled = true; document.getElementById("m3d").title = "3D needs WebGL and an internet connection"; } }, 12000);
+})();
+</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+
+const G = window.GUDANG;
+const $ = (id) => document.getElementById(id);
+// canvas textures use the web fonts, so wait for them (max 2.5 s)
+if (document.fonts) await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))]);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canvas = $("c");
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" }); }
+catch (e) { $("load-msg").textContent = "This device can't run the 3D room."; window.gudangPlain(true); $("loader").classList.add("done"); throw e; }
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0907);
+scene.fog = new THREE.Fog(0x0b0907, 9, 20);
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 60);
+
+/* ---------- procedural textures ---------- */
+function canvasTex(w, h, draw, repeat) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"); draw(x, w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat[0], repeat[1]); }
+  return t;
+}
+function noise(x, w, h, base, amt, n) { x.fillStyle = base; x.fillRect(0, 0, w, h); for (let i = 0; i < n; i++) { const v = Math.random(); x.fillStyle = `rgba(${v > .5 ? 255 : 0},${v > .5 ? 255 : 0},${v > .5 ? 255 : 0},${Math.random() * amt})`; x.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 3, 1 + Math.random() * 3); } }
+const concrete = canvasTex(512, 512, (x, w, h) => { noise(x, w, h, "#3a3633", .06, 9000); x.strokeStyle = "rgba(0,0,0,.25)"; x.lineWidth = 2; x.strokeRect(0, 0, w, h); }, [6, 4]);
+const brick = canvasTex(512, 512, (x, w, h) => {
+  x.fillStyle = "#2a201b"; x.fillRect(0, 0, w, h);
+  const bh = 32, bw = 96;
+  for (let r = 0; r < h / bh; r++) for (let c = -1; c < w / bw + 1; c++) {
+    const off = r % 2 ? bw / 2 : 0, v = 70 + Math.random() * 40;
+    x.fillStyle = `rgb(${v + 40},${v * .55},${v * .42})`; x.fillRect(c * bw + off + 3, r * bh + 3, bw - 6, bh - 6);
+  }
+  noise(x, w, h, "rgba(0,0,0,0)", .08, 6000);
+}, [5, 2.2]);
+const wood = canvasTex(512, 128, (x, w, h) => { x.fillStyle = "#5a3a22"; x.fillRect(0, 0, w, h); for (let i = 0; i < 60; i++) { x.strokeStyle = `rgba(${30 + Math.random() * 40},${15 + Math.random() * 20},5,.35)`; x.beginPath(); const y = Math.random() * h; x.moveTo(0, y); x.bezierCurveTo(w * .3, y + Math.random() * 8 - 4, w * .6, y + Math.random() * 8 - 4, w, y); x.stroke(); } }, [1, 1]);
+const burlap = canvasTex(256, 256, (x, w, h) => { x.fillStyle = "#8a7150"; x.fillRect(0, 0, w, h); for (let i = 0; i < w; i += 4) { x.fillStyle = "rgba(0,0,0,.12)"; x.fillRect(i, 0, 1, h); x.fillRect(0, i, w, 1); } noise(x, w, h, "rgba(0,0,0,0)", .1, 3000); });
+function stencil(word) { return canvasTex(256, 256, (x, w, h) => { x.drawImage(burlap.image, 0, 0); x.fillStyle = "rgba(25,18,12,.75)"; x.font = "700 44px 'Space Grotesk', sans-serif"; x.textAlign = "center"; x.fillText(word, w / 2, h / 2); x.font = "500 20px 'JetBrains Mono', monospace"; x.fillText("60 KG · GRADE 1", w / 2, h / 2 + 34); }); }
+function bagLabel(name, sub, col) {
+  return canvasTex(256, 384, (x, w, h) => {
+    x.fillStyle = col; x.fillRect(0, 0, w, h);
+    x.strokeStyle = "rgba(255,255,255,.18)"; for (let r = 20; r < 300; r += 14) { x.beginPath(); x.ellipse(w * .62, h * .3, r, r * .8, .4, 0, 6.283); x.stroke(); }
+    x.fillStyle = "#f3eee4"; x.font = "700 40px 'Space Grotesk', sans-serif"; x.fillText("gudang.", 22, h - 110);
+    x.font = "600 22px 'Inter Tight', sans-serif"; x.fillText(name, 22, h - 70);
+    x.font = "500 15px 'JetBrains Mono', monospace"; x.globalAlpha = .8; x.fillText(sub.toUpperCase(), 22, h - 42); x.globalAlpha = 1;
+  });
+}
+const neonTex = canvasTex(1024, 256, (x, w, h) => {
+  x.textAlign = "center"; x.textBaseline = "middle"; x.font = "700 170px 'Space Grotesk', sans-serif";
+  for (const [blur, col] of [[40, "rgba(255,150,40,.9)"], [16, "rgba(255,190,90,1)"], [0, "#fff1d6"]]) { x.shadowBlur = blur; x.shadowColor = col; x.fillStyle = col; x.fillText("gudang.", w / 2, h / 2 + 6); }
+});
+const menuTex = canvasTex(1024, 640, (x, w, h) => {
+  x.fillStyle = "#16201b"; x.fillRect(0, 0, w, h); noise(x, w, h, "rgba(0,0,0,0)", .05, 5000);
+  x.fillStyle = "#efe9dc"; x.font = "700 64px 'Space Grotesk', sans-serif"; x.fillText("MENU", 60, 100);
+  x.font = "500 22px 'JetBrains Mono', monospace"; x.fillStyle = "#ffb35a"; x.fillText("ROASTED HERE · TUE & FRI", 260, 96);
+  G.menu.forEach((m, i) => { const y = 180 + i * 72; x.fillStyle = "#efe9dc"; x.font = "600 36px 'Inter Tight', sans-serif"; x.fillText(m[0], 60, y); x.font = "500 30px 'JetBrains Mono', monospace"; x.textAlign = "right"; x.fillText(m[2], w - 60, y); x.textAlign = "left"; x.globalAlpha = .55; x.font = "400 20px 'Inter Tight', sans-serif"; x.fillText(m[1], 60, y + 28); x.globalAlpha = 1; });
+});
+const skyTex = canvasTex(512, 340, (x, w, h) => {
+  const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, "#0a1630"); g.addColorStop(1, "#2b2a4a"); x.fillStyle = g; x.fillRect(0, 0, w, h);
+  for (let i = 0; i < 60; i++) { x.fillStyle = "rgba(255,255,255," + Math.random() * .6 + ")"; x.fillRect(Math.random() * w, Math.random() * h * .4, 1, 1); }
+  let px = 0; while (px < w) { const bw = 20 + Math.random() * 50, bh = 60 + Math.random() * 200; x.fillStyle = "#0d0f1c"; x.fillRect(px, h - bh, bw, bh);
+    for (let yy = h - bh + 8; yy < h - 6; yy += 10) for (let xx = px + 4; xx < px + bw - 4; xx += 8) if (Math.random() < .35) { x.fillStyle = Math.random() < .7 ? "#ffcf7a" : "#9fd4ff"; x.fillRect(xx, yy, 3, 4); }
+    px += bw + 2; }
+  x.fillStyle = "#0d0f1c"; x.fillRect(w * .62, h - 300, 18, 300); x.fillRect(w * .62 + 30, h - 300, 18, 300); x.fillRect(w * .62 + 12, h - 170, 24, 6);
+});
+const dialTex = canvasTex(256, 256, (x, w, h) => { x.fillStyle = "#f1ebe0"; x.beginPath(); x.arc(128, 128, 124, 0, 6.283); x.fill(); x.strokeStyle = "#222"; x.lineWidth = 4; for (let i = 0; i <= 10; i++) { const a = (-225 + i * 27) * Math.PI / 180; x.beginPath(); x.moveTo(128 + Math.cos(a) * 92, 128 + Math.sin(a) * 92); x.lineTo(128 + Math.cos(a) * 112, 128 + Math.sin(a) * 112); x.stroke(); } x.fillStyle = "#c22"; x.font = "600 24px 'JetBrains Mono'"; x.textAlign = "center"; x.fillText("°C", 128, 190); });
+
+/* ---------- materials ---------- */
+const M = {
+  concrete: new THREE.MeshStandardMaterial({ map: concrete, roughness: .92 }),
+  brick: new THREE.MeshStandardMaterial({ map: brick, roughness: .95 }),
+  plaster: new THREE.MeshStandardMaterial({ color: 0x24201d, roughness: .95 }),
+  wood: new THREE.MeshStandardMaterial({ map: wood, roughness: .7 }),
+  black: new THREE.MeshStandardMaterial({ color: 0x151515, metalness: .6, roughness: .45 }),
+  steel: new THREE.MeshStandardMaterial({ color: 0xb9bcc0, metalness: .9, roughness: .28 }),
+  copper: new THREE.MeshStandardMaterial({ color: 0xb8683a, metalness: .95, roughness: .3 }),
+  cream: new THREE.MeshStandardMaterial({ color: 0xe9e2d6, roughness: .5 }),
+  bean: new THREE.MeshStandardMaterial({ color: 0x3e2414, roughness: .55, metalness: .1 }),
+  glow: new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, .9, .3) }),
+  bulb: new THREE.MeshBasicMaterial({ color: new THREE.Color(3.2, 2.2, 1.2) }),
+  flame: new THREE.MeshBasicMaterial({ color: new THREE.Color(.3, .6, 2.2) }),
+  led: new THREE.MeshBasicMaterial({ color: new THREE.Color(1.8, 1.15, .55) })
+};
+const add = (mesh, x, y, z, shadow = true) => { mesh.position.set(x, y, z); if (shadow) { mesh.castShadow = true; mesh.receiveShadow = true; } scene.add(mesh); return mesh; };
+const box = (w, h, d, m) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+const cyl = (rt, rb, h, m, seg = 32) => new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), m);
+const pickables = [];
+function pick(obj, hs) { obj.traverse(o => { if (o.isMesh) { o.userData.hs = hs; pickables.push(o); } }); return obj; }
+
+/* ---------- room ---------- */
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(14, 9), M.concrete); floor.rotation.x = -Math.PI / 2; add(floor, 0, 0, -0.5, false).receiveShadow = true;
+const back = new THREE.Mesh(new THREE.PlaneGeometry(14, 4.4), M.brick); add(back, 0, 2.2, -5, false).receiveShadow = true;
+const left = new THREE.Mesh(new THREE.PlaneGeometry(9, 4.4), M.plaster); left.rotation.y = Math.PI / 2; add(left, -7, 2.2, -0.5, false).receiveShadow = true;
+const right = new THREE.Mesh(new THREE.PlaneGeometry(9, 4.4), M.plaster); right.rotation.y = -Math.PI / 2; add(right, 7, 2.2, -0.5, false).receiveShadow = true;
+const ceil = new THREE.Mesh(new THREE.PlaneGeometry(14, 9), M.plaster); ceil.rotation.x = Math.PI / 2; add(ceil, 0, 4.4, -0.5, false);
+for (let i = -3; i <= 3; i++) add(box(.18, .28, 9, M.black), i * 2.2, 4.26, -0.5);
+add(box(14, .25, .3, M.black), 0, 4.2, -4.85);
+
+/* neon sign */
+const neonMat = new THREE.MeshBasicMaterial({ map: neonTex, transparent: true, color: new THREE.Color(1.8, 1.8, 1.8), depthWrite: false });
+const neon = new THREE.Mesh(new THREE.PlaneGeometry(3.4, .85), neonMat); add(neon, -0.7, 3.25, -4.97, false);
+pick(neon, "visit");
+
+/* window with skyline on the right wall */
+const sky = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 1.7), new THREE.MeshBasicMaterial({ map: skyTex, color: new THREE.Color(1.3, 1.3, 1.5) }));
+sky.rotation.y = -Math.PI / 2; add(sky, 6.97, 2.1, -1.4, false); pick(sky, "visit");
+for (const [w, h, y, z] of [[.08, 1.9, 2.1, -2.75], [.08, 1.9, 2.1, -0.05], [.08, .08, 3.0, -1.4], [.08, .08, 1.2, -1.4]]) add(box(.1, h, w === .08 && h === .08 ? 2.8 : w, M.black), 6.94, y, z);
+add(box(.1, .06, 2.7, M.black), 6.94, 2.1, -1.4);
+const winLight = new THREE.PointLight(0x6f8cff, 6, 7, 2); winLight.position.set(6.2, 2.2, -1.4); scene.add(winLight);
+
+/* bean shelves on the left wall */
+const bagMeshes = [];
+for (let s = 0; s < 4; s++) add(box(.42, .05, 3.6, M.wood), -6.78, .85 + s * .62, -2.1);
+for (const z of [-3.9, -0.3]) add(box(.42, 2.4, .05, M.wood), -6.78, 1.9, z);
+const labelCache = {};
+let bi = 0;
+for (let s = 0; s < 4; s++) for (let k = 0; k < 7; k++) {
+  const b = G.beans[(s * 7 + k) % G.beans.length]; bi++;
+  const key = b[0]; labelCache[key] = labelCache[key] || bagLabel(b[0], b[1].split(" · ")[0], b[3]);
+  const body = new THREE.Mesh(new RoundedBoxGeometry(.13, .34, .22, 3, .025), new THREE.MeshStandardMaterial({ color: b[3], roughness: .6 }));
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(.2, .3), new THREE.MeshStandardMaterial({ map: labelCache[key], roughness: .55 }));
+  face.rotation.y = Math.PI / 2; face.position.x = .066;
+  const g = new THREE.Group(); g.add(body, face); g.rotation.y = (Math.random() - .5) * .12;
+  g.position.set(-6.72, .85 + s * .62 + .2, -3.6 + k * .5);
+  g.traverse(o => { if (o.isMesh) { o.castShadow = true; o.userData.bag = g; o.userData.hs = "shelf"; pickables.push(o); } });
+  g.userData = { base: g.position.clone(), baseRot: g.rotation.y, info: b, out: 0 };
+  scene.add(g); bagMeshes.push(g);
+}
+
+/* burlap sacks */
+const sackGeo = new RoundedBoxGeometry(.7, .42, .5, 4, .16);
+[["SABAH", -5.6, .21, -4.4, .2], ["JOHOR", -4.85, .21, -4.5, -.15], ["GAYO", -5.25, .62, -4.45, .05], ["HUILA", -5.9, .21, -3.7, .5]].forEach(([w, x, y, z, r]) => {
+  const m = new THREE.Mesh(sackGeo, new THREE.MeshStandardMaterial({ map: stencil(w), roughness: 1 })); m.rotation.y = r; add(m, x, y, z);
+});
+
+/* ---------- drum roaster ---------- */
+const R = new THREE.Group(); R.position.set(-3.1, 0, -2.7); scene.add(R);
+const rAdd = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; R.add(m); return m; };
+rAdd(new THREE.Mesh(new RoundedBoxGeometry(1.1, .9, 1.0, 3, .04), M.black), 0, .45, 0);
+const drum = cyl(.46, .46, 1.0, M.black, 48); drum.rotation.x = Math.PI / 2; rAdd(drum, 0, 1.3, 0);
+for (const z of [-.42, 0, .42]) { const band = new THREE.Mesh(new THREE.TorusGeometry(.465, .025, 12, 48), M.copper); rAdd(band, 0, 1.3, z); }
+const face = cyl(.47, .47, .06, M.steel, 48); face.rotation.x = Math.PI / 2; rAdd(face, 0, 1.3, .52);
+const sight = new THREE.Mesh(new THREE.CircleGeometry(.07, 24), M.glow.clone()); rAdd(sight, .2, 1.42, .56);
+const dial = new THREE.Mesh(new THREE.CircleGeometry(.11, 32), new THREE.MeshStandardMaterial({ map: dialTex, roughness: .4 })); rAdd(dial, -.2, 1.42, .56);
+const needle = box(.006, .09, .004, new THREE.MeshBasicMaterial({ color: 0xcc2222 })); needle.geometry.translate(0, .045, 0); rAdd(needle, -.2, 1.42, .565);
+const door = new THREE.Mesh(new THREE.CircleGeometry(.12, 24), M.black); rAdd(door, 0, 1.12, .56);
+rAdd(box(.18, .03, .03, M.copper), 0, 1.12, .58);
+const hopper = new THREE.Mesh(new THREE.ConeGeometry(.34, .5, 32, 1, true), M.steel); hopper.rotation.x = Math.PI; hopper.material.side = THREE.DoubleSide; rAdd(hopper, 0, 2.06, -.1);
+rAdd(cyl(.08, .08, .2, M.steel), 0, 1.78, -.1);
+const pipe = cyl(.1, .1, 2.6, M.black); rAdd(pipe, .32, 3.05, -.35);
+rAdd(cyl(.16, .16, .35, M.copper), .32, 1.95, -.35);
+const flame = box(.7, .02, .5, M.flame); rAdd(flame, 0, .86, 0);
+// cooling tray
+const T = new THREE.Group(); T.position.set(.95, 0, .75); R.add(T);
+const tAdd = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; T.add(m); return m; };
+for (const a of [0, 2.1, 4.2]) tAdd(cyl(.03, .03, .78, M.black), Math.cos(a) * .45, .39, Math.sin(a) * .45);
+tAdd(cyl(.66, .62, .16, M.steel, 48), 0, .86, 0);
+tAdd(cyl(.6, .6, .02, new THREE.MeshStandardMaterial({ color: 0x1a1512, roughness: .9 }), 48), 0, .92, 0);
+const arms = new THREE.Group(); arms.position.y = .98; T.add(arms);
+arms.add(box(1.12, .03, .04, M.steel), (() => { const b = box(.04, .03, 1.12, M.steel); return b; })(), cyl(.05, .05, .14, M.steel));
+const chute = box(.24, .04, .6, M.steel); chute.rotation.x = .5; chute.rotation.y = -.75; rAdd(chute, .55, 1.0, .55);
+// beans in tray (instanced)
+const NB = 420, beanGeo = new THREE.SphereGeometry(1, 8, 6); beanGeo.scale(.032, .02, .024);
+const beans = new THREE.InstancedMesh(beanGeo, M.bean, NB); beans.castShadow = true; T.add(beans);
+const beanData = []; const dummy = new THREE.Object3D();
+for (let i = 0; i < NB; i++) { const r = Math.sqrt(Math.random()) * .55, a = Math.random() * 6.283; beanData.push({ r, a, y: .945 + Math.random() * .03, rx: Math.random() * 6, ry: Math.random() * 6 }); }
+pick(R, "roaster");
+
+/* ---------- espresso bar ---------- */
+add(box(3.8, 1.0, .8, new THREE.MeshStandardMaterial({ color: 0x1d1a17, roughness: .7 })), 3.5, .5, -4.0);
+add(box(3.95, .07, .95, M.wood), 3.5, 1.035, -4.0);
+add(box(3.7, .02, .02, M.led), 3.5, .98, -3.56, false);
+for (let i = 0; i < 18; i++) add(box(.02, .9, .02, M.black), 1.7 + i * .21, .47, -3.59);
+const machine = new THREE.Group(); machine.position.set(3.1, 1.07, -4.1); scene.add(machine);
+const mAdd = (m, x, y, z) => { m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; machine.add(m); return m; };
+mAdd(new THREE.Mesh(new RoundedBoxGeometry(1.2, .55, .62, 4, .05), M.steel), 0, .3, 0);
+mAdd(box(1.25, .04, .66, M.black), 0, .6, 0);
+for (let i = 0; i < 4; i++) { const cup = cyl(.045, .035, .07, M.cream); mAdd(cup, -.4 + i * .27, .66, 0); }
+const groups = [];
+for (const gx of [-.26, .26]) {
+  const gh = cyl(.075, .075, .12, M.steel); mAdd(gh, gx, .2, .37);
+  const pf = cyl(.07, .065, .05, M.black); mAdd(pf, gx, .12, .37);
+  const handle = box(.03, .03, .2, M.black); handle.rotation.x = .2; mAdd(handle, gx, .11, .5);
+  const cup = cyl(.045, .035, .075, M.cream); mAdd(cup, gx, -.03, .37);
+  const fill = cyl(.04, .032, .001, new THREE.MeshStandardMaterial({ color: 0x3a1d0c, roughness: .3 })); mAdd(fill, gx, -.065, .37);
+  const stream = cyl(.005, .005, 1, new THREE.MeshBasicMaterial({ color: 0x5a2e12 })); stream.visible = false; mAdd(stream, gx, .03, .37);
+  groups.push({ fill, stream });
+}
+mAdd(box(1.1, .03, .22, M.black), 0, -.07, .36);
+for (const gx of [-.38, .38]) { const g = new THREE.Mesh(new THREE.CircleGeometry(.05, 24), new THREE.MeshStandardMaterial({ map: dialTex, roughness: .4 })); mAdd(g, gx, .42, .312); }
+const wand = cyl(.008, .008, .3, M.steel); wand.rotation.z = .3; mAdd(wand, .56, .1, .3);
+pick(machine, "bar");
+const grinder = new THREE.Group(); grinder.position.set(4.35, 1.07, -4.15); scene.add(grinder);
+{ const gb = new THREE.Mesh(new RoundedBoxGeometry(.28, .45, .3, 3, .03), M.black); gb.position.y = .23; gb.castShadow = true; grinder.add(gb); }
+const hop = new THREE.Mesh(new THREE.ConeGeometry(.16, .3, 24, 1, true), new THREE.MeshStandardMaterial({ color: 0x88aacc, transparent: true, opacity: .35, side: THREE.DoubleSide, roughness: .1 }));
+hop.rotation.x = Math.PI; hop.position.y = .6; grinder.add(hop); pick(grinder, "bar");
+for (const sx of [2.2, 3.2, 4.2]) { add(cyl(.2, .2, .06, M.wood), sx, .72, -3.1); add(cyl(.025, .03, .7, M.black), sx, .36, -3.1); add(new THREE.Mesh(new THREE.TorusGeometry(.14, .012, 8, 24), M.black), sx, .25, -3.1).rotation.x = Math.PI / 2; }
+
+/* menu board above the bar */
+add(box(2.3, 1.42, .06, M.wood), 3.5, 2.5, -4.97, false);
+const board = new THREE.Mesh(new THREE.PlaneGeometry(2.16, 1.3), new THREE.MeshStandardMaterial({ map: menuTex, roughness: .9, emissive: 0xffffff, emissiveMap: menuTex, emissiveIntensity: .12 }));
+add(board, 3.5, 2.5, -4.93, false); pick(board, "menu");
+
+/* ---------- lights ---------- */
+scene.add(new THREE.HemisphereLight(0x8090a8, 0x1a120c, .45));
+function pendant(x, z, shadow, target) {
+  add(cyl(.006, .006, 1.2, M.black), x, 3.8, z, false);
+  const shade = new THREE.Mesh(new THREE.ConeGeometry(.24, .26, 32, 1, true), new THREE.MeshStandardMaterial({ color: 0x1c1a18, metalness: .7, roughness: .35, side: THREE.DoubleSide }));
+  add(shade, x, 3.12, z, false);
+  add(new THREE.Mesh(new THREE.SphereGeometry(.07, 16, 12), M.bulb), x, 3.0, z, false);
+  const s = new THREE.SpotLight(0xffb36b, 45, 9, .75, .55, 2); s.position.set(x, 3.0, z); s.target.position.copy(target); scene.add(s, s.target);
+  if (shadow) { s.castShadow = true; s.shadow.mapSize.set(1024, 1024); s.shadow.bias = -.0004; s.shadow.radius = 4; }
+  return s;
+}
+pendant(-3.0, -2.4, true, new THREE.Vector3(-3.1, 0, -2.6));
+pendant(2.9, -3.7, true, new THREE.Vector3(3.0, 1, -4));
+pendant(4.2, -3.7, false, new THREE.Vector3(4.2, 1, -4));
+const fill = new THREE.PointLight(0xff9a4d, 4, 6, 2); fill.position.set(-0.5, 2.4, -3.5); scene.add(fill);
+const shelfLight = new THREE.PointLight(0xffc68a, 7, 5, 2); shelfLight.position.set(-6.0, 3.0, -2.1); scene.add(shelfLight);
+const roastGlow = new THREE.PointLight(0xff6a1a, 1.5, 2.5, 2); roastGlow.position.set(-3.1, 1.3, -1.9); scene.add(roastGlow);
+
+/* ---------- smoke / steam particles ---------- */
+const puff = canvasTex(64, 64, (x) => { const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, "rgba(255,255,255,.9)"); g.addColorStop(1, "rgba(255,255,255,0)"); x.fillStyle = g; x.fillRect(0, 0, 64, 64); });
+function emitter(n, color, size, opacity) {
+  const geo = new THREE.BufferGeometry(), pos = new Float32Array(n * 3).fill(-99), life = new Float32Array(n);
+  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  const pts = new THREE.Points(geo, new THREE.PointsMaterial({ map: puff, color, size, transparent: true, opacity, depthWrite: false, sizeAttenuation: true }));
+  pts.frustumCulled = false; scene.add(pts); return { pts, pos, life, n, i: 0 };
+}
+const smoke = emitter(90, 0x9a948c, .55, .18), steam = emitter(60, 0xffffff, .35, .25), trayVapor = emitter(80, 0xd8d0c4, .45, .16);
+function spawn(e, x, y, z, spread) { const i = e.i++ % e.n; e.pos[i * 3] = x + (Math.random() - .5) * spread; e.pos[i * 3 + 1] = y; e.pos[i * 3 + 2] = z + (Math.random() - .5) * spread; e.life[i] = 1; }
+function stepEmitter(e, dt, rise, drift) { for (let i = 0; i < e.n; i++) { if (e.life[i] <= 0) continue; e.life[i] -= dt * .35; e.pos[i * 3 + 1] += rise * dt; e.pos[i * 3] += Math.sin(i + e.life[i] * 6) * drift * dt; if (e.life[i] <= 0) e.pos[i * 3 + 1] = -99; } e.pts.geometry.attributes.position.needsUpdate = true; }
+
+/* ---------- post ---------- */
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), .5, .4, .9); composer.addPass(bloom);
+composer.addPass(new OutputPass());
+function resize() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); composer.setSize(w, h); camera.aspect = w / h; camera.fov = w < 700 ? 60 : 45; camera.updateProjectionMatrix(); }
+addEventListener("resize", resize); resize();
+
+/* ---------- views + camera flights ---------- */
+const V = {
+  home:    { pos: [0, 1.75, 6.6], tgt: [0, 1.45, -2.6] },
+  roaster: { pos: [-1.2, 1.75, 0.9], tgt: [-3.0, 1.15, -2.4], anchor: [-3.1, 2.45, -2.7], label: "Roaster" },
+  bar:     { pos: [2.6, 1.55, -1.6], tgt: [3.2, 1.3, -4.1], anchor: [3.1, 1.95, -4.1], label: "Espresso bar" },
+  shelf:   { pos: [-4.3, 1.75, -1.0], tgt: [-6.8, 1.6, -2.1], anchor: [-6.6, 3.2, -2.1], label: "Bean wall" },
+  menu:    { pos: [3.5, 2.4, -1.75], tgt: [3.5, 2.45, -4.95], anchor: [3.5, 3.35, -4.9], label: "Menu board" },
+  visit:   { pos: [3.6, 2.0, 0.6], tgt: [6.9, 2.1, -1.4], anchor: [6.8, 3.1, -1.4], label: "Visit" }
+};
+if (innerWidth < 700) { V.home.pos = [0.4, 2.6, 13.5]; V.home.tgt = [0.2, 1.6, -2.6]; V.roaster.pos = [-1.6, 1.9, 1.4]; V.bar.pos = [2.8, 1.7, -0.9]; V.menu.pos = [3.5, 2.4, -0.6]; V.shelf.pos = [-3.6, 1.8, -0.6]; V.visit.pos = [3.0, 2.0, 1.4]; V.visit.anchor = [6.8, 1.5, -1.4];
+  for (const k of ["roaster", "bar", "shelf", "menu", "visit"]) V[k].tgt[1] -= 0.75;
+  scene.fog.near = 15; scene.fog.far = 32; }
+const camPos = new THREE.Vector3(...V.home.pos), camTgt = new THREE.Vector3(...V.home.tgt);
+let view = "home", fly = null;
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+function goTo(name) {
+  if (!V[name]) return;
+  if (name !== "shelf") bagMeshes.forEach(b => b.userData.selected = false);
+  view = name;
+  const to = { pos: new THREE.Vector3(...V[name].pos), tgt: new THREE.Vector3(...V[name].tgt) };
+  if (reduce) { camPos.copy(to.pos); camTgt.copy(to.tgt); fly = null; }
+  else fly = { from: { pos: camPos.clone(), tgt: camTgt.clone() }, to, t0: performance.now(), dur: 1500 };
+  document.body.classList.toggle("hide-hs", name !== "home");
+  if (name === "home") { closePanel(); $("intro").style.opacity = ""; } else openPanel(name);
+}
+
+/* ---------- hotspot buttons (real buttons, keyboard reachable) ---------- */
+const hsLayer = $("hs-layer"), hsEls = {};
+for (const k of ["roaster", "bar", "shelf", "menu", "visit"]) {
+  const b = document.createElement("button"); b.type = "button"; b.className = "hs"; b.innerHTML = "<i></i>" + V[k].label; b.addEventListener("click", () => goTo(k)); hsLayer.appendChild(b); hsEls[k] = b;
+}
+const tmp = new THREE.Vector3();
+function placeHotspots() { for (const k in hsEls) { tmp.set(...V[k].anchor).project(camera); const el = hsEls[k]; if (tmp.z > 1) { el.style.display = "none"; continue; } el.style.display = ""; const hw = el.offsetWidth / 2 + 8; el.style.left = THREE.MathUtils.clamp((tmp.x + 1) / 2 * innerWidth, hw, innerWidth - hw).toFixed(0) + "px"; el.style.top = ((1 - tmp.y) / 2 * innerHeight).toFixed(0) + "px"; } }
+
+/* ---------- panels ---------- */
+let order = 0;
+function toast(m) { const t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 2200); }
+function addOrder(n, label) { order += n; $("order-n").textContent = order; toast(label); }
+const rows = list => '<div class="rows">' + list.map((r, i) => `<div><span>${r[0]}<small>${r[1]}</small></span><b>${r[2]}</b></div>`).join("") + "</div>";
+function openPanel(name) {
+  const body = $("panel-body");
+  if (name === "roaster") body.innerHTML = `<div class="m" style="color:var(--amber)">Roasting now · batch <span id="batch">${roast.batch}</span></div><h2>The drum roaster</h2><p>A 6 kg drum roaster, running Ranau Highland tonight. Watch the bean temperature climb to first crack, then drop the batch into the cooling tray.</p>
+    <div class="gauge"><div><span class="m">Bean temp</span><b id="r-temp">–</b></div><div><span class="m">Phase</span><b id="r-phase" style="font-size:16px">–</b></div><div><span class="m">Time</span><b id="r-time">–</b></div></div>
+    <svg class="curve" id="r-curve" viewBox="0 0 300 120" preserveAspectRatio="none"><line x1="0" x2="300" y1="${120 - (196 - 80) / 150 * 110}" y2="${120 - (196 - 80) / 150 * 110}"/><text x="4" y="${116 - (196 - 80) / 150 * 110}">FIRST CRACK 196 °C</text><path id="r-path" d=""/></svg>
+    <button type="button" class="btn" id="drop">Drop the batch</button>`;
+  else if (name === "bar") body.innerHTML = `<div class="m" style="color:var(--amber)">Espresso bar</div><h2>Pull a shot</h2><p>Two groups, 9 bar, 18 g in and 36 g out in about 28 seconds. Press the button and watch both cups fill.</p>${rows(G.menu.slice(0, 5))}<button type="button" class="btn" id="pull">Pull a double · RM 10</button>`;
+  else if (name === "shelf") body.innerHTML = `<div class="m" style="color:var(--amber)">The bean wall</div><h2>250 g bags</h2><p>Click any bag on the shelf to pull it out, or add one here.</p><div class="rows">${G.beans.map((b, i) => `<div><span>${b[0]}<small>${b[1]}</small></span><span><b>${b[2]}</b> <button type="button" class="btn ghost" style="margin:0 0 0 8px;padding:7px 10px" data-bag="${i}">Add</button></span></div>`).join("")}</div>`;
+  else if (name === "menu") body.innerHTML = `<div class="m" style="color:var(--amber)">Menu board</div><h2>Tonight at the bar</h2>${rows(G.menu)}<button type="button" class="btn" id="order-kopi">Order a Kopi O Kaw · RM 6</button>`;
+  else if (name === "visit") body.innerHTML = `<div class="m" style="color:var(--amber)">Find us</div><h2>Jalan Sultan, after dark</h2><p>${G.visit.addr}<br>${G.visit.hours}</p><p style="margin-top:10px">${G.visit.note}</p>`;
+  $("panel").classList.add("open"); $("intro").style.opacity = "0";
+  $("panel").querySelector("button.btn, button.close").focus({ preventScroll: true });
+}
+function closePanel() { $("panel").classList.remove("open"); }
+$("close").addEventListener("click", () => goTo("home"));
+$("home-link").addEventListener("click", e => { e.preventDefault(); goTo("home"); });
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => goTo(b.dataset.go)));
+addEventListener("keydown", e => { if (e.key === "Escape" && view !== "home") goTo("home"); });
+$("panel").addEventListener("click", e => {
+  const t = e.target;
+  if (t.id === "drop") dropBatch();
+  if (t.id === "pull") pullShot();
+  if (t.id === "order-kopi") addOrder(1, "Kopi O Kaw added to your order");
+  if (t.dataset.bag !== undefined) { const b = G.beans[+t.dataset.bag]; addOrder(1, b[0] + " added"); const g = bagMeshes.find(m => m.userData.info === b); if (g) selectBag(g); }
+});
+
+/* ---------- roast simulation ---------- */
+const roast = { temp: 150, t: 150 / 1.6 - 50, batch: 142, pts: [], drop: 0 };
+function phase(tp) { return tp < 150 ? "Drying" : tp < 196 ? "Maillard" : tp < 207 ? "First crack" : "Ready to drop"; }
+function dropBatch() { if (roast.drop > 0) return; roast.drop = .001; toast("Batch " + roast.batch + " dropped into the cooling tray"); }
+function updateRoast(dt) {
+  if (roast.drop > 0) { roast.drop += dt; if (roast.drop > 2.4) { roast.drop = 0; roast.batch++; roast.temp = 95; roast.t = 0; roast.pts = []; const bt = $("batch"); if (bt) bt.textContent = roast.batch; } }
+  else if (roast.temp < 210) { roast.temp += dt * 1.6; roast.t += dt; }
+  if (!roast.pts.length || roast.t - roast.pts[roast.pts.length - 1][0] > .5) roast.pts.push([roast.t, roast.temp]);
+  const k = THREE.MathUtils.clamp((roast.temp - 90) / 120, 0, 1);
+  sight.material.color.setRGB(.8 + 1.8 * k, .3 + .7 * k, .1 + .15 * k);
+  roastGlow.intensity = .4 + 1.2 * k;
+  needle.rotation.z = -(-135 + 270 * k) * Math.PI / 180;
+  if ($("r-temp")) {
+    $("r-temp").textContent = Math.round(roast.temp) + "°"; $("r-phase").textContent = roast.drop ? "Dropping" : phase(roast.temp);
+    const s = Math.floor(roast.t); $("r-time").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    const maxT = Math.max(80, roast.t);
+    $("r-path").setAttribute("d", "M" + roast.pts.map(p => (p[0] / maxT * 300).toFixed(1) + " " + (120 - (p[1] - 80) / 150 * 110).toFixed(1)).join(" L"));
+  }
+}
+
+/* ---------- espresso ---------- */
+let shot = 0;
+function pullShot() { if (shot > 0) return; shot = .001; addOrder(1, "Double espresso pulling…"); for (let i = 0; i < 14; i++) spawn(steam, machine.position.x + .62, machine.position.y + .02, machine.position.z + .32, .05); }
+function updateShot(dt) {
+  if (shot <= 0) return;
+  shot += dt;
+  const k = THREE.MathUtils.clamp((shot - .6) / 4, 0, 1);
+  groups.forEach(g => { g.stream.visible = shot > .6 && shot < 4.8; g.stream.scale.y = .1; g.stream.position.y = .0; g.fill.scale.y = 1 + k * 50; g.fill.position.y = -.065 + k * .025; });
+  if (shot > 7) { shot = 0; groups.forEach(g => { g.fill.scale.y = 1; g.fill.position.y = -.065; g.stream.visible = false; }); }
+}
+
+/* ---------- bags ---------- */
+let selectedBag = null;
+function selectBag(g) { bagMeshes.forEach(b => b.userData.selected = b === g); selectedBag = g; if (view !== "shelf") goTo("shelf"); }
+
+/* ---------- pointer: parallax, hover, click ---------- */
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), par = new THREE.Vector2();
+let hover = null, downAt = null;
+canvas.addEventListener("pointermove", e => {
+  ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); par.copy(ndc);
+  ray.setFromCamera(ndc, camera); const hit = ray.intersectObjects(pickables, false)[0];
+  hover = hit ? hit.object : null; canvas.style.cursor = hover ? "pointer" : "default";
+  for (const k in hsEls) hsEls[k].classList.toggle("hot", !!hover && hover.userData.hs === k);
+});
+canvas.addEventListener("pointerdown", e => { downAt = [e.clientX, e.clientY]; });
+canvas.addEventListener("pointerup", e => {
+  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 6) return;
+  ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ndc, camera);
+  const hit = ray.intersectObjects(pickables, false)[0];
+  if (!hit) { if (view !== "home") goTo("home"); return; }
+  if (hit.object.userData.bag) { const g = hit.object.userData.bag; selectBag(g); toast(g.userData.info[0] + " · " + g.userData.info[2]); return; }
+  goTo(hit.object.userData.hs);
+});
+
+/* ---------- loop ---------- */
+let last = performance.now(), running = true, plain = false, t = 0;
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now; t += dt;
+  if (fly) { const k = Math.min(1, (now - fly.t0) / fly.dur), e = ease(k); camPos.lerpVectors(fly.from.pos, fly.to.pos, e); camTgt.lerpVectors(fly.from.tgt, fly.to.tgt, e); if (k >= 1) fly = null; }
+  const off = (!reduce && view === "home" && !fly) ? new THREE.Vector3(par.x * .5, par.y * .22, 0) : new THREE.Vector3();
+  camera.position.lerp(tmp.copy(camPos).add(off), fly ? 1 : .06); camera.lookAt(camTgt);
+  if (!reduce) { arms.rotation.y += dt * .8; drum.rotation.y += dt * 1.2; }
+  updateRoast(dt); updateShot(dt);
+  // beans: spin slowly with the arms; during a drop, fall in from the chute
+  for (let i = 0; i < NB; i++) {
+    const b = beanData[i], a = b.a + (reduce ? 0 : t * .25); let y = b.y;
+    let bx = Math.cos(a) * b.r, bz = Math.sin(a) * b.r;
+    if (roast.drop > 0) { const d = ease(THREE.MathUtils.clamp((roast.drop - i / NB * 1.6) / .5, 0, 1)); y = THREE.MathUtils.lerp(1.05, b.y, d) + Math.sin(d * Math.PI) * .12; bx = THREE.MathUtils.lerp(-.38, bx, d); bz = THREE.MathUtils.lerp(-.18, bz, d); }
+    dummy.position.set(bx, y, bz); dummy.rotation.set(b.rx, b.ry + t, 0); dummy.updateMatrix(); beans.setMatrixAt(i, dummy.matrix);
+  }
+  beans.instanceMatrix.needsUpdate = true;
+  // particles
+  if (!reduce) {
+    if (Math.random() < .25 + (roast.temp - 120) / 200) spawn(smoke, R.position.x + .32, 4.0, R.position.z - .35, .1);
+    if (Math.random() < .15) spawn(smoke, R.position.x, 1.85, R.position.z + .3, .2);
+    if (roast.drop > 0 || Math.random() < .08) spawn(trayVapor, R.position.x + .95 + (Math.random() - .5) * .9, 1.0, R.position.z + .75 + (Math.random() - .5) * .9, .1);
+    if (shot > .6 && shot < 5 && Math.random() < .5) spawn(steam, machine.position.x + (Math.random() < .5 ? -.26 : .26), machine.position.y - .02, machine.position.z + .37, .03);
+  }
+  stepEmitter(smoke, dt, .45, .25); stepEmitter(steam, dt, .5, .1); stepEmitter(trayVapor, dt, .35, .2);
+  // bags: selected one slides out and turns toward the room
+  bagMeshes.forEach(g => { const u = g.userData, target = u.selected ? 1 : 0; u.out += (target - u.out) * Math.min(1, dt * 6);
+    g.position.x = u.base.x + u.out * .45; g.position.y = u.base.y + u.out * .08; g.rotation.y = u.baseRot + u.out * (reduce ? .4 : .4 + Math.sin(t * 1.5) * .25); });
+  // neon flicker
+  const fl = reduce ? 1 : (Math.random() < .015 ? .35 : 1); neonMat.color.setScalar(1.8 * fl);
+  placeHotspots();
+  composer.render();
+  if (!window.__gudang3d) { window.__gudang3d = true; $("loader").classList.add("done"); document.body.classList.remove("hide-hs"); }
+  running = !document.hidden && !plain; if (running) requestAnimationFrame(frame);
+}
+function resume() { if (!running && !document.hidden && !plain) { running = true; last = performance.now(); requestAnimationFrame(frame); } }
+document.addEventListener("visibilitychange", resume);
+addEventListener("gudang-mode", e => { plain = e.detail.plain; if (!plain) { resize(); resume(); } });
+camera.position.copy(camPos);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

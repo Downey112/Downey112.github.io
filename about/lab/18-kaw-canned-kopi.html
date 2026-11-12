@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KAW Canned Kopi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: single-style preview — NEO-BRUTALIST KINETIC. Deliberately one look in both themes: hazard yellow, black, signal red.
+   Hard borders, offset shadows, running tickers, cards that overshoot and snap, a caffeine meter that slams up on scroll. */
+:root{ color-scheme: light; --y:#ffd400; --k:#0b0b0b; --w:#fffef6; --r:#ff2d1a; --g:#6b6b62;
+  --f-d:"Anton",Impact,"Arial Narrow",sans-serif; --f-m:"IBM Plex Mono",ui-monospace,Consolas,monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--y);color:var(--k);font:400 16px/1.5 var(--f-m);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--k)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:400;line-height:.9;text-transform:uppercase}
+:focus-visible{outline:4px solid var(--r);outline-offset:2px}
+.shell{max-width:1240px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.head{background:var(--k);color:var(--y);border-bottom:4px solid var(--k)}
+.head .shell{display:flex;justify-content:space-between;align-items:center;padding-block:12px;gap:12px}
+.logo{font:400 40px/1 var(--f-d);text-decoration:none;letter-spacing:.02em}
+.head span{font-weight:700;text-transform:uppercase;font-size:13px}
+.tick{overflow:hidden;white-space:nowrap;border-block:4px solid var(--k);background:var(--r);color:var(--w);font:700 18px/1 var(--f-m);text-transform:uppercase;padding-block:12px}
+.tick.b{background:var(--k);color:var(--y)}
+.tick div{display:inline-block;animation:t 18s linear infinite}
+.tick.b div{animation-direction:reverse;animation-duration:24s}
+@keyframes t{to{transform:translateX(-50%)}}
+.hero{padding-block:40px 48px}
+.hero h1{font-size:clamp(64px,13vw,200px);letter-spacing:-.01em;line-height:.95}
+.hero h1 span{display:inline-block;background:var(--k);color:var(--y);padding:.06em .1em 0;margin-top:.08em}
+.hero p{max-width:46ch;font-size:18px;margin-top:20px;font-weight:600}
+.ctas{display:flex;gap:16px;flex-wrap:wrap;margin-top:26px}
+.btn{font:700 18px/1 var(--f-m);text-transform:uppercase;padding:18px 22px;border:4px solid var(--k);background:var(--w);color:var(--k);box-shadow:8px 8px 0 var(--k);text-decoration:none;cursor:pointer;transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:11px 11px 0 var(--k)}
+.btn:active{transform:translate(8px,8px);box-shadow:0 0 0 var(--k)}
+.btn.r{background:var(--r);color:var(--w)}
+.sec{padding-block:64px;border-top:4px solid var(--k)}
+.sec h2{font-size:clamp(48px,8vw,110px);margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:22px}
+.card{background:var(--w);border:4px solid var(--k);box-shadow:8px 8px 0 var(--k);padding:18px;display:flex;flex-direction:column;gap:8px}
+.card.snap{animation:snap .5s cubic-bezier(.2,1.7,.4,1) both;animation-delay:calc(var(--i)*80ms)}
+@keyframes snap{from{transform:translateY(60px) rotate(-5deg) scale(.85)}to{transform:none}}
+.card .ml{font:400 52px/1 var(--f-d)}
+.card h3{font-size:32px}
+.card p{font-size:14px}
+.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;border-top:3px solid var(--k)}
+.card .row b{font:400 30px/1 var(--f-d)}
+.card button{font:700 14px/1 var(--f-m);padding:10px 12px;border:3px solid var(--k);background:var(--y);cursor:pointer}
+.meter{background:var(--k);color:var(--y);border:4px solid var(--k);padding:22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px 24px;align-items:center}
+.meter b{font:400 clamp(72px,12vw,160px)/.85 var(--f-d)}
+.bar{height:44px;border:4px solid var(--y);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0;background:var(--r);transform-origin:left;transform:scaleX(var(--v,0));transition:transform 1.1s cubic-bezier(.2,1.4,.4,1)}
+.bar span{position:absolute;inset:0;display:flex;align-items:center;padding-left:12px;font-weight:700;color:var(--w);mix-blend-mode:difference}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0;border:4px solid var(--k);background:var(--w)}
+.specs div{padding:16px;border:2px solid var(--k)}
+.specs b{display:block;font:400 34px/1 var(--f-d)}
+.where{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+.where dl{background:var(--w);border:4px solid var(--k);padding:18px;display:grid;grid-template-columns:auto 1fr;gap:8px 16px}
+.where dd{margin:0;font-weight:600}
+.foot{background:var(--k);color:var(--y);padding-block:20px 36px;font-size:13px;font-weight:700;text-transform:uppercase}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--k);color:var(--y);border:4px solid var(--y);padding:14px 18px;font-weight:700;text-transform:uppercase;transition:.15s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion: reduce){.tick div,.card.snap{animation:none}.bar i{transition:none}.btn{transition:none}}
+@media (max-width:760px){.meter,.where{grid-template-columns:1fr}.head span{display:none}}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P17</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<header class="head"><div class="shell"><a class="logo" href="#top">KAW</a><span>Chow Kit · KL · 24/7 cold lockers</span></div></header>
+<div class="tick" aria-hidden="true"><div id="t1"></div></div>
+<main id="top">
+  <section class="shell hero">
+    <h1>Heavy kopi.<br><span>Cold cans.</span></h1>
+    <p>No syrups, no latte art. Double-strength canned kopi kaw for night shifts, long drives and the 3 pm wall.</p>
+    <div class="ctas"><a class="btn r" href="#cans">Grab a 6-pack</a><a class="btn" href="#where">Find a cold locker</a></div>
+  </section>
+  <div class="tick b" aria-hidden="true"><div id="t2"></div></div>
+  <section class="sec" id="cans" aria-labelledby="cans-h"><div class="shell">
+    <h2 id="cans-h">The cans</h2>
+    <div class="grid" id="grid"></div>
+    <p style="margin-top:22px"><button type="button" class="btn" id="replay">Slam them in again</button></p>
+  </div></section>
+  <section class="sec" aria-labelledby="m-h"><div class="shell">
+    <h2 id="m-h">One can. Full load.</h2>
+    <div class="meter" id="meter"><b id="mg">0</b><div><div class="bar" style="--v:0" id="bar"><i></i><span>MG CAFFEINE PER 200 ML CAN</span></div><p style="margin-top:10px">About two and a half double espressos in one stubby can. Know your limit: most adults should stay under 400 mg a day.</p></div></div>
+  </div></section>
+  <section class="sec" aria-labelledby="s-h"><div class="shell">
+    <h2 id="s-h">Spec sheet</h2>
+    <div class="specs"><div><span>Brew</span><b>48 h cold</b>Counter-current percolation</div><div><span>Strength</span><b>4.2% TDS</b>Dense, built to be diluted or slammed</div><div><span>Serve</span><b>3 °C</b>Straight from the cooler</div><div><span>Can</span><b>200 ml</b>Matte aluminium stubby</div></div>
+  </div></section>
+  <section class="sec" id="where" aria-labelledby="w-h"><div class="shell where">
+    <div><h2 id="w-h">Cold lockers</h2><p style="font-weight:600;max-width:46ch">Built in Chow Kit for people who work hard. Lockers are open all night; the counter keeps day hours.</p></div>
+    <dl><dt>Counter</dt><dd>Jalan Doraisamy, Chow Kit, Kuala Lumpur</dd><dt>Counter hours</dt><dd>Mon–Sat · 7 am–8 pm</dd><dt>Lockers</dt><dd>24/7</dd></dl>
+  </div></section>
+</main>
+<footer class="foot"><div class="shell">KAW · design preview, not a live brand</div></footer>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+"use strict";
+var CANS = [["200","KAW Hitam","Quadruple-strength black Liberica. Zero sugar.","RM 9.50"],["200","KAW Susu","Double robusta with condensed and evaporated milk.","RM 10.50"],["250","KAW Nitro","Nitrogen cold brew with a cascading head. No dairy.","RM 12.00"],["200","KAW Halia","Espresso shot with cold-pressed Bentong ginger.","RM 11.00"],["6×","Slab Box","Three Hitam, three Susu, one cardboard brick.","RM 58.00"],["500","Driver Tumbler","Matte black double-wall steel, keeps cans iced.","RM 45.00"]];
+function $(id){ return document.getElementById(id); }
+var a = "KOPI KAW /// 240 MG /// ZERO SYRUP /// NIGHT SHIFT FUEL /// SLAM COLD /// ", b = "HITAM · SUSU · NITRO · HALIA · ";
+$("t1").textContent = a+a+a+a; $("t2").textContent = b+b+b+b+b+b;
+$("grid").innerHTML = CANS.map(function(c,i){ return '<article class="card snap" style="--i:'+i+'"><span class="ml">'+c[0]+(c[0].indexOf("×") < 0 ? '<small style="font-size:18px"> ML</small>' : '')+'</span><h3>'+c[1]+'</h3><p>'+c[2]+'</p><div class="row"><b>'+c[3]+'</b><button type="button" data-a="'+c[1]+'">ADD</button></div></article>'; }).join("");
+var tT; document.addEventListener("click", function(e){ var x = e.target.closest("[data-a]"); if(!x) return; var t = $("toast"); t.textContent = x.dataset.a + " IN THE BAG"; t.classList.add("show"); clearTimeout(tT); tT = setTimeout(function(){ t.classList.remove("show"); }, 1500); });
+$("replay").addEventListener("click", function(){ var cs = document.querySelectorAll(".card"); cs.forEach(function(c){ c.classList.remove("snap"); }); void $("grid").offsetWidth; cs.forEach(function(c){ c.classList.add("snap"); }); });
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, done = false;
+function fill(){ if(done) return; done = true; $("bar").style.setProperty("--v", (240/400).toFixed(2)); var el = $("mg"), t0 = performance.now(); if(reduce){ el.textContent = "240"; return; }
+  (function s(now){ var t = Math.min(1, (now - t0)/900); el.textContent = Math.round(240*(1 - Math.pow(1-t, 4))); if(t < 1) requestAnimationFrame(s); })(t0); }
+new IntersectionObserver(function(es){ if(es[0].isIntersecting) fill(); }, {threshold:.4}).observe($("meter"));
+})();
+</script>
+</body>
+</html>

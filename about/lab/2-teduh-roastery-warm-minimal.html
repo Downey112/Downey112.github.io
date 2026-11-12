@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teduh Roastery Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: warm-minimal roaster shop — full-width bands, 1140px shell, cards collapse to one column on phones */
+:root {
+  color-scheme: light;
+  --canvas: #F9F6F0; --surface: #FFFFFF; --surface-alt: #F2ECE1;
+  --text: #1B1816; --text-muted: #5F5953;
+  --terracotta: #C86432; --terracotta-hover: #AF5325; --terracotta-soft: #F7EFEA; --terracotta-text: #A54E22;
+  --olive: #2D382E; --olive-soft: #EDF1ED;
+  --border: #E4DCD0; --border-strong: #CDC3B4;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 16px; --r-full: 9999px;
+  --shadow-md: 0 8px 24px -4px rgba(27,24,22,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--canvas); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 100; background: var(--canvas); }
+h1, h2, h3 { text-wrap: balance; }
+.shell { width: 100%; max-width: 1140px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band-promo { padding-block: 9px; background: var(--olive); color: #F9F6F0; font-size: 13px; font-weight: 500; letter-spacing: .02em; text-align: center; }
+.site-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 90; background: rgba(249,246,240,.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding-block: 12px; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.brand-link { text-decoration: none; color: var(--text); display: inline-flex; align-items: baseline; gap: 8px; }
+.brand-name { font-family: var(--font-display); font-size: 21px; font-weight: 600; letter-spacing: -.01em; }
+.brand-sub { font-size: 11px; font-weight: 600; color: var(--terracotta-text); text-transform: uppercase; letter-spacing: .08em; }
+.nav-links { display: flex; align-items: center; gap: 20px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text); font-size: 14px; font-weight: 500; }
+.nav-links a:hover { color: var(--terracotta-text); }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.icon-btn { background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: var(--r-full); width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.icon-btn:hover { border-color: var(--olive); }
+.cart-pill { text-decoration: none; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: var(--r-full); padding: 6px 14px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.cart-badge { background: var(--terracotta); color: #FFFFFF; border-radius: var(--r-full); min-width: 18px; height: 18px; padding-inline: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.search-bar-wrap { width: 100%; padding-top: 4px; }
+.search-input { width: 100%; padding: 10px 14px; border-radius: var(--r-md); border: 1px solid var(--border-strong); background: var(--surface); font: inherit; font-size: 14px; color: var(--text); }
+
+.band-hero { padding-block: 44px 54px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 36px; align-items: center; }
+.hero-tag { display: inline-flex; font-size: 12px; font-weight: 600; color: var(--olive); background: var(--olive-soft); padding: 4px 10px; border-radius: var(--r-full); margin-bottom: 16px; letter-spacing: .04em; text-transform: uppercase; }
+.hero-h1 { font-family: var(--font-display); font-size: clamp(30px, 4.5vw, 48px); font-weight: 600; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 16px; }
+.hero-h1 em { font-style: italic; font-weight: 400; color: var(--terracotta-text); }
+.hero-lead { font-size: 16px; color: var(--text-muted); max-width: 50ch; line-height: 1.6; margin-bottom: 24px; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--r-md); font: inherit; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background-color .15s ease; }
+.btn-primary { background: var(--terracotta); color: #FFFFFF; }
+.btn-primary:hover { background: var(--terracotta-hover); }
+.btn-secondary { background: transparent; color: var(--text); border-color: var(--border-strong); }
+.btn-secondary:hover { background: var(--surface-alt); }
+.hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hero-card-img { width: 140px; height: 175px; margin-bottom: 14px; color: var(--terracotta); }
+.hero-card-title { font-family: var(--font-display); font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+.hero-card-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+.hero-card-badges { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+
+.band-trust { padding-block: 28px; background: var(--surface-alt); border-block: 1px solid var(--border); }
+.trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.trust-item { display: flex; align-items: flex-start; gap: 12px; }
+.trust-icon { width: 36px; height: 36px; border-radius: var(--r-md); background: var(--surface); color: var(--terracotta); display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--border); }
+.trust-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.trust-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+.band-products, .band-brew { padding-block: 54px; }
+.section-head { margin-bottom: 24px; }
+.section-title { font-family: var(--font-display); font-size: clamp(24px, 3.2vw, 34px); font-weight: 600; letter-spacing: -.01em; }
+.section-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+.chips-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.chip { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 7px 14px; border-radius: var(--r-full); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+.chip:hover { border-color: var(--olive); }
+.chip[aria-pressed="true"] { background: var(--olive); border-color: var(--olive); color: #FFFFFF; font-weight: 600; }
+.products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.empty-note { font-size: 14px; color: var(--text-muted); padding: 20px 0; }
+.product-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; transition: transform .15s ease, box-shadow .15s ease; }
+.product-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.bag-box { width: 100%; height: 170px; background: var(--canvas); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--border); }
+.bag-svg { width: 100px; height: 135px; }
+.card-origin { font-size: 12px; font-weight: 600; color: var(--terracotta-text); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.card-name { font-family: var(--font-display); font-size: 18px; font-weight: 600; line-height: 1.25; margin-bottom: 8px; }
+.roast-meter-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+.roast-meter { display: inline-flex; gap: 3px; }
+.pip { width: 13px; height: 5px; border-radius: 2px; background: var(--border-strong); }
+.pip.on { background: var(--olive); }
+.pills-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.note-pill { font-size: 12px; padding: 3px 8px; border-radius: var(--r-full); background: var(--surface-alt); color: var(--olive); font-weight: 500; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+.card-price { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.card-weight { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+.btn-quick-add { background: var(--surface); border: 1px solid var(--olive); color: var(--olive); padding: 7px 12px; border-radius: var(--r-md); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-quick-add:hover, .btn-quick-add.added { background: var(--olive); color: #FFFFFF; }
+
+.band-sub { padding-block: 58px; background: var(--surface-alt); border-block: 1px solid var(--border); }
+.sub-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: start; }
+.step-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px; margin-bottom: 18px; }
+.step-legend { font-family: var(--font-display); font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.step-num { width: 24px; height: 24px; border-radius: var(--r-full); background: var(--terracotta); color: #FFFFFF; font-family: var(--font-body); font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+.radio-options { display: grid; gap: 8px; }
+.radio-tile { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--r-md); cursor: pointer; background: var(--surface); }
+.radio-tile:hover { border-color: var(--border-strong); }
+.radio-tile:has(input:checked) { border-color: var(--terracotta); background: var(--terracotta-soft); }
+.radio-tile input { margin-top: 3px; accent-color: var(--terracotta); }
+.radio-tile-body { flex: 1; min-width: 0; }
+.radio-tile-title { font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.radio-tile-hint { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.sub-summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 26px; box-shadow: var(--shadow-md); position: sticky; top: calc(env(safe-area-inset-top, 0px) + 84px); }
+.sub-summary-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+.sum-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; padding-block: 8px; border-bottom: 1px solid var(--border); }
+.sum-row.total { border-bottom: none; padding-top: 14px; font-size: 15px; font-weight: 700; align-items: baseline; }
+.sub-price-val { font-size: 24px; font-weight: 700; color: var(--terracotta-text); font-variant-numeric: tabular-nums; }
+.sub-strike { text-decoration: line-through; color: var(--text-muted); font-weight: 400; margin-right: 6px; }
+.sub-save-tag { display: inline-block; background: var(--olive-soft); color: var(--olive); font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: var(--r-full); margin-block: 10px 12px; }
+.sub-ship { font-size: 12px; color: var(--olive); font-weight: 600; margin-bottom: 4px; }
+.btn-block { width: 100%; margin-top: 16px; }
+.form-note { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 10px; }
+.form-status { font-size: 12px; color: var(--olive); font-weight: 600; text-align: center; margin-top: 8px; min-height: 1em; }
+
+.brew-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.brew-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; display: flex; flex-direction: column; }
+.brew-icon { width: 48px; height: 48px; border-radius: var(--r-md); background: var(--surface-alt); color: var(--olive); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.brew-name { font-family: var(--font-display); font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+.brew-stats { list-style: none; font-size: 13px; color: var(--text-muted); margin-bottom: 14px; display: grid; gap: 4px; }
+.brew-stats strong { color: var(--text); font-weight: 600; }
+.brew-tip { font-size: 13px; line-height: 1.45; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
+
+.band-wholesale { padding-block: 52px; background: var(--olive); color: #F9F6F0; }
+.wholesale-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: center; }
+.wholesale-title { font-family: var(--font-display); font-size: clamp(24px, 3.2vw, 34px); font-weight: 600; line-height: 1.2; margin-bottom: 12px; }
+.wholesale-lead { font-size: 14px; color: #D3DDD3; line-height: 1.55; margin-bottom: 18px; max-width: 60ch; }
+.wholesale-perks { list-style: none; display: grid; gap: 6px; font-size: 13px; }
+.wholesale-perks li::before { content: "—"; margin-right: 8px; color: #E89A6E; }
+.wholesale-form { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: var(--r-lg); padding: 22px; }
+.wholesale-form label { font-size: 12px; margin-bottom: 4px; display: block; color: #F9F6F0; }
+.wholesale-form input { width: 100%; padding: 10px 14px; border-radius: var(--r-md); border: 1px solid rgba(255,255,255,.2); background: #FFFFFF; color: var(--text); font: inherit; font-size: 14px; margin-bottom: 10px; }
+.wholesale-form .btn-block { margin-top: 4px; }
+.wholesale-form .form-status { color: #F9F6F0; }
+
+.band-footer { padding-block: 46px 36px; background: #161413; color: #EDE7DC; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+.footer-brand { font-family: var(--font-display); font-size: 19px; font-weight: 600; margin-bottom: 8px; color: #FFFFFF; }
+.footer-text { font-size: 13px; color: #A69E94; line-height: 1.5; max-width: 38ch; }
+.footer-col-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #FFFFFF; margin-bottom: 12px; }
+.footer-rates { font-size: 13px; color: #C8C0B5; line-height: 1.7; }
+.pay-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.pay-pill { font-size: 11px; font-weight: 600; background: #262220; color: #DDD4C7; padding: 4px 9px; border-radius: var(--r-sm); border: 1px solid #36302C; }
+.footer-bottom { padding-top: 24px; border-top: 1px solid #282420; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #8C847B; }
+
+.toast { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); right: calc(20px + env(safe-area-inset-right, 0px)); background: var(--olive); color: #FFFFFF; padding: 10px 16px; border-radius: var(--r-md); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-md); z-index: 1000; max-width: calc(100vw - 40px); }
+
+.trust-grid > *, .products-grid > *, .sub-layout > *, .brew-grid > *, .wholesale-wrap > *, .footer-grid > *, .hero-grid > * { min-width: 0; }
+:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; }
+@media (max-width: 860px) {
+  .hero-grid, .wholesale-wrap, .sub-layout { grid-template-columns: 1fr; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .sub-summary-card { position: static; }
+}
+@media (max-width: 640px) {
+  .trust-grid, .products-grid, .brew-grid, .footer-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .cart-pill .cart-word { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P2</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <g id="bag-art">
+      <path d="M22 28 L78 28 L73 118 L27 118 Z" fill="#F4EFE6" stroke="#2D382E" stroke-width="2"/>
+      <rect x="20" y="16" width="60" height="12" rx="2" fill="#E4DCD0" stroke="#2D382E" stroke-width="2"/>
+      <line x1="24" y1="22" x2="76" y2="22" stroke="#2D382E" stroke-width="1.2" stroke-dasharray="2 3"/>
+      <circle cx="50" cy="40" r="3" fill="#2D382E" opacity=".3"/>
+      <rect x="30" y="52" width="40" height="54" rx="2" fill="#FFFFFF" stroke="#2D382E" stroke-width="1.5"/>
+      <rect x="34" y="56" width="32" height="6" fill="currentColor"/>
+      <line x1="37" y1="68" x2="63" y2="68" stroke="#2D382E" stroke-width="1.5"/>
+      <line x1="37" y1="74" x2="57" y2="74" stroke="#8C847B" stroke-width="1"/>
+      <line x1="37" y1="79" x2="53" y2="79" stroke="#8C847B" stroke-width="1"/>
+      <path d="M47 92 C47 88, 53 88, 53 92 C53 96, 47 96, 47 92 Z" fill="#2D382E"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="band-promo"><div class="shell">Free West Malaysia shipping over RM 80</div></div>
+
+<nav class="site-nav" aria-label="Main">
+  <div class="shell nav-inner">
+    <a href="#top" class="brand-link" id="top">
+      <span class="brand-name">Teduh Roastery</span>
+      <span class="brand-sub">Petaling Jaya</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#beans">Beans</a></li>
+      <li><a href="#subscribe">Subscribe</a></li>
+      <li><a href="#beans">Equipment</a></li>
+      <li><a href="#wholesale">Wholesale</a></li>
+      <li><a href="#brew">Brew guides</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button type="button" class="icon-btn" id="search-toggle" aria-label="Search coffee" aria-expanded="false" aria-controls="search-bar">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <a href="#beans" class="cart-pill" aria-live="polite">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-word">Cart</span>
+        <span class="cart-badge" id="cart-count" aria-label="items in cart">0</span>
+      </a>
+    </div>
+    <div class="search-bar-wrap" id="search-bar" hidden>
+      <input type="search" id="search-input" class="search-input" aria-label="Search coffee" placeholder="Search by origin or tasting note, e.g. lychee">
+    </div>
+  </div>
+</nav>
+
+<section class="band-hero">
+  <div class="shell hero-grid">
+    <div>
+      <span class="hero-tag">This season</span>
+      <h1 class="hero-h1">Colombia <em>El Paraíso</em></h1>
+      <p class="hero-lead">An anaerobic Castillo from Cauca. Ripe lychee, raspberry jam and a soft rose finish. Roasted light for filter.</p>
+      <div class="hero-cta">
+        <a href="#beans" class="btn btn-primary">Shop beans</a>
+        <a href="#subscribe" class="btn btn-secondary">Subscribe &amp; save 15%</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-img"><svg viewBox="0 0 100 130" style="width:100%;height:100%" aria-hidden="true"><use href="#bag-art"/></svg></div>
+      <div class="hero-card-title">El Paraíso micro-lot</div>
+      <div class="hero-card-sub">Cauca · 1,950 m · Anaerobic washed</div>
+      <div class="hero-card-badges"><span class="note-pill">Lychee</span><span class="note-pill">Raspberry</span><span class="note-pill">Rose</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-trust" aria-label="Why Teduh">
+  <div class="shell trust-grid">
+    <div class="trust-item">
+      <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div><div class="trust-title">Roasted every Tuesday</div><div class="trust-desc">Small batches, roasted in PJ and packed the same day.</div></div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div><div class="trust-title">Ships in 48h</div><div class="trust-desc">Valve-sealed bags, tracked delivery across Malaysia.</div></div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+      <div><div class="trust-title">Specialty grade</div><div class="trust-desc">Every coffee scores 80+ on the SCA cupping scale.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-products" id="beans">
+  <div class="shell">
+    <div class="section-head">
+      <h2 class="section-title">Fresh roasts</h2>
+      <p class="section-sub">Whole bean or ground to order. Filter and espresso roasts.</p>
+    </div>
+    <div class="chips-bar" role="group" aria-label="Filter coffees">
+      <button type="button" class="chip" data-filter="all" id="filter-all" aria-pressed="true">All</button>
+      <button type="button" class="chip" data-filter="filter" id="filter-filter" aria-pressed="false">Filter</button>
+      <button type="button" class="chip" data-filter="espresso" id="filter-espresso" aria-pressed="false">Espresso</button>
+      <button type="button" class="chip" data-filter="light" id="filter-light" aria-pressed="false">Light</button>
+      <button type="button" class="chip" data-filter="dark" id="filter-dark" aria-pressed="false">Dark</button>
+    </div>
+    <div class="products-grid" id="cards">
+      <article class="product-card" data-category="filter light" data-keywords="colombia el paraiso cauca lychee raspberry rose">
+        <div class="bag-box" style="color:#C86432"><svg viewBox="0 0 100 130" class="bag-svg" aria-hidden="true"><use href="#bag-art"/></svg></div>
+        <div class="card-origin">Cauca · Colombia</div>
+        <h3 class="card-name">Colombia El Paraíso</h3>
+        <div class="roast-meter-row" role="img" aria-label="Roast level 2 of 5, light"><span>Roast</span><span class="roast-meter" aria-hidden="true"><span class="pip on"></span><span class="pip on"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span>Light</span></div>
+        <div class="pills-row"><span class="note-pill">Lychee</span><span class="note-pill">Raspberry</span><span class="note-pill">Rose</span></div>
+        <div class="card-foot"><div><span class="card-price">RM 68</span><span class="card-weight">250 g</span></div><button type="button" class="btn-quick-add" id="add-1" data-name="Colombia El Paraíso">Quick add +</button></div>
+      </article>
+      <article class="product-card" data-category="filter light" data-keywords="ethiopia gedeb peach jasmine bergamot">
+        <div class="bag-box" style="color:#D97706"><svg viewBox="0 0 100 130" class="bag-svg" aria-hidden="true"><use href="#bag-art"/></svg></div>
+        <div class="card-origin">Gedeb · Ethiopia</div>
+        <h3 class="card-name">Ethiopia Gedeb Washed</h3>
+        <div class="roast-meter-row" role="img" aria-label="Roast level 1 of 5, light"><span>Roast</span><span class="roast-meter" aria-hidden="true"><span class="pip on"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span>Light</span></div>
+        <div class="pills-row"><span class="note-pill">White peach</span><span class="note-pill">Jasmine</span><span class="note-pill">Bergamot</span></div>
+        <div class="card-foot"><div><span class="card-price">RM 62</span><span class="card-weight">250 g</span></div><button type="button" class="btn-quick-add" id="add-2" data-name="Ethiopia Gedeb Washed">Quick add +</button></div>
+      </article>
+      <article class="product-card" data-category="espresso light" data-keywords="guatemala huehuetenango apple toffee cocoa">
+        <div class="bag-box" style="color:#8C6A3E"><svg viewBox="0 0 100 130" class="bag-svg" aria-hidden="true"><use href="#bag-art"/></svg></div>
+        <div class="card-origin">Huehuetenango · Guatemala</div>
+        <h3 class="card-name">Guatemala Huehuetenango</h3>
+        <div class="roast-meter-row" role="img" aria-label="Roast level 2 of 5, light"><span>Roast</span><span class="roast-meter" aria-hidden="true"><span class="pip on"></span><span class="pip on"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span>Light</span></div>
+        <div class="pills-row"><span class="note-pill">Red apple</span><span class="note-pill">Toffee</span><span class="note-pill">Cocoa</span></div>
+        <div class="card-foot"><div><span class="card-price">RM 56</span><span class="card-weight">250 g</span></div><button type="button" class="btn-quick-add" id="add-3" data-name="Guatemala Huehuetenango">Quick add +</button></div>
+      </article>
+      <article class="product-card" data-category="filter light" data-keywords="kenya nyeri blackcurrant grapefruit cane sugar">
+        <div class="bag-box" style="color:#B44B36"><svg viewBox="0 0 100 130" class="bag-svg" aria-hidden="true"><use href="#bag-art"/></svg></div>
+        <div class="card-origin">Nyeri · Kenya</div>
+        <h3 class="card-name">Kenya Nyeri AA</h3>
+        <div class="roast-meter-row" role="img" aria-label="Roast level 1 of 5, light"><span>Roast</span><span class="roast-meter" aria-hidden="true"><span class="pip on"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span>Light</span></div>
+        <div class="pills-row"><span class="note-pill">Blackcurrant</span><span class="note-pill">Grapefruit</span><span class="note-pill">Cane sugar</span></div>
+        <div class="card-foot"><div><span class="card-price">RM 65</span><span class="card-weight">250 g</span></div><button type="button" class="btn-quick-add" id="add-4" data-name="Kenya Nyeri AA">Quick add +</button></div>
+      </article>
+      <article class="product-card" data-category="espresso dark" data-keywords="senja house blend brazil sumatra cocoa hazelnut brown sugar">
+        <div class="bag-box" style="color:#2D382E"><svg viewBox="0 0 100 130" class="bag-svg" aria-hidden="true"><use href="#bag-art"/></svg></div>
+        <div class="card-origin">Brazil &amp; Sumatra blend</div>
+        <h3 class="card-name">Senja House Blend</h3>
+        <div class="roast-meter-row" role="img" aria-label="Roast level 4 of 5, dark"><span>Roast</span><span class="roast-meter" aria-hidden="true"><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span><span class="pip"></span></span><span>Dark</span></div>
+        <div class="pills-row"><span class="note-pill">Dark cocoa</span><span class="note-pill">Hazelnut</span><span class="note-pill">Brown sugar</span></div>
+        <div class="card-foot"><div><span class="card-price">RM 48</span><span class="card-weight">250 g</span></div><button type="button" class="btn-quick-add" id="add-5" data-name="Senja House Blend">Quick add +</button></div>
+      </article>
+      <article class="product-card" data-category="espresso dark" data-keywords="sumatra aceh gayo cedar black cherry molasses">
+        <div class="bag-box" style="color:#384534"><svg viewBox="0 0 100 130" class="bag-svg" aria-hidden="true"><use href="#bag-art"/></svg></div>
+        <div class="card-origin">Aceh Gayo · Sumatra</div>
+        <h3 class="card-name">Sumatra Gayo</h3>
+        <div class="roast-meter-row" role="img" aria-label="Roast level 4 of 5, dark"><span>Roast</span><span class="roast-meter" aria-hidden="true"><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span><span class="pip"></span></span><span>Dark</span></div>
+        <div class="pills-row"><span class="note-pill">Cedar</span><span class="note-pill">Black cherry</span><span class="note-pill">Molasses</span></div>
+        <div class="card-foot"><div><span class="card-price">RM 52</span><span class="card-weight">250 g</span></div><button type="button" class="btn-quick-add" id="add-6" data-name="Sumatra Gayo">Quick add +</button></div>
+      </article>
+    </div>
+    <p class="empty-note" id="empty-note" hidden>No coffees match. Try another filter or search.</p>
+  </div>
+</section>
+
+<section class="band-sub" id="subscribe">
+  <div class="shell">
+    <div class="section-head">
+      <h2 class="section-title">Build a subscription</h2>
+      <p class="section-sub">Pick a roast, how many bags and how often. Pause or skip anytime.</p>
+    </div>
+    <form id="sub-form" class="sub-layout">
+      <div>
+        <fieldset class="step-box">
+          <legend class="step-legend"><span class="step-num">1</span> Roast</legend>
+          <div class="radio-options">
+            <label class="radio-tile" for="roast-filter"><input type="radio" id="roast-filter" name="roast" value="Filter / light" checked><span class="radio-tile-body"><span class="radio-tile-title">Filter / light</span><span class="radio-tile-hint">Bright, fruity, floral.</span></span></label>
+            <label class="radio-tile" for="roast-omni"><input type="radio" id="roast-omni" name="roast" value="All-rounder"><span class="radio-tile-body"><span class="radio-tile-title">All-rounder</span><span class="radio-tile-hint">Balanced. Works for filter and espresso.</span></span></label>
+            <label class="radio-tile" for="roast-espresso"><input type="radio" id="roast-espresso" name="roast" value="Espresso / dark"><span class="radio-tile-body"><span class="radio-tile-title">Espresso / dark</span><span class="radio-tile-hint">Chocolatey and low acidity. Good with milk.</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="step-box">
+          <legend class="step-legend"><span class="step-num">2</span> Bags per delivery</legend>
+          <div class="radio-options">
+            <label class="radio-tile" for="bags-1"><input type="radio" id="bags-1" name="bags" value="1" data-base="52"><span class="radio-tile-body"><span class="radio-tile-title"><span>1 bag · 250 g</span><span>RM 52</span></span><span class="radio-tile-hint">About 15 cups.</span></span></label>
+            <label class="radio-tile" for="bags-2"><input type="radio" id="bags-2" name="bags" value="2" data-base="98" checked><span class="radio-tile-body"><span class="radio-tile-title"><span>2 bags · 500 g</span><span>RM 98</span></span><span class="radio-tile-hint">About 30 cups.</span></span></label>
+            <label class="radio-tile" for="bags-4"><input type="radio" id="bags-4" name="bags" value="4" data-base="180"><span class="radio-tile-body"><span class="radio-tile-title"><span>4 bags · 1 kg</span><span>RM 180</span></span><span class="radio-tile-hint">About 60 cups.</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="step-box">
+          <legend class="step-legend"><span class="step-num">3</span> How often</legend>
+          <div class="radio-options">
+            <label class="radio-tile" for="freq-2"><input type="radio" id="freq-2" name="freq" value="Every 2 weeks" checked><span class="radio-tile-body"><span class="radio-tile-title">Every 2 weeks</span></span></label>
+            <label class="radio-tile" for="freq-3"><input type="radio" id="freq-3" name="freq" value="Every 3 weeks"><span class="radio-tile-body"><span class="radio-tile-title">Every 3 weeks</span></span></label>
+            <label class="radio-tile" for="freq-4"><input type="radio" id="freq-4" name="freq" value="Every 4 weeks"><span class="radio-tile-body"><span class="radio-tile-title">Every 4 weeks</span></span></label>
+          </div>
+        </fieldset>
+      </div>
+      <aside class="sub-summary-card" aria-live="polite">
+        <div class="sub-summary-title">Your subscription</div>
+        <div class="sum-row"><span>Roast</span><strong id="sum-roast">Filter / light</strong></div>
+        <div class="sum-row"><span>Bags</span><strong id="sum-bags">2 bags · 500 g</strong></div>
+        <div class="sum-row"><span>Delivery</span><strong id="sum-freq">Every 2 weeks</strong></div>
+        <div class="sum-row"><span>Subtotal</span><span><span id="sum-strike" class="sub-strike">RM 98.00</span><strong id="sum-disc">RM 83.30</strong></span></div>
+        <div class="sub-save-tag" id="sum-save">You save RM 14.70 (15%) per delivery</div>
+        <div class="sub-ship" id="sum-ship">Free West Malaysia shipping</div>
+        <div class="sum-row total"><span>Per delivery</span><span class="sub-price-val" id="sum-total">RM 83.30</span></div>
+        <button type="submit" id="sub-submit" class="btn btn-primary btn-block">Start subscription</button>
+        <p class="form-note">Pause, skip or cancel anytime.</p>
+        <p class="form-status" id="sub-status"></p>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<section class="band-brew" id="brew">
+  <div class="shell">
+    <div class="section-head">
+      <h2 class="section-title">Brew guides</h2>
+      <p class="section-sub">Starting recipes. Adjust grind to taste.</p>
+    </div>
+    <div class="brew-grid">
+      <div class="brew-card">
+        <div class="brew-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16l-5 12H9L4 4z"/><line x1="12" y1="16" x2="12" y2="20"/><line x1="8" y1="20" x2="16" y2="20"/></svg></div>
+        <h3 class="brew-name">V60</h3>
+        <ul class="brew-stats"><li><strong>Ratio</strong> 1:16 (15 g to 240 ml)</li><li><strong>Grind</strong> Medium-fine</li><li><strong>Water</strong> 92°C</li><li><strong>Time</strong> about 2:45</li></ul>
+        <p class="brew-tip">Bloom with 45 ml for 40 seconds, then pour in slow circles.</p>
+      </div>
+      <div class="brew-card">
+        <div class="brew-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="2" width="10" height="16" rx="2"/><line x1="4" y1="18" x2="20" y2="18"/><line x1="12" y1="18" x2="12" y2="22"/></svg></div>
+        <h3 class="brew-name">AeroPress</h3>
+        <ul class="brew-stats"><li><strong>Ratio</strong> 1:13 (18 g to 230 ml)</li><li><strong>Grind</strong> Medium</li><li><strong>Water</strong> 88°C</li><li><strong>Time</strong> about 2:00</li></ul>
+        <p class="brew-tip">Stir five times, steep 90 seconds, then press slowly.</p>
+      </div>
+      <div class="brew-card">
+        <div class="brew-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="5" width="12" height="16" rx="2"/><line x1="12" y1="2" x2="12" y2="12"/><line x1="9" y1="2" x2="15" y2="2"/><path d="M18 9h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2"/></svg></div>
+        <h3 class="brew-name">French press</h3>
+        <ul class="brew-stats"><li><strong>Ratio</strong> 1:15 (20 g to 300 ml)</li><li><strong>Grind</strong> Coarse</li><li><strong>Water</strong> 94°C</li><li><strong>Time</strong> 4:00</li></ul>
+        <p class="brew-tip">Break the crust at 4 minutes, skim the foam, then plunge gently.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-wholesale" id="wholesale">
+  <div class="shell wholesale-wrap">
+    <div>
+      <h2 class="wholesale-title">Wholesale for cafés and offices</h2>
+      <p class="wholesale-lead">We supply cafés, bakeries and offices in the Klang Valley with espresso blends and single origins.</p>
+      <ul class="wholesale-perks">
+        <li>House espresso developed with you</li>
+        <li>Help setting up your machine and grinder</li>
+        <li>Roasted and delivered weekly from PJ</li>
+      </ul>
+    </div>
+    <form class="wholesale-form" id="ws-form">
+      <label for="ws-name">Business name</label>
+      <input type="text" id="ws-name" placeholder="e.g. Kedai Kopi Kita" required>
+      <label for="ws-email">Email</label>
+      <input type="email" id="ws-email" placeholder="you@yourcafe.my" required>
+      <button type="submit" class="btn btn-primary btn-block" id="ws-submit">Ask for wholesale prices</button>
+      <p class="form-status" id="ws-status"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="band-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Teduh Roastery</div>
+        <p class="footer-text">Specialty coffee roaster in Petaling Jaya, Selangor. Roasted every Tuesday.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shipping</div>
+        <p class="footer-rates">West Malaysia: RM 8<br>Free over RM 80<br>Sabah &amp; Sarawak: RM 15</p>
+      </div>
+      <div>
+        <div class="footer-col-title">We accept</div>
+        <div class="pay-row"><span class="pay-pill">DuitNow QR</span><span class="pay-pill">FPX</span><span class="pay-pill">Touch 'n Go eWallet</span><span class="pay-pill">GrabPay</span><span class="pay-pill">Visa / Mastercard</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Teduh Roastery</span><span>Design preview. Brand, products and prices are fictional.</span></div>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+  var cart = 0, cartEl = document.getElementById('cart-count'), toast = document.getElementById('toast'), tt;
+  function showToast(msg) { toast.textContent = msg; toast.hidden = false; clearTimeout(tt); tt = setTimeout(function () { toast.hidden = true; }, 2400); }
+  function addToCart(n) { cart += n; cartEl.textContent = cart; }
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.product-card'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var search = document.getElementById('search-input');
+  var empty = document.getElementById('empty-note');
+  var activeFilter = 'all';
+  function applyFilters() {
+    var q = search.value.toLowerCase().trim(), shown = 0;
+    cards.forEach(function (c) {
+      var okCat = activeFilter === 'all' || (' ' + c.getAttribute('data-category') + ' ').indexOf(' ' + activeFilter + ' ') !== -1;
+      var okQ = !q || c.getAttribute('data-keywords').indexOf(q) !== -1;
+      c.hidden = !(okCat && okQ);
+      if (!c.hidden) shown++;
+    });
+    empty.hidden = shown > 0;
+  }
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+      activeFilter = chip.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+  search.addEventListener('input', applyFilters);
+  var st = document.getElementById('search-toggle'), sb = document.getElementById('search-bar');
+  st.addEventListener('click', function () {
+    sb.hidden = !sb.hidden;
+    st.setAttribute('aria-expanded', String(!sb.hidden));
+    if (!sb.hidden) search.focus();
+  });
+
+  document.querySelectorAll('.btn-quick-add').forEach(function (btn) {
+    var label = btn.textContent;
+    btn.addEventListener('click', function () {
+      addToCart(1);
+      btn.classList.add('added'); btn.textContent = 'Added ✓';
+      showToast('Added ' + btn.getAttribute('data-name') + ' to cart');
+      setTimeout(function () { btn.classList.remove('added'); btn.textContent = label; }, 1200);
+    });
+  });
+
+  var form = document.getElementById('sub-form');
+  function rm(n) { return 'RM ' + n.toFixed(2); }
+  function updateSub() {
+    var roast = form.querySelector('input[name="roast"]:checked');
+    var bags = form.querySelector('input[name="bags"]:checked');
+    var freq = form.querySelector('input[name="freq"]:checked');
+    var base = parseFloat(bags.getAttribute('data-base')), final = base * 0.85, n = parseInt(bags.value, 10);
+    document.getElementById('sum-roast').textContent = roast.value;
+    document.getElementById('sum-bags').textContent = n + (n === 1 ? ' bag · ' : ' bags · ') + (n * 250 >= 1000 ? (n * 250 / 1000) + ' kg' : (n * 250) + ' g');
+    document.getElementById('sum-freq').textContent = freq.value;
+    document.getElementById('sum-strike').textContent = rm(base);
+    document.getElementById('sum-disc').textContent = rm(final);
+    document.getElementById('sum-total').textContent = rm(final);
+    document.getElementById('sum-save').textContent = 'You save ' + rm(base - final) + ' (15%) per delivery';
+    document.getElementById('sum-ship').textContent = final >= 80 ? 'Free West Malaysia shipping' : '+ RM 8 West Malaysia shipping (free over RM 80)';
+  }
+  form.addEventListener('change', updateSub);
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('sub-status').textContent = 'Preview only. No subscription was created.';
+  });
+  updateSub();
+
+  document.getElementById('ws-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('ws-status').textContent = 'Preview only. Connect this form to your email or CRM.';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jalan Asal Origin Road</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&family=Atkinson+Hyperlegible:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+/* Layout: single-style preview — HORIZONTAL SCROLL. Sea teal and road-line yellow. The page pins and vertical scroll drives a sideways
+   road through six origins, with an altitude line drawn under the stops. Falls back to a swipeable row when motion is reduced. */
+:root{
+  color-scheme: dark;
+  --bg:#0c1f22; --bg2:#12292d; --panel:#173338; --ink:#eef6f3; --ink2:#a5c2bd; --line:#24484e; --road:#1d3a3f; --yellow:#f5c84c; --teal:#3fb8a7;
+  --f-d:"Big Shoulders Display",Impact,sans-serif; --f-b:"Atkinson Hyperlegible",system-ui,sans-serif; --f-m:"Space Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  color-scheme: light; --bg:#e9f2ef; --bg2:#dbe9e5; --panel:#f8fbfa; --ink:#0f2326; --ink2:#46615e; --line:#b8d0ca; --road:#cfe0db; --yellow:#b8860b; --teal:#1f8577;}}
+:root[data-theme="light"]{ color-scheme: light; --bg:#e9f2ef; --bg2:#dbe9e5; --panel:#f8fbfa; --ink:#0f2326; --ink2:#46615e; --line:#b8d0ca; --road:#cfe0db; --yellow:#b8860b; --teal:#1f8577;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-b);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:800;line-height:.95;text-transform:uppercase;text-wrap:balance}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+.shell{max-width:1200px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.m{font:12px/1.3 var(--f-m);letter-spacing:.06em;text-transform:uppercase}
+.head .shell{display:flex;justify-content:space-between;align-items:center;padding-block:16px}
+.logo{font:900 28px/1 var(--f-d);text-decoration:none;text-transform:uppercase;letter-spacing:.04em}.logo span{color:var(--yellow)}
+.intro{padding-block:32px 48px}
+.intro h1{font-size:clamp(52px,9vw,128px)}
+.intro h1 span{color:var(--yellow)}
+.intro p{max-width:48ch;color:var(--ink2);font-size:18px;margin-top:14px}
+.road{position:relative;height:600vh;background:var(--bg2);border-block:1px solid var(--line)}
+.pin{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.track{display:flex;gap:28px;padding-inline:max(16px,8vw);width:max-content;will-change:transform;position:relative}
+.stop{width:min(78vw,380px);flex:none;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px;position:relative}
+.stop .n{font:900 64px/1 var(--f-d);color:var(--yellow)}
+.stop h3{font-size:34px}
+.stop .reg{color:var(--ink2)}
+.stop dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;border-top:1px dashed var(--line);padding-top:10px}
+.stop dt{color:var(--ink2)}.stop dd{margin:0}
+.notes{display:flex;flex-wrap:wrap;gap:6px}
+.notes span{font:12px var(--f-m);border:1px solid var(--line);border-radius:999px;padding:4px 8px}
+.stop .price{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.stop button{font:700 14px/1 var(--f-b);padding:11px 14px;border-radius:999px;border:0;background:var(--yellow);color:#0c1f22;cursor:pointer}
+.alt{height:90px}
+.alt svg{width:100%;height:100%;overflow:visible}
+.alt .ln{fill:none;stroke:var(--teal);stroke-width:2.5}
+.alt .dash{stroke:var(--yellow);stroke-width:3;stroke-dasharray:14 12}
+.alt circle{fill:var(--yellow)}
+.alt text{font:11px var(--f-m);fill:var(--ink2)}
+.hud{display:flex;justify-content:space-between;gap:12px;padding-inline:max(16px,8vw)}
+.bar{flex:1;max-width:320px;height:4px;border-radius:2px;background:var(--line);align-self:center;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--yellow);transform-origin:left;transform:scaleX(0)}
+.sec{padding-block:72px}
+.sec h2{font-size:clamp(40px,6vw,76px);margin-bottom:18px}
+.box{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px}
+.box p{color:var(--ink2);max-width:50ch}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px}.kv dt{color:var(--ink2)}.kv dd{margin:0}
+.foot{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--ink2);font-size:14px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;transition:.25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+/* reduced motion: no pin, swipeable row */
+.static .road{height:auto}.static .pin{position:static;height:auto;padding-block:32px}.static .track{width:auto;overflow-x:auto;scroll-snap-type:x mandatory}.static .stop{scroll-snap-align:start}
+@media (max-width:760px){.box{grid-template-columns:1fr}.stop .n{font-size:48px}.alt{height:60px}}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P16</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<header class="head"><div class="shell"><a class="logo" href="#top">Jalan<span>/</span>Asal</a><span class="m">Gaya Street, Kota Kinabalu</span></div></header>
+<main id="top">
+  <section class="shell intro">
+    <div class="m" style="color:var(--yellow)">Six origins along one road</div>
+    <h1 style="margin-top:10px">Walk the <span>origin road.</span></h1>
+    <p>From the Kinabalu highlands to Johor's coastal peat and across the region. Scroll down and the road moves sideways, one farm at a time.</p>
+  </section>
+  <section class="road" id="road" aria-label="Six coffee origins">
+    <div class="pin">
+      <div class="hud m"><span id="stop-n">Stop 1 of 6 · Sabah</span><div class="bar"><i id="bar"></i></div></div>
+      <div class="track" id="track"></div>
+      <div class="alt" aria-hidden="true"><svg id="alt" preserveAspectRatio="none"></svg></div>
+    </div>
+  </section>
+  <section class="sec shell" aria-labelledby="set-h">
+    <div class="box">
+      <div><h2 id="set-h">Taste the whole road</h2><p>The Enam Asal box: six 50 g tubes, one from every stop, roasted in Kota Kinabalu the week it ships. RM 95.</p><p style="margin-top:14px">Jalan Asal is a small roaster on Gaya Street. We buy from smallholders across Malaysia and our neighbours, and roast each origin to show its altitude and soil.</p></div>
+      <dl class="kv"><dt>Roastery</dt><dd>Jalan Gaya, Kota Kinabalu, Sabah</dd><dt>Hours</dt><dd>Tue–Sun · 8 am–5 pm</dd></dl>
+    </div>
+  </section>
+</main>
+<footer class="foot"><div class="shell">Jalan Asal · design preview, not a live shop</div></footer>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+"use strict";
+var O = [
+  {n:"Sabah", reg:"Ranau, Kinabalu foothills", alt:"1,300–1,500 m", a:1400, proc:"Anaerobic natural", notes:["Ripe pineapple","Wild honey","Cacao nib"], p:75},
+  {n:"Johor", reg:"Batu Pahat coastal peat", alt:"Near sea level", a:15, proc:"Sun-dried natural", notes:["Jackfruit","Pipe tobacco","Molasses"], p:65},
+  {n:"Sarawak", reg:"Ba'kelalan highlands", alt:"About 900 m", a:900, proc:"Washed", notes:["Crisp apple","Lemongrass","Brown sugar"], p:78},
+  {n:"Aceh Gayo", reg:"Lake Laut Tawar, Sumatra", alt:"1,400–1,600 m", a:1500, proc:"Wet-hulled", notes:["Dark plum","Cedar","Sweet tobacco"], p:62},
+  {n:"Ywangan", reg:"Shan State, Myanmar", alt:"1,200–1,400 m", a:1300, proc:"Natural", notes:["Dried strawberry","Bergamot","Cane sugar"], p:68},
+  {n:"Benguet", reg:"Cordillera, Philippines", alt:"1,400–1,700 m", a:1550, proc:"Washed", notes:["Red currant","Hazelnut","Raw honey"], p:72}
+];
+function $(id){ return document.getElementById(id); }
+function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+$("track").innerHTML = O.map(function(o,i){ return '<article class="stop"><span class="n">0'+(i+1)+'</span><h3>'+o.n+'</h3><span class="reg">'+o.reg+'</span><dl class="m"><dt>Altitude</dt><dd>'+o.alt+'</dd><dt>Process</dt><dd>'+o.proc+'</dd></dl><div class="notes">'+o.notes.map(function(x){ return "<span>"+x+"</span>"; }).join("")+'</div><div class="price"><b>RM '+o.p+' · 250 g</b><button type="button" data-o="'+o.n+'">Add</button></div></article>'; }).join("");
+var tT; document.addEventListener("click", function(e){ var b = e.target.closest("[data-o]"); if(!b) return; var t = $("toast"); t.textContent = b.dataset.o + " added to your bag"; t.classList.add("show"); clearTimeout(tT); tT = setTimeout(function(){ t.classList.remove("show"); }, 1800); });
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(reduce) document.body.classList.add("static");
+var road = $("road"), track = $("track"), svg = $("alt"), pend = false;
+function drawAlt(){
+  var stops = track.children, w = track.scrollWidth, h = svg.clientHeight || 80, max = 1700, pts = [];
+  svg.setAttribute("viewBox", "0 0 " + w + " " + h); svg.style.width = w + "px";
+  for(var i=0;i<stops.length;i++){ var s = stops[i], x = s.offsetLeft + s.offsetWidth/2, y = h - 14 - (O[i].a/max)*(h - 30); pts.push([x,y]); }
+  var d = "M" + pts.map(function(p){ return p[0].toFixed(0)+" "+p[1].toFixed(0); }).join(" L");
+  svg.innerHTML = '<line class="dash" x1="0" y1="'+(h-4)+'" x2="'+w+'" y2="'+(h-4)+'"/><path class="ln" d="'+d+'"/>' + pts.map(function(p,i){ return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5"/><text x="'+(p[0]+8)+'" y="'+(p[1]-6)+'">'+O[i].a.toLocaleString("en-MY")+' m</text>'; }).join("");
+}
+function update(){
+  pend = false;
+  if(reduce) return;
+  var r = road.getBoundingClientRect(), span = r.height - innerHeight, p = span > 0 ? clamp(-r.top/span, 0, 1) : 0;
+  var travel = Math.max(0, track.scrollWidth - innerWidth);
+  var x = -p*travel; track.style.transform = "translateX(" + x.toFixed(1) + "px)"; svg.parentNode.style.transform = "translateX(" + x.toFixed(1) + "px)";
+  $("bar").style.transform = "scaleX(" + p.toFixed(3) + ")";
+  var i = Math.min(O.length - 1, Math.round(p*(O.length - 1))); $("stop-n").textContent = "Stop " + (i+1) + " of 6 · " + O[i].n;
+}
+addEventListener("scroll", function(){ if(!pend){ pend = true; requestAnimationFrame(update); } }, {passive:true});
+new ResizeObserver(function(){ drawAlt(); update(); }).observe(track);
+drawAlt(); update();
+})();
+</script>
+</body>
+</html>
