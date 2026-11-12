@@ -723,7 +723,7 @@
         var t = audio.currentTime, o = audio.createOscillator(), g = audio.createGain();
         o.type = 'square'; o.frequency.value = freq;
         g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.08, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.3, t + 0.01);
         g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
         o.connect(g); g.connect(audio.destination);
         o.start(t); o.stop(t + dur + 0.02);
@@ -747,14 +747,14 @@
         pods.forEach(function (p, i) {
           timers.push(setTimeout(function () {
             p.classList.add('lit');
-            if (sound) beep(620, 0.16);
+            if (sound) beep(620, 0.22);
             if (i === pods.length - 1) setLabel('HOLD');
           }, STEP * (i + 1)));
         });
         var out = STEP * pods.length + 500 + Math.round(Math.random() * 1500);
         timers.push(setTimeout(function () {
           pods.forEach(function (p) { p.classList.remove('lit'); });
-          if (sound) beep(1240, 0.45);
+          if (sound) beep(1240, 0.6);
           setLabel('LIGHTS OUT', true);
           btn.removeAttribute('aria-busy'); running = false;
         }, out));
