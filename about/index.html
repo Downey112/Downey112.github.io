@@ -113,20 +113,26 @@
     .hero::after { bottom: 0; background: var(--teal); }
     .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 32px; align-items: center; width: 100%; }
 
-    /* Start lights: five pods light up one by one, then all go out. Runs once. */
-    .lights { display: flex; gap: 10px; margin-bottom: 22px; }
+    /* Start lights: five pods light up one by one, hold, then all go out (driven by the script at the end). */
+    .lights { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .pods { display: flex; gap: 10px; }
     .pod { width: 30px; height: 64px; background: #1b1d27; border: 2px solid #2a2d3a; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-around; align-items: center; padding: 4px 0; }
     .pod i { width: 18px; height: 18px; border-radius: 50%; background: #2c2f3b; position: relative; }
     .pod i::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--red); opacity: 0; }
-    .js .pod i::after { animation: lamp-on .01s steps(1) var(--on) forwards, lamp-off .01s steps(1) 1.75s forwards; }
-    .pod:nth-child(1) { --on: .25s; } .pod:nth-child(2) { --on: .5s; } .pod:nth-child(3) { --on: .75s; }
-    .pod:nth-child(4) { --on: 1s; } .pod:nth-child(5) { --on: 1.25s; }
-    @keyframes lamp-on { to { opacity: 1; } }
-    @keyframes lamp-off { to { opacity: 0; } }
-    .lights-label { display: grid; } .lights-label > * { grid-area: 1 / 1; }
-    .lights-label { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--dim); align-self: flex-end; margin-left: 6px; }
-    .js .lights-label b { opacity: 0; animation: lamp-on .01s steps(1) 1.75s forwards; color: var(--teal); }
-    .js .lights-label .wait { animation: lamp-off .01s steps(1) 1.75s forwards; }
+    .pod.lit { border-color: #5a0a0a; }
+    .pod.lit i::after { opacity: 1; }
+    .lights-side { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin-left: 6px; }
+    .lights-label { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--dim); min-height: 18px; }
+    .lights-label.go { color: var(--teal); }
+    .lights-btn {
+      font: 700 14px/1 'Titillium Web', system-ui, sans-serif; color: var(--ink); background: transparent; cursor: pointer;
+      border: 1px solid var(--line); border-radius: 999px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px;
+      transition: border-color .2s var(--ui), transform .2s var(--ui);
+    }
+    .lights-btn:hover { border-color: var(--red); transform: translateY(-1px); }
+    .lights-btn:active { transform: translateY(0); }
+    .lights-btn[aria-busy="true"] { opacity: .6; cursor: progress; }
+    .lights-btn svg { width: 16px; height: 16px; fill: currentColor; }
 
     .hero-copy { animation: enter .7s var(--enter) both; }
     .first { font-family: 'Caveat', cursive; font-size: clamp(40px, 5vw, 58px); line-height: 1; display: inline-block; transform: rotate(-3deg); color: var(--teal); }
@@ -288,8 +294,6 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
       .js .concept-tile, .js .concept-tile:nth-child(even) { opacity: 1; transform: none; }
-      .js .lights-label b { opacity: 1; }
-      .js .lights-label .wait { display: none; }
     }
   </style>
 </head>
@@ -318,9 +322,12 @@
     <section class="hero" aria-labelledby="h1">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <div class="lights" aria-hidden="true">
-            <span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span>
-            <span class="lights-label"><span class="wait">FORMATION LAP</span><b>LIGHTS OUT</b></span>
+          <div class="lights" id="lights">
+            <span class="pods" aria-hidden="true"><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span></span>
+            <span class="lights-side">
+              <span class="lights-label" id="lights-label" aria-live="polite">FORMATION LAP</span>
+              <button class="lights-btn" id="lights-btn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2zM11 5.2a4 4 0 0 1 0 5.6l-.9-.9a2.7 2.7 0 0 0 0-3.8zM12.8 3.4a6.5 6.5 0 0 1 0 9.2l-.9-.9a5.2 5.2 0 0 0 0-7.4z"/></svg>Start the lights</button>
+            </span>
           </div>
           <span class="first">Muhammad</span>
           <p class="last">LUQMAN HAKIM</p>
@@ -702,6 +709,61 @@
   </footer>
 
   <script>
+    // Start lights. Runs silently once after the page loads; the button replays it with sound.
+    // Browsers only allow audio after a click, so the beeps are generated here (Web Audio) on that click.
+    (function () {
+      var pods = document.querySelectorAll('.pod');
+      var label = document.getElementById('lights-label');
+      var btn = document.getElementById('lights-btn');
+      var timers = [], audio = null, running = false;
+      var STEP = 700;
+
+      function beep(freq, dur) {
+        if (!audio) return;
+        var t = audio.currentTime, o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'square'; o.frequency.value = freq;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.08, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g); g.connect(audio.destination);
+        o.start(t); o.stop(t + dur + 0.02);
+      }
+      function setLabel(text, go) { label.textContent = text; label.classList.toggle('go', !!go); }
+      function reset() {
+        timers.forEach(clearTimeout); timers = [];
+        pods.forEach(function (p) { p.classList.remove('lit'); });
+      }
+      function run(withSound) {
+        reset(); running = true;
+        btn.setAttribute('aria-busy', 'true');
+        if (withSound) {
+          try {
+            audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+            if (audio.state === 'suspended') audio.resume();
+          } catch (e) { audio = null; }
+        }
+        var sound = withSound && audio;
+        setLabel('FORMATION LAP');
+        pods.forEach(function (p, i) {
+          timers.push(setTimeout(function () {
+            p.classList.add('lit');
+            if (sound) beep(620, 0.16);
+            if (i === pods.length - 1) setLabel('HOLD');
+          }, STEP * (i + 1)));
+        });
+        var out = STEP * pods.length + 500 + Math.round(Math.random() * 1500);
+        timers.push(setTimeout(function () {
+          pods.forEach(function (p) { p.classList.remove('lit'); });
+          if (sound) beep(1240, 0.45);
+          setLabel('LIGHTS OUT', true);
+          btn.removeAttribute('aria-busy'); running = false;
+        }, out));
+      }
+      btn.addEventListener('click', function () { run(true); });
+      function auto() { setTimeout(function () { run(false); }, 500); }
+      if (document.readyState === 'complete') auto(); else window.addEventListener('load', auto);
+    })();
+
     // The one dealt moment: café tiles are dealt onto the grid as each row scrolls in.
     (function () {
       var tiles = document.querySelectorAll('.concept-tile');
