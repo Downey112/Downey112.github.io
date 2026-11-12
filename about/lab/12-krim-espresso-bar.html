@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Krim Espresso Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Sora:wght@400;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single-style preview — LIQUID DISTORTION. The whole hero is a live crema surface (wave-equation grid on canvas);
+   the pointer leaves wakes, taps drop sugar. Espresso-dark page, gold accents, high-contrast Bodoni. */
+:root{
+  color-scheme: dark;
+  --bg:#140c08; --bg2:#1c120c; --ink:#f4e8da; --ink2:#bda792; --line:#3a281d; --gold:#e0a95a; --veil:rgba(20,12,8,.55);
+  --f-d:"Bodoni Moda",Didot,Georgia,serif; --f-b:"Sora",system-ui,sans-serif; --f-m:"Azeret Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  color-scheme: light; --bg:#f4ede4; --bg2:#ebe1d4; --ink:#1d120c; --ink2:#5e4a3c; --line:#d7c8b6; --gold:#9a6418; --veil:rgba(244,237,228,.6);}}
+:root[data-theme="light"]{
+  color-scheme: light; --bg:#f4ede4; --bg2:#ebe1d4; --ink:#1d120c; --ink2:#5e4a3c; --line:#d7c8b6; --gold:#9a6418; --veil:rgba(244,237,228,.6);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-b);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:400;line-height:1;text-wrap:balance}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.shell{max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.m{font:500 12px/1.3 var(--f-m);letter-spacing:.1em;text-transform:uppercase}
+.hero{position:relative;height:min(92vh,820px);min-height:520px;overflow:hidden;background:#6b3a18}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;touch-action:pan-y}
+.hero .top{position:absolute;z-index:2;left:0;right:0;top:0;padding-top:20px;display:flex;justify-content:space-between;align-items:center;pointer-events:none;color:#fff6ea}
+.hero .top a{pointer-events:auto;text-decoration:none}
+.logo{font:italic 400 34px/1 var(--f-d)}
+.hero .copy{position:absolute;z-index:2;left:0;right:0;bottom:0;padding-bottom:40px;pointer-events:none;color:#fff6ea}
+.hero h1{font-size:clamp(52px,9vw,140px);font-weight:400;max-width:11ch;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.hero h1 i{font-style:italic;color:#ffd79a}
+.hero p{max-width:40ch;margin-top:14px;font-size:18px;text-shadow:0 1px 14px rgba(0,0,0,.5)}
+.hint{margin-top:16px;opacity:.85}
+.sec{padding-block:88px}
+.sec h2{font-size:clamp(38px,5.4vw,72px);margin-bottom:30px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:0 48px}
+.it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding-block:20px;border-bottom:1px solid var(--line)}
+.it h3{font-size:30px}
+.it p{grid-column:1;color:var(--ink2);font-size:15px}
+.it b{grid-row:1;grid-column:2;font:500 15px var(--f-m);color:var(--gold);align-self:center}
+.bench{background:var(--bg2);border-block:1px solid var(--line)}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:24px}
+.specs div{border-top:1px solid var(--gold);padding-top:12px}
+.specs b{display:block;font:400 44px/1.05 var(--f-d);margin-top:6px}
+.specs p{color:var(--ink2);font-size:14px;margin-top:6px}
+.visit{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:32px}
+.visit p{color:var(--ink2);max-width:50ch}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px}.kv dt{color:var(--ink2)}.kv dd{margin:0}
+.foot{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--ink2);font-size:14px}
+@media (max-width:760px){.visit{grid-template-columns:1fr}.hero .top nav{display:none}}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P11</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<main id="top">
+  <section class="hero" aria-labelledby="h">
+    <canvas id="cv" aria-hidden="true"></canvas>
+    <div class="shell top"><a class="logo" href="#top">Krim</a><nav class="m" aria-label="Main" style="display:flex;gap:20px"><a href="#menu">Menu</a><a href="#bench">The shot</a><a href="#visit">Find the bar</a></nav></div>
+    <div class="shell copy">
+      <div class="m">Dense espresso, golden crema</div>
+      <h1 id="h" style="margin-top:12px">Pulled at <i>nine bars.</i></h1>
+      <p>Double shots dialled in every morning, fresh whole milk, and a crema you can see from the door. On Jalan Petaling.</p>
+      <div class="m hint" id="hint">Move across the crema. Tap to drop sugar.</div>
+    </div>
+  </section>
+  <section class="sec shell" id="menu" aria-labelledby="menu-h">
+    <h2 id="menu-h">The bar menu</h2>
+    <div class="menu" id="menu-list"></div>
+  </section>
+  <section class="sec bench" id="bench" aria-labelledby="bench-h">
+    <div class="shell"><h2 id="bench-h">How we pull it</h2><div class="specs" id="specs"></div></div>
+  </section>
+  <section class="sec shell visit" id="visit" aria-labelledby="visit-h">
+    <div><h2 id="visit-h">Stand up, drink up</h2><p>Krim is a standing espresso bar in KL's Chinatown. Medium-roast beans, roasted every Tuesday, pulled fast and clean from open till close.</p></div>
+    <dl class="kv"><dt>Address</dt><dd>Jalan Petaling, City Centre, Kuala Lumpur</dd><dt>Hours</dt><dd>Daily · 7:30 am–5 pm</dd></dl>
+  </section>
+</main>
+<footer class="foot"><div class="shell">Krim Espresso Bar · design preview, not a live business</div></footer>
+<script>
+(function(){
+"use strict";
+var MENU = [["Solo","Double ristretto, tiger-striped crema, dark cacao finish.","RM 10"],["White, 6 oz","Double shot folded into microfoam at 62 °C.","RM 13"],["Dirty Krim","Cold sweetened milk, a hot ristretto poured on top.","RM 15"],["Americano Hitam","Water first, shots on top, crema kept whole.","RM 11"],["Oat Cortado","Equal parts espresso and steamed oat milk.","RM 14"],["Gula Melaka Latte","Double shot, fresh milk, hand-melted palm sugar.","RM 16"]];
+var SPECS = [["Pressure","9 bar","Steady from a rotary pump, start to finish."],["Time","28–32 s","From pump on to the last drop."],["Ratio","1 : 2","19.5 g in, about 40 g out."],["Milk","60–63 °C","Silky microfoam, never dry froth."]];
+function $(id){ return document.getElementById(id); }
+function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+$("menu-list").innerHTML = MENU.map(function(m){ return '<div class="it"><h3>'+m[0]+'</h3><b>'+m[2]+'</b><p>'+m[1]+'</p></div>'; }).join("");
+$("specs").innerHTML = SPECS.map(function(s){ return '<div><span class="m">'+s[0]+'</span><b>'+s[1]+'</b><p>'+s[2]+'</p></div>'; }).join("");
+
+var cv = $("cv"), ctx = cv.getContext("2d"), GW = 160, GH = 90, b1, b2, pat, off, octx, img, W=1, H=1, prev=null;
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, visible = true, raf = null, lastDrop = 0;
+function build(){
+  var asp = W/Math.max(1,H); GW = Math.round(clamp(110*asp, 70, 200)); GH = 110;
+  b1 = new Float32Array(GW*GH); b2 = new Float32Array(GW*GH); pat = new Float32Array(GW*GH);
+  off = document.createElement("canvas"); off.width = GW; off.height = GH; octx = off.getContext("2d"); img = octx.createImageData(GW, GH);
+  for(var y=0;y<GH;y++) for(var x=0;x<GW;x++){ var nx = x/GW*asp, ny = y/GH;
+    pat[y*GW+x] = .5 + .2*Math.sin(nx*9 + Math.sin(ny*5)*2.4) + .14*Math.sin((nx+ny)*19 + Math.cos(nx*7)) + .1*Math.sin(ny*27 - nx*6) + .08*Math.sin(Math.hypot(nx-asp*.6, ny-.4)*30); }
+}
+function fit(){ var r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio||1); W = r.width; H = r.height; cv.width = Math.round(W*d); cv.height = Math.round(H*d); ctx.setTransform(d,0,0,d,0,0); build(); render(); }
+function disturb(gx, gy, r, amt){ for(var y=-r;y<=r;y++) for(var x=-r;x<=r;x++){ var X = gx+x, Y = gy+y; if(X<1||Y<1||X>=GW-1||Y>=GH-1) continue; var d = Math.hypot(x,y); if(d <= r) b1[Y*GW+X] += amt*(1-d/r); } }
+function step(){ for(var y=1;y<GH-1;y++){ var row = y*GW; for(var x=1;x<GW-1;x++){ var j = row+x; b2[j] = ((b1[j-1]+b1[j+1]+b1[j-GW]+b1[j+GW])*.5 - b2[j])*.978; } } var t = b1; b1 = b2; b2 = t; }
+function render(){
+  var d = img.data, light = [232,178,104], dark = [104,56,24];
+  for(var j=0;j<GW*GH;j++){ var x = j%GW, gx = x>0&&x<GW-1 ? b1[j-1]-b1[j+1] : 0, gy = j>GW&&j<GW*(GH-1) ? b1[j-GW]-b1[j+GW] : 0;
+    var pt = clamp(pat[j] + gx*.004, 0, 1), sh = clamp(1 + (gx+gy)*.006, .55, 1.7), o = j*4;
+    d[o] = clamp((dark[0] + (light[0]-dark[0])*pt)*sh, 0, 255); d[o+1] = clamp((dark[1] + (light[1]-dark[1])*pt)*sh, 0, 255); d[o+2] = clamp((dark[2] + (light[2]-dark[2])*pt)*sh, 0, 255); d[o+3] = 255; }
+  octx.putImageData(img, 0, 0); ctx.imageSmoothingEnabled = true; ctx.drawImage(off, 0, 0, W, H);
+}
+function loop(now){ if(now/1000 - lastDrop > 1.4){ lastDrop = now/1000; disturb((Math.random()*(GW-30)+15)|0, (Math.random()*(GH-30)+15)|0, 3, 240); }
+  step(); step(); render(); raf = visible && !document.hidden && !reduce ? requestAnimationFrame(loop) : null; }
+function kick(){ if(!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(loop); }
+function g(e){ var r = cv.getBoundingClientRect(); return {x: Math.round((e.clientX - r.left)/r.width*GW), y: Math.round((e.clientY - r.top)/r.height*GH)}; }
+var hero = cv.parentElement;
+hero.addEventListener("pointermove", function(e){ var p = g(e), sp = prev ? Math.hypot(p.x-prev.x, p.y-prev.y) : 0; if(e.pointerType === "mouse" || e.buttons) disturb(p.x, p.y, 3, 40 + Math.min(sp, 8)*40); prev = p; $("hint").style.opacity = "0"; if(reduce){ step(); render(); } });
+hero.addEventListener("pointerleave", function(){ prev = null; });
+hero.addEventListener("pointerdown", function(e){ var p = g(e); disturb(p.x, p.y, 5, 700); if(reduce){ for(var i=0;i<6;i++) step(); render(); } });
+new IntersectionObserver(function(es){ visible = es[0].isIntersecting; kick(); }).observe(cv);
+document.addEventListener("visibilitychange", kick);
+new ResizeObserver(fit).observe(cv); fit(); kick();
+})();
+</script>
+</body>
+</html>

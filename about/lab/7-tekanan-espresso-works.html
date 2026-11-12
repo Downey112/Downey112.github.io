@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tekanan Espresso Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: "Modernist Lab" preview. Brushed aluminium + graphite, copper as the single accent.
+   Motion system: (1) kinetic variable headline (Archivo width/weight axes) that opens like an aperture near the pointer,
+   (2) pinned canvas exploded view of the T1 machine scrubbed by scroll, with liquid-glass spec cards,
+   (3) glass product cards over drifting metal light, and lab-note numerals that stretch with scroll. No external JS. */
+:root{
+  color-scheme: light;
+  --bg:#e3e5e7; --bg2:#eef0f1; --panel:#fafafa; --ink:#111315; --ink2:#50575e; --line:#c3c8cc;
+  --copper:#a4501d; --copper2:#d98a4e; --on-copper:#fff;
+  --steel-hi:#ffffff; --steel-mid:#c8cdd2; --steel-lo:#7b838a; --anod:#1c1f22; --cup:#f7f7f5;
+  --espresso:#3b2214; --crema:#c98a4a;
+  --glass:rgba(255,255,255,.52); --glass-line:rgba(255,255,255,.85); --glass-hi:rgba(255,255,255,.75); --shadow:rgba(17,19,21,.16); --veil:rgba(227,229,231,.8);
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Martian Mono",ui-monospace,Consolas,monospace;
+  --head-h:64px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme: dark;
+  --bg:#0f1113; --bg2:#15181b; --panel:#1b1f23; --ink:#e8eaec; --ink2:#99a0a7; --line:#2b3136;
+  --copper:#e48c4e; --copper2:#f1ab72; --on-copper:#111315;
+  --steel-hi:#e9ecef; --steel-mid:#8b939a; --steel-lo:#353b41; --anod:#08090a; --cup:#e9e7e2;
+  --glass:rgba(28,32,36,.55); --glass-line:rgba(255,255,255,.14); --glass-hi:rgba(228,140,78,.28); --shadow:rgba(0,0,0,.5); --veil:rgba(15,17,19,.8);
+}}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0f1113; --bg2:#15181b; --panel:#1b1f23; --ink:#e8eaec; --ink2:#99a0a7; --line:#2b3136;
+  --copper:#e48c4e; --copper2:#f1ab72; --on-copper:#111315;
+  --steel-hi:#e9ecef; --steel-mid:#8b939a; --steel-lo:#353b41; --anod:#08090a; --cup:#e9e7e2;
+  --glass:rgba(28,32,36,.55); --glass-line:rgba(255,255,255,.14); --glass-hi:rgba(228,140,78,.28); --shadow:rgba(0,0,0,.5); --veil:rgba(15,17,19,.8);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px}
+[hidden]{display:none!important}
+.shell{max-width:1240px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--copper)}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--f-body);padding:15px 22px;border-radius:4px;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn.primary{background:var(--copper);border-color:var(--copper);color:var(--on-copper)}
+.btn.primary:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+/* header */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--head-h);background:var(--veil);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.head-in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{text-decoration:none;display:flex;align-items:baseline;gap:10px}
+.brand b{font:800 22px/1 var(--f-display);font-variation-settings:"wdth" 125;letter-spacing:.06em}
+.brand span{color:var(--ink2)}
+.nav{display:flex;gap:22px;align-items:center}
+.nav a{text-decoration:none;color:var(--ink2);font-weight:500;font-size:15px}
+.nav a:hover{color:var(--ink)}
+.cart{font:500 12px/1 var(--f-mono);border:1px solid var(--line);border-radius:4px;padding:9px 11px;background:var(--panel);display:inline-flex;gap:8px;align-items:center}
+.cart i{font-style:normal;background:var(--copper);color:var(--on-copper);border-radius:3px;padding:3px 6px}
+
+/* hero */
+.hero{padding-block:72px 64px;border-bottom:1px solid var(--line);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:center}
+.kin{font-family:var(--f-display);font-size:clamp(52px,9.4vw,138px);line-height:.92;letter-spacing:-.01em;text-transform:uppercase;margin-top:16px;user-select:none}
+.kin .w{display:inline-block;white-space:nowrap}
+.kin .l{display:inline-block;font-variation-settings:"wdth" 100,"wght" 300;transition:font-variation-settings .18s ease-out,color .2s}
+.kin .accent .l{color:var(--copper)}
+.hero .sub{font-size:clamp(17px,1.8vw,20px);color:var(--ink2);max-width:46ch;margin-top:22px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.gauge{width:min(100%,340px);height:auto}
+.gauge .face{fill:var(--panel);stroke:var(--line);stroke-width:2}
+.gauge .bezel{fill:none;stroke:var(--steel-mid);stroke-width:10}
+.gauge .tick{stroke:var(--ink2);stroke-width:1.5}
+.gauge .tick.major{stroke:var(--ink);stroke-width:2.5}
+.gauge .zone{fill:none;stroke:var(--copper);stroke-width:8;opacity:.85}
+.gauge text{font:500 12px var(--f-mono);fill:var(--ink2)}
+.gauge .needle{stroke:var(--copper);stroke-width:3;stroke-linecap:round}
+.gauge .hub{fill:var(--ink)}
+.gauge .read{font:800 34px var(--f-display);fill:var(--ink);font-variation-settings:"wdth" 80}
+.gauge-cap{color:var(--ink2);text-align:center}
+
+/* exploded scrub */
+.scrub{position:relative;height:720vh;background:var(--bg2);border-bottom:1px solid var(--line)}
+.pin{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--head-h));height:calc(100vh - var(--head-h) - env(safe-area-inset-top,0px));overflow:hidden}
+.pin canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pin-head{position:absolute;z-index:3;left:0;right:0;top:24px;display:flex;justify-content:space-between;gap:16px;pointer-events:none}
+.pin-head h2{font-size:clamp(24px,2.6vw,36px);font-variation-settings:"wdth" 90;font-weight:800;max-width:22ch}
+.rail{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.rail ol{list-style:none;display:flex;gap:6px}
+.rail li{width:28px;height:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.rail li.on{background:var(--copper)}
+.card-glass{position:absolute;z-index:4;left:0;top:0;width:min(330px,calc(100% - 32px));padding:18px 20px;border-radius:14px;
+  background:radial-gradient(260px circle at var(--mx,20%) var(--my,0%),var(--glass-hi),transparent 70%),var(--glass);
+  border:1px solid var(--glass-line);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+  box-shadow:0 20px 50px -12px var(--shadow);display:flex;flex-direction:column;gap:8px;
+  transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .35s;will-change:transform}
+.card-glass .spec{font:800 44px/1 var(--f-display);font-variation-settings:"wdth" 75;letter-spacing:-.01em}
+.card-glass .spec small{font:500 13px var(--f-mono);letter-spacing:.06em;color:var(--ink2);margin-left:6px}
+.card-glass h3{font:700 19px/1.2 var(--f-body)}
+.card-glass p{color:var(--ink2);font-size:14.5px;line-height:1.45}
+.card-glass svg{width:100%;height:auto}
+.card-glass .curve{fill:none;stroke:var(--copper);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.card-glass .grid{stroke:var(--line);stroke-width:1}
+.card-glass .lbl{font:500 9px var(--f-mono);fill:var(--ink2)}
+.pin-foot{position:absolute;z-index:3;left:0;right:0;bottom:22px;display:flex;justify-content:space-between;gap:16px;color:var(--ink2);pointer-events:none}
+
+/* products: glass over drifting metal light */
+.sec{padding-block:96px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.sec-head h2{font-size:clamp(36px,5.2vw,68px);font-weight:800;font-variation-settings:"wdth" 85;max-width:15ch;margin-top:10px}
+.sec-head p{color:var(--ink2);max-width:44ch}
+.products{position:relative;overflow:hidden}
+.light{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.light i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;animation:drift 14s ease-in-out infinite alternate}
+.light i:nth-child(1){width:44vw;aspect-ratio:1;background:var(--copper2);left:-8vw;top:10%}
+.light i:nth-child(2){width:36vw;aspect-ratio:1;background:var(--steel-mid);right:-6vw;top:30%;animation-duration:18s;animation-delay:-6s}
+.light i:nth-child(3){width:26vw;aspect-ratio:1;background:var(--copper);left:40%;bottom:-10%;animation-duration:11s;animation-delay:-3s;opacity:.35}
+@keyframes drift{to{transform:translate(8vw,6vh) scale(1.15)}}
+.prod-grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:22px}
+.prod{position:relative;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;
+  background:radial-gradient(300px circle at var(--mx,50%) var(--my,0%),var(--glass-hi),transparent 65%),var(--glass);
+  border:1px solid var(--glass-line);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 24px 50px -20px var(--shadow)}
+.prod svg.art{width:100%;height:150px}
+.prod h3{font:800 34px/1 var(--f-display);font-variation-settings:"wdth" 80}
+.prod p{color:var(--ink2);font-size:15px}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;border-top:1px solid var(--line);padding-top:14px}
+.specs dt{font:500 10px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.specs dd{margin:0;font-weight:600;font-size:15px}
+.prod .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:6px}
+.prod .price{font:800 26px/1 var(--f-display);font-variation-settings:"wdth" 80}
+
+/* lab notes */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:22px}
+.note{border-top:2px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:10px}
+.note .big{font:800 clamp(64px,8vw,112px)/.9 var(--f-display);font-variation-settings:"wdth" 100,"wght" 800;letter-spacing:-.02em}
+.note h3{font:700 19px/1.25 var(--f-body)}
+.note p{color:var(--ink2)}
+@supports (animation-timeline: view()){
+  .note .big{animation:stretch linear both;animation-timeline:view();animation-range:entry 0% cover 50%}
+}
+@keyframes stretch{from{font-variation-settings:"wdth" 62,"wght" 200}to{font-variation-settings:"wdth" 100,"wght" 800}}
+
+/* showroom */
+.show{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:start}
+.show h2{font-size:clamp(32px,4.4vw,54px);font-weight:800;font-variation-settings:"wdth" 85}
+.show p{color:var(--ink2);margin-top:14px;max-width:50ch}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 20px;border:1px solid var(--line);border-radius:8px;padding:22px;background:var(--panel)}
+.kv dt{font:500 11px/1.6 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.kv dd{margin:0}
+.foot{border-top:1px solid var(--line);padding-block:28px 44px;color:var(--ink2);font-size:14px}
+.foot .shell{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.toast{position:fixed;z-index:80;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--bg);font:500 14px/1 var(--f-body);padding:14px 20px;border-radius:6px;transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion: reduce){
+  .light i{animation:none}
+  .note .big{animation:none!important}
+  .card-glass{transition:none}
+}
+@media (max-width:820px){
+  .nav a.hide-sm{display:none}
+  .hero-grid,.show{grid-template-columns:1fr}
+  .gauge{width:min(70%,260px)}
+  .card-glass{width:calc(100% - 32px)}
+  .card-glass .spec{font-size:34px}
+  .pin-head h2{font-size:24px}
+  .sec{padding-block:72px}
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P6</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+
+<header class="site-head">
+  <div class="shell head-in">
+    <a class="brand" href="#top"><b>TEKANAN</b><span class="mono">Espresso Works · Penang</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#t1" class="hide-sm">T1</a>
+      <a href="#gear" class="hide-sm">Gear</a>
+      <a href="#lab" class="hide-sm">Lab notes</a>
+      <span class="cart" aria-live="polite">Cart <i id="cart-n">0</i></span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="shell hero-grid">
+      <div>
+        <div class="kicker" id="hero-k">Precision espresso gear · designed in Penang</div>
+        <h1 class="kin" id="hero-h" data-text="Nine bars, *held steady.">Nine bars, held steady.</h1>
+        <p class="sub" id="hero-sub">Dual boilers, a saturated group and a manual flow paddle, for home baristas who weigh every gram.</p>
+        <div class="hero-ctas">
+          <a class="btn primary" href="#t1" id="cta-1">Take the T1 apart</a>
+          <a class="btn" href="#visit" id="cta-2">Book a bench session</a>
+        </div>
+      </div>
+      <div class="gauge-wrap" aria-hidden="true">
+        <svg class="gauge" viewBox="0 0 240 240" id="gauge">
+          <circle class="bezel" cx="120" cy="120" r="110"/>
+          <circle class="face" cx="120" cy="120" r="102"/>
+          <g id="ticks"></g>
+          <path class="zone" id="zone" d=""/>
+          <text class="read" x="120" y="178" text-anchor="middle" id="g-read">9.0</text>
+          <text x="120" y="196" text-anchor="middle">BAR</text>
+          <line class="needle" id="needle" x1="120" y1="120" x2="120" y2="40"/>
+          <circle class="hub" cx="120" cy="120" r="7"/>
+        </svg>
+        <span class="gauge-cap mono">Brew pressure · live</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="scrub" id="t1" aria-labelledby="t1-h">
+    <div class="pin" id="pin">
+      <canvas id="ex" aria-hidden="true"></canvas>
+      <div class="shell pin-head">
+        <div><div class="kicker">Tekanan T1 · exploded view</div><h2 id="t1-h">Take the T1 apart, one layer at a time</h2></div>
+        <div class="rail mono" aria-hidden="true"><span id="rail-n">Scroll to explode</span><ol id="rail"><li></li><li></li><li></li><li></li><li></li><li></li></ol></div>
+      </div>
+      <div class="card-glass" id="cg" aria-live="polite">
+        <span class="kicker" id="cg-k">01 · Portafilter</span>
+        <div class="spec" id="cg-spec">58<small>mm</small></div>
+        <h3 id="cg-t">Commercial-size portafilter</h3>
+        <p id="cg-p">A 58 mm basket, the café standard, so any precision basket or tamper fits.</p>
+        <svg id="cg-curve" viewBox="0 0 300 90" hidden aria-label="Pressure profile: 3 bar pre-infusion rising to 9 bar, easing to 6 bar">
+          <line class="grid" x1="20" y1="80" x2="295" y2="80"/><line class="grid" x1="20" y1="20" x2="295" y2="20"/>
+          <text class="lbl" x="0" y="23">9</text><text class="lbl" x="0" y="83">0</text>
+          <path class="curve" id="curve-path" d="M20 80 L 40 60 L 90 60 L 120 20 L 210 20 L 290 40"/>
+          <text class="lbl" x="45" y="54">PRE-INFUSE</text><text class="lbl" x="230" y="54">DECLINE</text>
+        </svg>
+      </div>
+      <div class="shell pin-foot mono"><span id="pf-l">T1 · single group · dual boiler</span><span id="pf-r">0%</span></div>
+    </div>
+  </section>
+
+  <section class="sec products" id="gear" aria-labelledby="gear-h">
+    <div class="light" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="shell" style="position:relative">
+      <div class="sec-head">
+        <div><div class="kicker">The range</div><h2 id="gear-h">Three tools, one bench</h2></div>
+        <p>Machine, grinder and scale, built to work together and serviced from our George Town workshop.</p>
+      </div>
+      <div class="prod-grid" id="prod-grid"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="lab" aria-labelledby="lab-h" style="border-top:1px solid var(--line)">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">Lab notes</div><h2 id="lab-h">Dial in with three numbers</h2></div>
+        <p>Start here with any fresh espresso roast, then change one thing at a time.</p>
+      </div>
+      <div class="notes" id="notes"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="visit" aria-labelledby="visit-h" style="border-top:1px solid var(--line);background:var(--bg2)">
+    <div class="shell show">
+      <div>
+        <div class="kicker">Showroom & workshop</div>
+        <h2 id="visit-h">Pull a shot before you buy</h2>
+        <p id="visit-p">Bring your beans. We'll set a T1 up with your grinder settings, show you how to descale it, and send you home with the profile you liked.</p>
+      </div>
+      <dl class="kv">
+        <dt>Address</dt><dd id="v-addr"></dd>
+        <dt>Hours</dt><dd id="v-hours"></dd>
+        <dt>Warranty</dt><dd id="v-war"></dd>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="shell"><span id="foot-l">Tekanan Espresso Works · design preview, not a live shop</span><span class="mono">George Town, Penang</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- content ---------- */
+var STAGES = [
+  {k:"01 · Portafilter", v:"58", u:"mm", t:"Commercial-size portafilter", p:"A 58 mm basket, the café standard, so any precision basket or tamper fits.", part:"porta"},
+  {k:"02 · Group head", v:"93", u:"°C", t:"Saturated brew group", p:"The group sits in the brew boiler's water, so the metal the water touches is already at brew temperature.", part:"group"},
+  {k:"03 · PID control", v:"±0.5", u:"°C", t:"PID temperature control", p:"A PID controller trims the heater many times a second to keep the brew boiler within half a degree.", part:"pid"},
+  {k:"04 · Pump", v:"9", u:"bar", t:"Rotary pump, quiet at 9 bar", p:"A rotary vane pump holds pressure steady instead of pulsing, runs quietly, and can be plumbed into a water line.", part:"gauge"},
+  {k:"05 · Boilers", v:"2", u:"boilers", t:"Brew and steam, separately", p:"A 0.75 L brew boiler and a 1.8 L steam boiler, so you can steam milk while the next shot pulls.", part:"boiler"},
+  {k:"06 · Profiling", v:"3→9", u:"bar", t:"Manual flow paddle", p:"A needle-valve paddle on the group: start with a soft pre-infusion, ramp to full pressure, then ease off.", part:"group", curve:true}
+];
+var PRODUCTS = [
+  {id:"t1", name:"T1", desc:"Dual-boiler single-group espresso machine with a saturated group and a manual flow paddle.", specs:[["Group","Saturated, 58 mm"],["Boilers","0.75 L brew · 1.8 L steam"],["Pump","Rotary vane, 9 bar"],["Water","2.5 L tank or plumb-in"]], price:"RM 11,800", art:"machine"},
+  {id:"g64", name:"G64", desc:"Single-dose flat-burr grinder with low retention, from espresso to pour-over.", specs:[["Burrs","64 mm flat, DLC-coated"],["Retention","Under 0.1 g"],["Motor","250 W, 800–1,400 rpm"],["Adjust","Stepless collar"]], price:"RM 1,750", art:"grinder"},
+  {id:"s1", name:"S1 Scale", desc:"Fast espresso scale that tracks flow rate and starts its timer when the first drop lands.", specs:[["Resolution","0.1 g, up to 2 kg"],["Response","20 ms"],["Display","Weight, time, g/s"],["Battery","USB-C, 30 h"]], price:"RM 340", art:"scale"}
+];
+var NOTES = [
+  {big:"1:2", t:"Start at a 1:2 ratio", p:"18 g of ground coffee in, 36 g of espresso out. Weigh both. Ratio matters more than volume."},
+  {big:"25–30s", t:"Aim for 25 to 30 seconds", p:"Time from pump start. Faster than 25 s, grind finer. Slower than 30 s, grind coarser."},
+  {big:"93°", t:"Hold the brew water near 93 °C", p:"Go hotter for light roasts, cooler for dark ones. Change temperature only after grind is right."}
+];
+var VISIT = {addr:"Lebuh Armenian, George Town, Pulau Pinang", hours:"Tue–Sun · 10 am–6 pm · tasting bench by appointment", war:"2-year Malaysian warranty, local parts stock, bench service at our Penang workshop."};
+
+var root = document.documentElement;
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+function lerp(a,b,t){ return a+(b-a)*t; }
+function sm(a,b,x){ var t = clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); }
+var T = {};
+function readTokens(){ var cs = getComputedStyle(root); ["bg","bg2","panel","ink","ink2","line","copper","copper2","steel-hi","steel-mid","steel-lo","anod","cup","espresso","crema"].forEach(function(n){ T[n] = cs.getPropertyValue("--"+n).trim(); }); }
+readTokens();
+var themeHooks = [];
+function onTheme(){ readTokens(); themeHooks.forEach(function(f){ f(); }); }
+new MutationObserver(onTheme).observe(root, {attributes:true, attributeFilter:["data-theme"]});
+var mq = matchMedia("(prefers-color-scheme: dark)"); if(mq.addEventListener) mq.addEventListener("change", onTheme);
+
+/* ---------- toast + cart ---------- */
+var cart = 0, toastT;
+function toast(m){ var t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove("show"); }, 2400); }
+
+/* ---------- 1. kinetic headline ---------- */
+function initKinetic(){
+  var h = $("hero-h"), raw = h.getAttribute("data-text");
+  h.setAttribute("aria-label", raw.replace("*",""));
+  h.innerHTML = raw.split(" ").map(function(word){
+    var acc = word[0] === "*"; if(acc) word = word.slice(1);
+    return '<span class="w' + (acc ? " accent" : "") + '" aria-hidden="true">' + word.split("").map(function(ch){ return '<span class="l">' + esc(ch) + "</span>"; }).join("") + "</span>";
+  }).join(" ");
+  var letters = Array.prototype.slice.call(h.querySelectorAll(".l")), ptr = null, pending = false, squeeze = 0;
+  function apply(){
+    pending = false;
+    var baseW = lerp(100, 66, squeeze), baseG = lerp(300, 200, squeeze);
+    for(var i=0;i<letters.length;i++){
+      var s = letters[i], k = 0;
+      if(ptr){ var b = s.getBoundingClientRect(); k = sm(220, 20, Math.hypot(ptr.x - (b.left + b.width/2), ptr.y - (b.top + b.height/2))); }
+      s.style.fontVariationSettings = '"wdth" ' + lerp(baseW, 125, k).toFixed(1) + ', "wght" ' + lerp(baseG, 900, k).toFixed(0);
+    }
+  }
+  function req(){ if(!pending){ pending = true; requestAnimationFrame(apply); } }
+  if(!reduce){
+    var hero = h.closest(".hero");
+    hero.addEventListener("pointermove", function(e){ if(e.pointerType === "mouse"){ ptr = {x:e.clientX, y:e.clientY}; req(); } });
+    hero.addEventListener("pointerleave", function(){ ptr = null; req(); });
+    addEventListener("scroll", function(){ var r = hero.getBoundingClientRect(); squeeze = clamp(-r.top / Math.max(1, r.height*0.8), 0, 1); req(); }, {passive:true});
+  }
+  apply();
+}
+
+/* ---------- hero gauge ---------- */
+function initGauge(){
+  var ticks = "", i, A0 = -135, A1 = 135, MAX = 15;
+  function ang(bar){ return (A0 + (A1 - A0)*bar/MAX) * Math.PI/180; }
+  for(i=0;i<=MAX;i++){
+    var a = ang(i), maj = i % 3 === 0, r1 = maj ? 78 : 84, r2 = 94;
+    ticks += '<line class="tick' + (maj ? " major" : "") + '" x1="' + (120 + Math.sin(a)*r1).toFixed(1) + '" y1="' + (120 - Math.cos(a)*r1).toFixed(1) + '" x2="' + (120 + Math.sin(a)*r2).toFixed(1) + '" y2="' + (120 - Math.cos(a)*r2).toFixed(1) + '"/>';
+    if(maj) ticks += '<text x="' + (120 + Math.sin(a)*64).toFixed(1) + '" y="' + (124 - Math.cos(a)*64).toFixed(1) + '" text-anchor="middle">' + i + "</text>";
+  }
+  $("ticks").innerHTML = ticks;
+  var z0 = ang(8), z1 = ang(10), R = 98;
+  $("zone").setAttribute("d", "M" + (120 + Math.sin(z0)*R).toFixed(1) + " " + (120 - Math.cos(z0)*R).toFixed(1) + " A" + R + " " + R + " 0 0 1 " + (120 + Math.sin(z1)*R).toFixed(1) + " " + (120 - Math.cos(z1)*R).toFixed(1));
+  var needle = $("needle"), read = $("g-read"), val = 0, start = performance.now(), visible = true, raf = null;
+  function set(v){ var a = ang(v); needle.setAttribute("x2", (120 + Math.sin(a)*82).toFixed(1)); needle.setAttribute("y2", (120 - Math.cos(a)*82).toFixed(1)); read.textContent = v.toFixed(1); }
+  function loop(now){
+    var t = (now - start)/1000;
+    var target = t < 1.2 ? 3 : 9 + Math.sin(t*2.1)*0.12 + Math.sin(t*5.3)*0.05; // pre-infusion then 9 bar
+    val += (target - val) * 0.06; set(val);
+    raf = visible && !document.hidden ? requestAnimationFrame(loop) : null;
+  }
+  if(reduce){ set(9); return; }
+  new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if(visible && !raf) raf = requestAnimationFrame(loop); }).observe($("gauge"));
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden && visible && !raf) raf = requestAnimationFrame(loop); });
+}
+
+/* ---------- 2. exploded view scrub ---------- */
+function initExploded(){
+  var sec = $("t1"), pin = $("pin"), cv = $("ex"), ctx = cv.getContext("2d"), card = $("cg");
+  var W = 1, H = 1, dpr = 1, p = 0, stage = -1, pending = false;
+  function fit(){ var r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); draw(); }
+  function steel(x0, x1, dark){
+    var g = ctx.createLinearGradient(x0, 0, x1, 0);
+    if(dark){ g.addColorStop(0, T.anod); g.addColorStop(.3, T["steel-lo"]); g.addColorStop(.6, T.anod); g.addColorStop(1, T.anod); }
+    else { g.addColorStop(0, T["steel-lo"]); g.addColorStop(.25, T["steel-hi"]); g.addColorStop(.55, T["steel-mid"]); g.addColorStop(.85, T["steel-lo"]); g.addColorStop(1, T["steel-mid"]); }
+    return g;
+  }
+  var K = .3;
+  function cyl(cx, top, rx, h, o){
+    o = o || {}; var ry = rx*K;
+    ctx.beginPath(); ctx.moveTo(cx - rx, top); ctx.lineTo(cx - rx, top + h);
+    ctx.ellipse(cx, top + h, rx, ry, 0, Math.PI, 0, true);
+    ctx.lineTo(cx + rx, top); ctx.ellipse(cx, top, rx, ry, 0, 0, Math.PI, false); ctx.closePath();
+    ctx.fillStyle = o.fill || steel(cx - rx, cx + rx, o.dark); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx, top, rx, ry, 0, 0, Math.PI*2);
+    ctx.fillStyle = o.topFill || (o.dark ? T["steel-lo"] : T["steel-mid"]); ctx.fill();
+    if(o.hi){ ctx.lineWidth = 2.5; ctx.strokeStyle = T.copper;
+      ctx.beginPath(); ctx.moveTo(cx - rx, top); ctx.lineTo(cx - rx, top + h); ctx.ellipse(cx, top + h, rx, ry, 0, Math.PI, 0, true); ctx.lineTo(cx + rx, top); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, top, rx, ry, 0, 0, Math.PI*2); ctx.stroke(); }
+  }
+  function rr(x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  var anchors = {};
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    var narrow = W < 820;
+    var u = Math.min(H/800, (narrow ? W/430 : W/1060));
+    var cx = narrow ? W*0.5 : W*0.4, y0 = H*(narrow ? 0.24 : 0.27);
+    var e = sm(0.02, 0.12, p) * (1 - sm(0.88, 0.95, p));
+    var st = p < 0.12 ? -1 : Math.min(5, Math.floor((p - 0.12) / (0.76/6)));
+    var cur = st >= 0 && p < 0.9 ? STAGES[st].part : null;
+    var gap = 46*u*e;
+    function alpha(name){ return cur && cur !== name ? 1 - 0.7*e : 1; }
+    var pour = sm(0.93, 1, p);
+    // drip tray
+    ctx.globalAlpha = alpha("tray"); cyl(cx, y0 + 410*u + gap*3.2, 175*u, 14*u, {dark:true});
+    // cup with espresso
+    var cupTop = y0 + 330*u + gap*2.6;
+    ctx.globalAlpha = alpha("cup"); cyl(cx, cupTop, 36*u, 52*u, {fill:T.cup, topFill:T.line});
+    if(pour > 0){ ctx.beginPath(); ctx.ellipse(cx, cupTop + (1 - pour*.6)*14*u + 4*u, 31*u, 31*u*K, 0, 0, Math.PI*2); ctx.fillStyle = T.crema; ctx.fill(); }
+    // portafilter: basket, spouts, handle
+    var pfTop = y0 + 214*u + gap*1.4;
+    ctx.globalAlpha = alpha("porta");
+    ctx.save(); ctx.translate(cx + 60*u, pfTop + 14*u); ctx.rotate(-0.08);
+    rr(0, -9*u, 200*u, 18*u, 9*u); ctx.fillStyle = steel(0, 200*u, true); ctx.fill();
+    if(cur === "porta"){ ctx.lineWidth = 2.5; ctx.strokeStyle = T.copper; ctx.stroke(); }
+    ctx.restore();
+    ctx.fillStyle = steel(cx - 14*u, cx + 14*u); rr(cx - 12*u, pfTop + 34*u, 24*u, 22*u, 4*u); ctx.fill();
+    cyl(cx, pfTop, 60*u, 34*u, {hi: cur === "porta"});
+    ctx.beginPath(); ctx.ellipse(cx, pfTop, 50*u, 50*u*K, 0, 0, Math.PI*2); ctx.fillStyle = T.espresso; ctx.fill();
+    anchors.porta = {x: cx + 64*u, y: pfTop + 16*u};
+    // espresso streams
+    if(pour > 0.05){ ctx.strokeStyle = T.espresso; ctx.lineWidth = 3*u; ctx.globalAlpha = 1;
+      [-6, 6].forEach(function(dx){ ctx.beginPath(); ctx.moveTo(cx + dx*u, pfTop + 56*u); ctx.lineTo(cx + dx*0.6*u, cupTop + 4*u); ctx.stroke(); }); }
+    // shower screen + group head
+    var gTop = y0 + 150*u + gap*0.6;
+    ctx.globalAlpha = alpha("group");
+    cyl(cx, gTop + 52*u + gap*0.3, 54*u, 5*u, {hi: cur === "group"});
+    ctx.fillStyle = T["steel-lo"];
+    for(var i=-3;i<=3;i++) for(var j=-1;j<=1;j++){ ctx.beginPath(); ctx.arc(cx + i*12*u, gTop + 52*u + gap*0.3 + j*5*u, 1.2*u, 0, 6.283); ctx.fill(); }
+    cyl(cx, gTop, 82*u, 54*u, {hi: cur === "group"});
+    // profiling paddle on the group
+    ctx.save(); ctx.translate(cx + 70*u, gTop + 4*u - gap*0.4); ctx.rotate(-0.5 - (st === 5 ? 0.35*Math.sin(p*60) : 0));
+    rr(0, -5*u, 70*u, 10*u, 5*u); ctx.fillStyle = steel(0, 70*u, true); ctx.fill();
+    if(st === 5 && p < 0.9){ ctx.lineWidth = 2.5; ctx.strokeStyle = T.copper; ctx.stroke(); }
+    ctx.restore();
+    anchors.group = {x: cx + 86*u, y: gTop + 28*u};
+    // boiler body
+    var bTop = y0 - gap*0.8;
+    ctx.globalAlpha = alpha("boiler");
+    cyl(cx, bTop, 160*u, 120*u, {hi: cur === "boiler"});
+    ctx.strokeStyle = T.line; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx, bTop + 48*u); ctx.lineTo(cx, bTop + 120*u + 48*u*K); ctx.stroke();
+    ctx.font = "500 " + Math.max(8, 10*u) + "px 'Martian Mono', monospace"; ctx.fillStyle = T.ink2; ctx.textAlign = "center";
+    ctx.fillText("STEAM 1.8 L", cx - 72*u, bTop + 90*u); ctx.fillText("BREW 0.75 L", cx + 72*u, bTop + 90*u);
+    anchors.boiler = {x: cx + 164*u, y: bTop + 60*u};
+    // PID display, pops forward to the right
+    var pidX = cx + 40*u + gap*2.2, pidY = bTop + 28*u - gap*0.6;
+    ctx.globalAlpha = alpha("pid");
+    rr(pidX, pidY, 96*u, 40*u, 6*u); ctx.fillStyle = T.anod; ctx.fill();
+    if(cur === "pid"){ ctx.lineWidth = 2.5; ctx.strokeStyle = T.copper; ctx.stroke(); }
+    ctx.fillStyle = T.copper2; ctx.font = "500 " + Math.max(10, 18*u) + "px 'Martian Mono', monospace"; ctx.textAlign = "center";
+    ctx.fillText((93 + (p*37 % 1 - 0.5)*0.6*(cur === "pid" ? 1 : 0)).toFixed(1) + "°", pidX + 48*u, pidY + 27*u);
+    anchors.pid = {x: pidX + 100*u, y: pidY + 20*u};
+    // pressure gauge, pops out to the left
+    var gx = cx - 112*u - gap*2.2, gy = bTop + 44*u - gap*0.6, gr = 30*u;
+    ctx.globalAlpha = alpha("gauge");
+    ctx.beginPath(); ctx.arc(gx, gy, gr + 5*u, 0, 6.283); ctx.fillStyle = steel(gx - gr, gx + gr); ctx.fill();
+    ctx.beginPath(); ctx.arc(gx, gy, gr, 0, 6.283); ctx.fillStyle = T.panel; ctx.fill();
+    if(cur === "gauge"){ ctx.lineWidth = 2.5; ctx.strokeStyle = T.copper; ctx.stroke(); }
+    var bar = cur === "gauge" ? 9 : lerp(0, 9, pour), ga = (-135 + 270*bar/15)*Math.PI/180;
+    ctx.strokeStyle = T.copper; ctx.lineWidth = 2.5*u; ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + Math.sin(ga)*gr*0.8, gy - Math.cos(ga)*gr*0.8); ctx.stroke();
+    anchors.gauge = {x: gx + gr + 10*u, y: gy};
+    ctx.globalAlpha = 1;
+    // card + rail + labels
+    if(stage !== st){ stage = st; updateCard(); }
+    var an = cur ? anchors[cur] : null;
+    if(an){
+      var cw = card.offsetWidth, chh = card.offsetHeight, x, y;
+      if(narrow){ x = (W - cw)/2; y = H - chh - 56; }
+      else { x = Math.min(W - cw - 24, Math.max(an.x + 40, W*0.56)); y = clamp(an.y - chh/2, 110, H - chh - 60); }
+      card.style.opacity = "1"; card.style.transform = "translate(" + x.toFixed(0) + "px," + y.toFixed(0) + "px)";
+      // leader line
+      if(!narrow){ ctx.strokeStyle = T.copper; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(an.x, an.y); ctx.lineTo(x, y + chh/2); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = T.copper; ctx.beginPath(); ctx.arc(an.x, an.y, 4, 0, 6.283); ctx.fill(); }
+    } else { card.style.opacity = "0"; }
+    $("pf-r").textContent = p >= 0.93 ? "Shot · 18 g → 36 g · 28 s" : Math.round(p*100) + "%";
+  }
+  function updateCard(){
+    var items = $("rail").children;
+    for(var i=0;i<items.length;i++) items[i].classList.toggle("on", i <= stage);
+    if(stage < 0){ $("rail-n").textContent = "Scroll to explode"; return; }
+    var s = STAGES[stage];
+    $("rail-n").textContent = "Stage " + (stage + 1) + " of 6";
+    $("cg-k").textContent = s.k; $("cg-spec").innerHTML = esc(s.v) + "<small>" + esc(s.u) + "</small>";
+    $("cg-t").textContent = s.t; $("cg-p").textContent = s.p; $("cg-curve").hidden = !s.curve;
+  }
+  function progress(){ var r = sec.getBoundingClientRect(), span = r.height - pin.offsetHeight; return span > 0 ? clamp(-r.top / span, 0, 1) : 0; }
+  function onScroll(){ if(!pending){ pending = true; requestAnimationFrame(function(){ pending = false; p = progress(); draw(); }); } }
+  addEventListener("scroll", onScroll, {passive:true});
+  new ResizeObserver(fit).observe(cv);
+  card.addEventListener("pointermove", function(e){ var b = card.getBoundingClientRect(); card.style.setProperty("--mx", (e.clientX - b.left) + "px"); card.style.setProperty("--my", (e.clientY - b.top) + "px"); });
+  themeHooks.push(draw);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  fit(); p = progress(); draw();
+}
+
+/* ---------- 3. products (glass) + notes ---------- */
+function artSVG(kind){
+  if(kind === "machine") return '<svg class="art" viewBox="0 0 260 150" aria-hidden="true"><rect x="40" y="18" width="180" height="96" rx="10" fill="var(--steel-mid)" stroke="var(--ink)" stroke-width="2"/><rect x="58" y="34" width="54" height="22" rx="4" fill="var(--anod)"/><text x="85" y="50" text-anchor="middle" font-family="Martian Mono, monospace" font-size="11" fill="var(--copper2)">93.0°</text><circle cx="180" cy="46" r="16" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><line x1="180" y1="46" x2="190" y2="38" stroke="var(--copper)" stroke-width="2.5"/><rect x="104" y="70" width="52" height="16" rx="4" fill="var(--steel-lo)"/><rect x="148" y="74" width="70" height="8" rx="4" fill="var(--anod)"/><rect x="30" y="126" width="200" height="10" rx="5" fill="var(--anod)"/><rect x="118" y="100" width="24" height="24" rx="3" fill="var(--cup)" stroke="var(--ink)" stroke-width="1.5"/></svg>';
+  if(kind === "grinder") return '<svg class="art" viewBox="0 0 260 150" aria-hidden="true"><path d="M104 10 h52 l-6 30 h-40z" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><rect x="92" y="40" width="76" height="70" rx="8" fill="var(--steel-mid)" stroke="var(--ink)" stroke-width="2"/><circle cx="130" cy="70" r="18" fill="var(--anod)"/><circle cx="130" cy="70" r="6" fill="var(--copper)"/><rect x="112" y="112" width="36" height="10" rx="3" fill="var(--steel-lo)"/><rect x="104" y="124" width="52" height="18" rx="4" fill="var(--anod)"/></svg>';
+  return '<svg class="art" viewBox="0 0 260 150" aria-hidden="true"><rect x="50" y="70" width="160" height="34" rx="8" fill="var(--anod)"/><rect x="70" y="58" width="120" height="14" rx="4" fill="var(--steel-mid)" stroke="var(--ink)" stroke-width="1.5"/><text x="96" y="94" font-family="Martian Mono, monospace" font-size="13" fill="var(--copper2)">36.0 g</text><text x="160" y="94" font-family="Martian Mono, monospace" font-size="13" fill="var(--steel-mid)">0:28</text></svg>';
+}
+function initProducts(){
+  $("prod-grid").innerHTML = PRODUCTS.map(function(pr){
+    return '<article class="prod">' + artSVG(pr.art) + '<h3>' + esc(pr.name) + '</h3><p>' + esc(pr.desc) + '</p><dl class="specs">' +
+      pr.specs.map(function(s){ return "<div><dt>" + esc(s[0]) + "</dt><dd>" + esc(s[1]) + "</dd></div>"; }).join("") +
+      '</dl><div class="row"><span class="price">' + esc(pr.price) + '</span><button type="button" class="btn primary" data-add="' + pr.id + '">Add to cart</button></div></article>';
+  }).join("");
+  document.querySelectorAll(".prod").forEach(function(card){
+    card.addEventListener("pointermove", function(e){ var b = card.getBoundingClientRect(); card.style.setProperty("--mx", (e.clientX - b.left) + "px"); card.style.setProperty("--my", (e.clientY - b.top) + "px"); });
+  });
+  $("prod-grid").addEventListener("click", function(e){
+    var b = e.target.closest("[data-add]"); if(!b) return;
+    var pr = PRODUCTS.filter(function(x){ return x.id === b.getAttribute("data-add"); })[0];
+    cart++; $("cart-n").textContent = cart; toast(pr.name + " added to your cart");
+  });
+  $("notes").innerHTML = NOTES.map(function(n){ return '<article class="note"><div class="big">' + esc(n.big) + '</div><h3>' + esc(n.t) + '</h3><p>' + esc(n.p) + "</p></article>"; }).join("");
+  $("v-addr").textContent = VISIT.addr; $("v-hours").textContent = VISIT.hours; $("v-war").textContent = VISIT.war;
+}
+
+try{ initKinetic(); }catch(e){ console.error("kinetic", e); }
+try{ initGauge(); }catch(e){ console.error("gauge", e); }
+try{ initProducts(); }catch(e){ console.error("products", e); }
+try{ initExploded(); }catch(e){ console.error("exploded", e); }
+})();
+</script>
+</body>
+</html>

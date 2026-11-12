@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Titis Pour-Over Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,500;1,300&family=Karla:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single-style preview — PINNED SEQUENCE SCRUB. Filter-paper white, water blue, brew amber.
+   The hero pins and page scroll becomes the playhead of a 15 g : 250 g V60 pour, five pours in sync with the copy. */
+:root{
+  color-scheme: light;
+  --bg:#f3f1ec; --bg2:#e9e6de; --ink:#1d1a17; --ink2:#5d5650; --line:#d3cdc2; --paper:#fbfaf7;
+  --water:#6f9fb8; --water-soft:rgba(111,159,184,.42); --brew:#8a4a17; --bean:#5a3720; --accent:#2f6f8f;
+  --f-d:"Spectral",Georgia,serif; --f-b:"Karla",system-ui,sans-serif; --f-m:"DM Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme: dark; --bg:#121416; --bg2:#1a1d20; --ink:#ebe8e2; --ink2:#a39d95; --line:#2f3337; --paper:#1f2327;
+  --water:#86b7cf; --water-soft:rgba(134,183,207,.35); --brew:#c4793a; --bean:#8a5a35; --accent:#86b7cf;}}
+:root[data-theme="dark"]{
+  color-scheme: dark; --bg:#121416; --bg2:#1a1d20; --ink:#ebe8e2; --ink2:#a39d95; --line:#2f3337; --paper:#1f2327;
+  --water:#86b7cf; --water-soft:rgba(134,183,207,.35); --brew:#c4793a; --bean:#8a5a35; --accent:#86b7cf;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-b);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:300;line-height:1.05;text-wrap:balance}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.shell{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font:500 12px/1.3 var(--f-m);letter-spacing:.08em;text-transform:uppercase}
+.head{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--bg);border-bottom:1px solid var(--line)}
+.head .shell{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px}
+.logo{font:italic 300 28px/1 var(--f-d);text-decoration:none}
+.head nav{display:flex;gap:20px}
+.head nav a{text-decoration:none;color:var(--ink2)}
+.btn{display:inline-block;font:700 15px/1 var(--f-b);padding:14px 20px;border:1.5px solid var(--ink);border-radius:999px;text-decoration:none;color:var(--ink)}
+.btn.fill{background:var(--ink);color:var(--bg)}
+.btn:hover{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.intro{padding-block:56px 32px}
+.intro h1{font-size:clamp(44px,7vw,92px);max-width:13ch}
+.intro h1 i{color:var(--accent)}
+.intro p{max-width:46ch;color:var(--ink2);margin-top:18px;font-size:19px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.scrub{height:520vh;position:relative;border-block:1px solid var(--line);background:var(--bg2)}
+.pin{position:sticky;top:calc(env(safe-area-inset-top,0px) + 61px);height:calc(100vh - 61px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+.pin canvas{width:100%;height:100%;display:block}
+.steps{display:flex;flex-direction:column;gap:14px;padding-right:max(16px,env(safe-area-inset-right,0px));padding-left:16px}
+.step{border-left:2px solid var(--line);padding:6px 0 6px 16px;opacity:.38;transition:opacity .35s,border-color .35s}
+.step.on{opacity:1;border-color:var(--accent)}
+.step b{font:500 13px var(--f-m);color:var(--accent)}
+.step p{font-size:15px;color:var(--ink2);max-width:40ch}
+.readout{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:6px}
+.readout div{display:flex;flex-direction:column}
+.readout b{font:300 46px/1 var(--f-d);font-variant-numeric:tabular-nums}
+.sec{padding-block:88px}
+.sec h2{font-size:clamp(34px,5vw,58px);margin-bottom:30px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:0 40px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding-block:18px;border-bottom:1px solid var(--line)}
+.item h3{font-size:24px;font-weight:500}
+.item p{grid-column:1;color:var(--ink2);font-size:15px}
+.item .pr{font:500 15px var(--f-m);grid-row:1;grid-column:2}
+.visit{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;border-top:1px solid var(--line)}
+.visit p{color:var(--ink2);max-width:52ch}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px}
+.kv dt{color:var(--ink2)}
+.kv dd{margin:0}
+.foot{padding-block:24px 40px;border-top:1px solid var(--line);color:var(--ink2);font-size:14px}
+@media (max-width:820px){
+  .head nav{display:none}
+  .pin{grid-template-columns:1fr;grid-template-rows:55% 45%;align-items:start}
+  .steps{padding-top:8px}
+  .step{display:none}.step.on{display:block}
+  .readout b{font-size:34px}
+  .visit{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P8</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<header class="head"><div class="shell"><a class="logo" href="#top">titis</a><nav aria-label="Main"><a href="#pour">The pour</a><a href="#menu">Menu</a><a href="#visit">Visit</a></nav></div></header>
+<main id="top">
+  <section class="intro shell">
+    <div class="mono" style="color:var(--accent)">Water meets coffee, drop by drop</div>
+    <h1 style="margin-top:14px">Filter coffee, poured <i>with patience.</i></h1>
+    <p>Single-origin filter roasts dripped slowly through paper. Scroll down and pour one with us: 15 g of coffee, 250 g of water, five pours.</p>
+    <div class="ctas"><a class="btn fill" href="#visit">Reserve a pour-over slot</a><a class="btn" href="#menu">Browse filter coffees</a></div>
+  </section>
+  <section class="scrub" id="pour" aria-label="A V60 pour, scrubbed by scroll">
+    <div class="pin">
+      <canvas id="cv" aria-hidden="true"></canvas>
+      <div class="steps">
+        <div class="readout"><div><span class="mono">Time</span><b id="r-t">0:00</b></div><div><span class="mono">Water</span><b id="r-w">0 g</b></div><div><span class="mono">In the cup</span><b id="r-c">0 g</b></div></div>
+        <div id="steps"></div>
+      </div>
+    </div>
+  </section>
+  <section class="sec shell" id="menu" aria-labelledby="menu-h">
+    <h2 id="menu-h">On the bar today</h2>
+    <div class="menu" id="menu-list"></div>
+  </section>
+  <section class="sec shell visit" id="visit" aria-labelledby="visit-h">
+    <div><h2 id="visit-h">Eight seats, no espresso machine</h2><p>Titis is an eight-seat filter bar in Petaling Jaya. We brew by hand on V60 and origami drippers with mineral-adjusted water. No espresso, no blended drinks, no rush.</p></div>
+    <dl class="kv"><dt>Address</dt><dd>Jalan 17/14, Section 17, Petaling Jaya, Selangor</dd><dt>Hours</dt><dd>Tue–Sun · 8:30 am–5:30 pm</dd><dt>Recipe</dt><dd>V60 · 15 g : 250 g · 93 °C</dd></dl>
+  </section>
+</main>
+<footer class="foot"><div class="shell">Titis Pour-Over Bar · design preview, not a live business</div></footer>
+<script>
+(function(){
+"use strict";
+var STEPS = [
+  {t:"0:00–0:45", to:50, a:0, b:45, d:"Bloom. Wet every ground with 50 g, swirl twice and let the gas escape."},
+  {t:"0:45–1:15", to:100, a:45, b:75, d:"Slow spirals from the centre out to 100 g, keeping the bed level."},
+  {t:"1:15–1:45", to:150, a:75, b:105, d:"A pulse in the centre to 150 g keeps the slurry hot and moving."},
+  {t:"1:45–2:15", to:200, a:105, b:135, d:"Sweep outwards to 200 g, washing grounds down off the paper."},
+  {t:"2:15–2:45", to:250, a:135, b:165, d:"Steady centre pour to 250 g, one gentle swirl, drawdown by 2:50."}
+];
+var MENU = [
+  ["Ranau Washed","Green apple, black tea, clear cane sweetness. Sabah.","RM 16"],
+  ["Batu Pahat Liberica","Ripe jackfruit, dark cacao, a woody finish. Johor.","RM 15"],
+  ["Gayo Anaerobic Natural","Purple grape, dark honey, stone fruit. Sumatra.","RM 18"],
+  ["Guji Washed","Jasmine, bergamot, white peach. Ethiopia.","RM 17"],
+  ["Cold Titis, 12-hour","Slow ice-drip over a clear hand-cut ice block.","RM 17"]
+];
+function $(id){ return document.getElementById(id); }
+function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+$("steps").innerHTML = STEPS.map(function(s,i){ return '<div class="step" data-i="'+i+'"><b>Pour '+(i+1)+' · '+s.t+' · to '+s.to+' g</b><p>'+s.d+'</p></div>'; }).join("");
+$("menu-list").innerHTML = MENU.map(function(m){ return '<div class="item"><h3>'+m[0]+'</h3><span class="pr">'+m[2]+'</span><p>'+m[1]+'</p></div>'; }).join("");
+
+var cv = $("cv"), ctx = cv.getContext("2d"), sec = $("pour"), W=1, H=1, T={}, pend=false;
+function tokens(){ var cs = getComputedStyle(document.documentElement); ["ink","ink2","line","paper","water","water-soft","brew","bean"].forEach(function(n){ T[n] = cs.getPropertyValue("--"+n).trim(); }); }
+function fit(){ var r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio||1); W = r.width; H = r.height; cv.width = Math.round(W*d); cv.height = Math.round(H*d); ctx.setTransform(d,0,0,d,0,0); draw(); }
+function progress(){ var r = sec.getBoundingClientRect(), span = r.height - innerHeight + 61; return span > 0 ? clamp(-r.top/span, 0, 1) : 0; }
+function draw(){
+  var p = progress(), sec_t = p*180, c = ctx;           // 0–180 s of brew time
+  var poured = 0, pouring = false, cur = -1;
+  STEPS.forEach(function(s,i){ var from = i ? STEPS[i-1].to : 0, k = clamp((sec_t - s.a)/((s.b - s.a)*(i ? .55 : .3)), 0, 1); if(sec_t >= s.a){ poured = from + (s.to - from)*k; cur = i; if(k > 0 && k < 1) pouring = true; } });
+  var drained = clamp((sec_t - 20)/150, 0, 1) * Math.min(poured, 250) * 0.86, inCone = Math.max(0, poured - drained/0.86*1.0);
+  var cup = Math.round(drained), level = clamp(inCone/120, 0, 1);
+  c.clearRect(0,0,W,H);
+  var u = Math.min(H/440, W/320), cx = W/2, top = H*0.5 - 190*u;
+  var coneT = top + 110*u, coneB = top + 220*u, tw = 92*u, bw = 14*u;
+  function hw(y){ return bw + (coneB - y)/(coneB - coneT)*(tw - bw); }
+  // kettle spout
+  c.strokeStyle = T.ink; c.lineWidth = 3*u; c.lineCap = "round";
+  c.beginPath(); c.moveTo(cx - 120*u, top + 40*u); c.quadraticCurveTo(cx - 50*u, top + 34*u, cx - 12*u, top + 18*u); c.stroke();
+  // bed
+  var bedTop = coneB - 36*u - (cur === 0 ? 8*u : 0);
+  // water in cone
+  if(level > 0.01){ var wt = bedTop - level*(bedTop - coneT - 6*u); c.fillStyle = T["water-soft"]; c.beginPath(); c.moveTo(cx-hw(wt),wt); c.lineTo(cx+hw(wt),wt); c.lineTo(cx+hw(bedTop),bedTop); c.lineTo(cx-hw(bedTop),bedTop); c.fill(); }
+  c.fillStyle = T.bean; c.beginPath(); c.moveTo(cx-hw(bedTop), bedTop); c.quadraticCurveTo(cx, bedTop - (cur === 0 ? 14*u : 4*u), cx+hw(bedTop), bedTop); c.lineTo(cx+bw, coneB); c.lineTo(cx-bw, coneB); c.fill();
+  if(pouring){ c.strokeStyle = T.water; c.lineWidth = 4*u; c.beginPath(); c.moveTo(cx - 12*u, top + 19*u); c.quadraticCurveTo(cx - 4*u, top + 60*u, cx + Math.sin(sec_t)*hw(bedTop)*0.4, bedTop - level*(bedTop - coneT - 6*u)); c.stroke(); }
+  // paper + cone
+  c.strokeStyle = T.ink; c.lineWidth = 2*u; c.lineJoin = "round";
+  c.beginPath(); c.moveTo(cx - tw, coneT); c.lineTo(cx - bw, coneB); c.lineTo(cx + bw, coneB); c.lineTo(cx + tw, coneT); c.stroke();
+  c.lineWidth = 3.5*u; c.beginPath(); c.moveTo(cx - tw - 12*u, coneT); c.lineTo(cx + tw + 12*u, coneT); c.stroke();
+  for(var k=-2;k<=2;k++){ c.strokeStyle = T.line; c.lineWidth = 1; c.beginPath(); c.moveTo(cx + k*tw*0.3, coneT + 4*u); c.lineTo(cx + k*bw*0.4, coneB - 4*u); c.stroke(); }
+  // server
+  var sT = coneB + 26*u, sB = coneB + 150*u, sw = 58*u, sbw = 70*u, fill = clamp(cup/260, 0, 1), lt = sB - fill*(sB - sT - 14*u);
+  if(cup > 0){ c.save(); c.beginPath(); c.moveTo(cx - sw, sT); c.lineTo(cx + sw, sT); c.lineTo(cx + sbw, sB); c.lineTo(cx - sbw, sB); c.clip(); c.fillStyle = T.brew; c.fillRect(cx - sbw, lt, sbw*2, sB - lt); c.restore(); }
+  if(sec_t > 20 && sec_t < 172){ c.strokeStyle = T.brew; c.lineWidth = 2*u; c.setLineDash([3*u, 7*u]); c.lineDashOffset = -sec_t*8; c.beginPath(); c.moveTo(cx, coneB + 2*u); c.lineTo(cx, lt - 2*u); c.stroke(); c.setLineDash([]); }
+  c.strokeStyle = T.ink; c.lineWidth = 2*u; c.beginPath(); c.moveTo(cx - sw, sT); c.lineTo(cx - sbw, sB); c.lineTo(cx + sbw, sB); c.lineTo(cx + sw, sT); c.stroke();
+  // scale
+  c.fillStyle = T.paper; c.strokeStyle = T.ink; c.beginPath(); c.rect(cx - 96*u, sB + 6*u, 192*u, 26*u); c.fill(); c.stroke();
+  c.fillStyle = T.ink; c.font = "500 " + Math.max(10, 13*u) + "px 'DM Mono', monospace"; c.textAlign = "center"; c.textBaseline = "middle";
+  c.fillText(Math.round(poured) + " g", cx, sB + 19*u);
+  var m = Math.floor(sec_t/60), s = Math.floor(sec_t%60);
+  $("r-t").textContent = m + ":" + (s<10?"0":"") + s; $("r-w").textContent = Math.round(poured) + " g"; $("r-c").textContent = cup + " g";
+  document.querySelectorAll(".step").forEach(function(el){ el.classList.toggle("on", +el.dataset.i === Math.max(0, cur)); });
+}
+addEventListener("scroll", function(){ if(!pend){ pend = true; requestAnimationFrame(function(){ pend = false; draw(); }); } }, {passive:true});
+function retheme(){ tokens(); draw(); }
+new MutationObserver(retheme).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+var mq = matchMedia("(prefers-color-scheme: dark)"); if(mq.addEventListener) mq.addEventListener("change", retheme);
+tokens(); new ResizeObserver(fit).observe(cv); fit();
+})();
+</script>
+</body>
+</html>

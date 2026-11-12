@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tanah Terroir Roasters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: "Artisanal Terroir" preview. Dark volcanic-soil ground, topographic contour language.
+   Motion system: (1) WebGL liquid-contour hero, (2) scroll-driven "soil to cup" story with a pinned altitude profile,
+   (3) View Transitions that grow a bag from the grid into its product page. No external JS. */
+:root{
+  color-scheme: dark;
+  --soil:#15120e; --soil-2:#1e1a15; --soil-3:#29241d; --text:#ece6da; --muted:#a89e8f; --line:#3a3229;
+  --ochre:#d9a441; --moss:#93a86c; --on-ochre:#15120e; --veil:rgba(21,18,14,.72); --shadow:rgba(0,0,0,.45);
+  --c-sabah:#2f5a46; --c-johor:#8a3b24; --c-guji:#4b3f7a; --c-huila:#b0621f; --c-nyeri:#24425e; --bag-ink:#f3eee4;
+  --f-display:"Young Serif", Georgia, "Times New Roman", serif;
+  --f-body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --shell:1180px;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme: light;
+  --soil:#e9e8e2; --soil-2:#f5f4f0; --soil-3:#dcdad2; --text:#1b1813; --muted:#5d5549; --line:#cbc8bd;
+  --ochre:#94650f; --moss:#4f6436; --on-ochre:#fbfaf7; --veil:rgba(233,232,226,.78); --shadow:rgba(27,24,19,.14);
+}}
+:root[data-theme="light"]{
+  color-scheme: light;
+  --soil:#e9e8e2; --soil-2:#f5f4f0; --soil-3:#dcdad2; --text:#1b1813; --muted:#5d5549; --line:#cbc8bd;
+  --ochre:#94650f; --moss:#4f6436; --on-ochre:#fbfaf7; --veil:rgba(233,232,226,.78); --shadow:rgba(27,24,19,.14);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--soil);color:var(--text);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--soil)}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;line-height:1.08}
+:focus-visible{outline:2px solid var(--ochre);outline-offset:3px}
+.shell{max-width:var(--shell);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre)}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--f-body);padding:15px 22px;border-radius:999px;text-decoration:none;border:1.5px solid var(--text);color:var(--text);background:transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{background:var(--text);color:var(--soil)}
+.btn.primary{background:var(--ochre);border-color:var(--ochre);color:var(--on-ochre)}
+.btn.primary:hover{background:var(--text);border-color:var(--text);color:var(--soil)}
+[hidden]{display:none!important}
+
+/* header */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--veil);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);view-transition-name:site-head}
+.head-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font:400 26px/1 var(--f-display);letter-spacing:.02em}
+.brand span{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a{text-decoration:none;font-weight:500;font-size:15px;color:var(--muted)}
+.nav a:hover{color:var(--text)}
+.cart{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--f-mono);border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:var(--soil-2);color:var(--text)}
+.cart i{font-style:normal;min-width:18px;height:18px;border-radius:9px;background:var(--ochre);color:var(--on-ochre);display:inline-grid;place-items:center;font-size:11px;padding:0 5px}
+.cart.bump{animation:bump .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bump{40%{transform:scale(1.12)}}
+
+/* hero */
+.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--line);
+  background:radial-gradient(120% 90% at 70% 30%, var(--soil-3), var(--soil) 70%)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-in{position:relative;z-index:2;width:100%;padding-block:120px 56px;pointer-events:none}
+.hero-in a,.hero-in button{pointer-events:auto}
+.hero h1{font-size:clamp(46px,8.4vw,112px);max-width:12ch;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--ochre)}
+.hero p.sub{max-width:44ch;font-size:clamp(17px,1.9vw,20px);color:var(--muted);margin-top:20px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero-meta{position:absolute;z-index:2;right:max(16px,env(safe-area-inset-right,0px));top:24px;text-align:right;color:var(--muted);display:flex;flex-direction:column;gap:4px;pointer-events:none}
+.hero-meta b{color:var(--text);font-weight:500}
+.hero-hint{margin-top:28px;color:var(--muted)}
+.hero-hint.gone{opacity:0;transition:opacity .6s}
+
+/* section shells */
+.sec{padding-block:96px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.sec-head h2{font-size:clamp(34px,5vw,60px);max-width:16ch;margin-top:10px}
+.sec-head p{max-width:46ch;color:var(--muted)}
+
+/* coffees grid */
+.coffees{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:28px 22px}
+.card{display:flex;flex-direction:column;gap:12px;text-decoration:none;color:var(--text)}
+.card .bag{aspect-ratio:3/4;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.card:hover .bag{transform:translateY(-6px) rotate(-1.2deg)}
+.card h3{font-size:22px}
+.card .origin{color:var(--muted);font-size:14px}
+.card .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.card .price{font:500 15px/1 var(--f-mono)}
+.notes{display:flex;flex-wrap:wrap;gap:6px}
+.notes span{font:500 11px/1 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:6px 8px;color:var(--muted)}
+
+/* bag art */
+.bag{position:relative;border-radius:6px 6px 14px 14px;background:var(--bc);color:var(--bag-ink);overflow:hidden;box-shadow:0 18px 36px -18px var(--shadow);container-type:inline-size;max-width:100%}
+.bag::before{content:"";position:absolute;inset:0 0 auto;height:9%;background:linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,0));border-bottom:2px dashed rgba(243,238,228,.35);z-index:2}
+.bag svg.topo{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.bag .label{position:absolute;left:9%;right:9%;bottom:8%;z-index:2;display:flex;flex-direction:column;gap:4px}
+.bag .label .w{font:400 13cqi/1 var(--f-display);letter-spacing:.04em}
+.bag .label .o{font:500 5.4cqi/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.bag .label .a{font:500 5cqi/1 var(--f-mono);opacity:.7;margin-top:2px}
+
+/* story / scrollytelling */
+.story{border-block:1px solid var(--line);background:var(--soil-2)}
+.story-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px}
+.story-pin{position:sticky;top:calc(env(safe-area-inset-top,0px) + 90px);height:calc(100vh - 140px);max-height:640px;display:flex;flex-direction:column;justify-content:center;gap:20px;align-self:start}
+.profile{width:100%;height:auto;overflow:visible}
+.profile .ground{fill:var(--soil-3)}
+.profile .ridge{fill:none;stroke:var(--text);stroke-width:1.5}
+.profile .contour{fill:none;stroke:var(--line);stroke-width:1}
+.profile .trail{fill:none;stroke:var(--ochre);stroke-width:2.5;stroke-linecap:round}
+.profile .dot{fill:var(--ochre)}
+.profile .halo{fill:var(--ochre);opacity:.25;transform-box:fill-box;transform-origin:center;animation:halo 2s ease-out infinite}
+@keyframes halo{from{transform:scale(.6);opacity:.5}to{transform:scale(2.2);opacity:0}}
+.profile text{font:500 10px var(--f-mono);fill:var(--muted);letter-spacing:.06em}
+.stat{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.stat b{font:400 clamp(48px,6vw,84px)/1 var(--f-display);color:var(--text)}
+#stat-k{display:none}
+.stat span{font:500 14px/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.chapters{display:flex;flex-direction:column}
+.chapter{min-height:78vh;display:flex;flex-direction:column;justify-content:center;gap:14px;padding-block:40px;opacity:.35;transition:opacity .5s}
+.chapter.active{opacity:1}
+.chapter h3{font-size:clamp(30px,3.6vw,46px)}
+.chapter p{color:var(--muted);max-width:42ch;font-size:17px}
+.chapter .m-stat{display:none}
+@supports (animation-timeline: view()){
+  .chapter{opacity:1;transition:none}
+  .chapter > *{animation:reveal linear both;animation-timeline:view();animation-range:entry 5% cover 40%}
+  .chapter.active{opacity:1}
+}
+@keyframes reveal{from{opacity:.15;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+/* about + visit */
+.about{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:start}
+.about h2{font-size:clamp(32px,4.4vw,52px)}
+.about p{color:var(--muted);max-width:52ch;margin-top:18px;font-size:17px}
+.visit{border:1px solid var(--line);border-radius:10px;padding:26px;background:var(--soil-2);display:flex;flex-direction:column;gap:16px}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 20px}
+.kv dt{font:500 12px/1.6 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kv dd{margin:0}
+.foot{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--muted);font-size:14px}
+.foot .shell{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* product view */
+.product{padding-block:40px 96px}
+.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font:500 13px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:28px}
+.back:hover{color:var(--text)}
+.p-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}
+.p-grid .bag{aspect-ratio:3/4;width:100%;max-width:440px}
+.p-info{display:flex;flex-direction:column;gap:20px;min-width:0}
+.p-info h1{font-size:clamp(40px,5.6vw,72px)}
+.p-info .lede{font-size:18px;color:var(--muted);max-width:52ch}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line)}
+.specs div{padding:14px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:2px;min-width:0}
+.specs div:nth-child(odd){padding-right:16px}
+.specs dt{font:500 11px/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.specs dd{margin:0;font-size:16px}
+.buy{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+select,.qty{font:500 15px/1 var(--f-body);background:var(--soil-2);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:12px 16px;height:46px}
+.qty{display:inline-flex;align-items:center;gap:6px;padding:0 6px}
+.qty button{width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--text);font-size:18px;cursor:pointer}
+.qty button:hover{background:var(--soil-3)}
+.qty output{min-width:22px;text-align:center;font-family:var(--f-mono)}
+.brew{border:1px dashed var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.brew b{font:500 15px/1.4 var(--f-mono)}
+.more{margin-top:80px}
+.more h2{font-size:30px;margin-bottom:24px}
+.toast{position:fixed;z-index:80;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--text);color:var(--soil);font:500 14px/1 var(--f-body);padding:14px 20px;border-radius:999px;transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* view transitions */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+::view-transition-group(bag-active),::view-transition-group(title-active){animation-duration:.6s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+  .profile .halo{animation:none}
+  .chapter > *{animation:none!important}
+  .chapter{opacity:1}
+}
+
+@media (max-width:860px){
+  .nav a.hide-sm{display:none}
+  .story-grid{grid-template-columns:1fr;gap:0}
+  .story-pin{top:calc(env(safe-area-inset-top,0px) + 62px);height:auto;max-height:none;z-index:3;background:var(--soil-2);padding-block:14px 10px;border-bottom:1px solid var(--line);gap:8px}
+  .story-pin .stat b{font-size:40px}
+  .profile{max-height:120px}
+  .chapter{min-height:64vh}
+  .about,.p-grid{grid-template-columns:1fr;gap:32px}
+  .p-grid .bag{max-width:320px}
+  .sec{padding-block:72px}
+  .hero-meta{display:none}
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P5</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+
+<header class="site-head">
+  <div class="shell head-in">
+    <a class="brand" href="#top" data-home><b>Tanah</b><span>Terroir Roasters · KL</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#coffees" class="hide-sm">Coffees</a>
+      <a href="#story" class="hide-sm">Story</a>
+      <a href="#visit" class="hide-sm">Visit</a>
+      <span class="cart" id="cart" aria-live="polite">Bag <i id="cart-n">0</i></span>
+    </nav>
+  </div>
+</header>
+
+<main id="view-home">
+  <section class="hero" id="top" aria-labelledby="hero-h">
+    <canvas id="terrain" aria-hidden="true"></canvas>
+    <div class="hero-meta mono" aria-hidden="true">
+      <span><b>Ranau, Sabah</b></span>
+      <span id="hero-coord">5°57′N 116°40′E</span>
+      <span id="hero-alt">Contour interval 50 m</span>
+    </div>
+    <div class="shell hero-in">
+      <div class="kicker" id="hero-kicker">Single-origin coffee · roasted in Kuala Lumpur</div>
+      <h1 id="hero-h">Taste the <em>ground</em> it grew in.</h1>
+      <p class="sub" id="hero-sub">Light-roast single origins from Sabah, Johor and three classic origins, bought from smallholders and roasted weekly in Bangsar.</p>
+      <div class="hero-ctas">
+        <a class="btn primary" href="#coffees" id="cta-1">Shop single origins</a>
+        <a class="btn" href="#story" id="cta-2">Soil to cup</a>
+      </div>
+      <p class="hero-hint mono" id="hero-hint">Move across the map to stir it</p>
+    </div>
+  </section>
+
+  <section class="sec" id="coffees" aria-labelledby="coffees-h">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">The range · 250 g bags</div><h2 id="coffees-h">Five farms, five altitudes</h2></div>
+        <p>Every bag carries its altitude and process. Tap one to open its page.</p>
+      </div>
+      <div class="coffees" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="sec story" id="story" aria-labelledby="story-h">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">Ranau, Sabah · harvest to roast</div><h2 id="story-h">From soil to cup</h2></div>
+        <p>Follow one lot of our Ranau Arabica down the mountain, from smallholder plots below Kinabalu to the roaster in KL.</p>
+      </div>
+      <div class="story-grid">
+        <div class="story-pin" aria-hidden="true">
+          <svg class="profile" id="profile" viewBox="0 0 600 260" preserveAspectRatio="xMidYMid meet">
+            <path class="contour" d="M0 230 H600 M0 190 H600 M0 150 H600 M0 110 H600 M0 70 H600"/>
+            <path class="ground" d="M0 260 L0 70 C 40 40, 70 28, 110 46 S 170 96, 220 118 S 300 150, 360 176 S 450 214, 520 226 L 600 232 L600 260Z"/>
+            <path class="ridge" id="ridge" d="M0 70 C 40 40, 70 28, 110 46 S 170 96, 220 118 S 300 150, 360 176 S 450 214, 520 226 L 600 232"/>
+            <path class="trail" id="trail" d=""/>
+            <circle class="halo" id="halo" r="10" cx="0" cy="0"/>
+            <circle class="dot" id="dot" r="5" cx="0" cy="0"/>
+            <text x="64" y="20">KINABALU 4,095 m</text>
+            <text x="520" y="252" text-anchor="end">KUALA LUMPUR</text>
+          </svg>
+          <div class="stat"><b id="stat-v">1,500</b><span id="stat-l">m above sea level</span></div>
+          <div class="kicker" id="stat-k">01 · Soil</div>
+        </div>
+        <div class="chapters" id="chapters"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="visit" aria-labelledby="about-h">
+    <div class="shell about">
+      <div>
+        <div class="kicker">About Tanah</div>
+        <h2 id="about-h">Roasted for clarity, priced in ringgit</h2>
+        <p id="about-p"></p>
+      </div>
+      <aside class="visit" aria-label="Visit the roastery">
+        <div class="kicker">Visit the roastery</div>
+        <dl class="kv">
+          <dt>Address</dt><dd id="v-addr"></dd>
+          <dt>Hours</dt><dd id="v-hours"></dd>
+          <dt>Shipping</dt><dd id="v-ship"></dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<main id="view-product" hidden></main>
+
+<footer class="foot">
+  <div class="shell"><span>Tanah Terroir Roasters · design preview, not a live shop</span><span class="mono">Roasted weekly · Bangsar, KL</span></div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- content ---------- */
+var COFFEES = [
+  {id:"sabah-ranau", name:"Ranau Highland Arabica", country:"Malaysia", region:"Ranau, Sabah", producer:"Dusun smallholders around Ranau", alt:"1,300–1,500 m", variety:"Arabica, mixed local varieties", process:"Washed", notes:["Guava","Mulberry","Black tea"], roast:"Light-medium", price:78, color:"--c-sabah",
+   story:"Grown by Dusun smallholders on the volcanic slopes below Mount Kinabalu. Cool highland nights slow ripening, which gives a cleaner, brighter cup than most Malaysian coffee.", brew:"V60 · 15 g : 240 g · 92 °C · 2:30"},
+  {id:"johor-liberica", name:"Batu Pahat Liberica", country:"Malaysia", region:"Batu Pahat, Johor", producer:"Coastal family smallholdings", alt:"Near sea level", variety:"Liberica (Coffea liberica)", process:"Natural", notes:["Jackfruit","Cacao nib","Star anise"], roast:"Medium", price:62, color:"--c-johor",
+   story:"Most of Malaysia's coffee is Liberica, and almost all of Johor's is. Ours comes from smallholdings on the coastal peat around Batu Pahat, dried whole in the cherry for a bold, jackfruit-sweet cup.", brew:"AeroPress · 16 g : 220 g · 90 °C · 2:15"},
+  {id:"ethiopia-guji", name:"Guji Uraga", country:"Ethiopia", region:"Guji Zone, Oromia", producer:"Uraga district smallholders", alt:"1,950–2,250 m", variety:"Ethiopian landraces", process:"Washed", notes:["Jasmine","White peach","Bergamot"], roast:"Light", price:74, color:"--c-guji",
+   story:"Grown under forest shade on smallholder plots in the Guji highlands. Washed at a local station and dried slowly on raised beds, it drinks like a floral black tea with fruit.", brew:"V60 · 15 g : 250 g · 94 °C · 2:40"},
+  {id:"colombia-huila", name:"Huila Caturra", country:"Colombia", region:"Huila", producer:"Pitalito smallholders", alt:"1,600–1,950 m", variety:"Caturra, Castillo", process:"Washed", notes:["Red apple","Panela","Mandarin"], roast:"Light-medium", price:68, color:"--c-huila",
+   story:"From steep Andean slopes in southern Huila. Smallholders pick only ripe cherries and ferment them in tanks for a clean, panela-sweet cup that works as filter or espresso.", brew:"Kalita Wave · 15 g : 250 g · 93 °C · 2:35"},
+  {id:"kenya-nyeri", name:"Nyeri SL28", country:"Kenya", region:"Nyeri County", producer:"Cooperative factory smallholders", alt:"1,700–2,050 m", variety:"SL28, SL34", process:"Washed, double fermented", notes:["Blackcurrant","Grapefruit","Cane sugar"], roast:"Light", price:88, color:"--c-nyeri",
+   story:"Grown in red volcanic soil between Mount Kenya and the Aberdare Range and processed at a cooperative factory. SL28 and SL34 give Kenya its bright, juicy acidity.", brew:"V60 · 15 g : 250 g · 95 °C · 2:50"}
+];
+var CHAPTERS = [
+  {k:"01 · Soil", t:"Kinabalu's volcanic highlands", b:"Above Ranau, volcanic soil and mountain mist take the edge off the tropical heat. Cherries ripen slowly, building sugar before harvest.", v:"1,400", l:"m above sea level", at:.2},
+  {k:"02 · Harvest", t:"Picked red, by hand", b:"Smallholders walk the steep plots picking only fully red cherries. Green fruit stays on the branch for a later pass.", v:"20", l:"°Brix, a typical ripe cherry", at:.34},
+  {k:"03 · Processing", t:"Pulped and fermented", b:"Cherries are pulped on the day they are picked, then ferment in tanks in the cool highland air before being washed clean.", v:"36", l:"hours in the tank", at:.48},
+  {k:"04 · Drying", t:"Slow days on raised beds", b:"Parchment dries on raised mesh beds under cover and is turned through the day until moisture settles at a level safe to store.", v:"11", l:"% final moisture", at:.62},
+  {k:"05 · Roasting", t:"Roasted light in Bangsar", b:"In KL we roast in small batches and drop the beans soon after first crack, so the fruit stays and the bitterness doesn't arrive.", v:"196", l:"°C, first crack", at:.93}
+];
+var ABOUT = "Tanah means soil. We roast single-origin coffee in Bangsar and print the altitude, variety and process on every bag, because that is what you taste. Two of our five coffees are Malaysian, from Sabah's highlands and Johor's coast. Every batch is cupped before it ships, and we roast twice a week so nothing sits on a shelf.";
+var VISIT = {addr:"Lorong Kurau, Bangsar, Kuala Lumpur", hours:"Wed–Sun · 8:30 am–4:30 pm (Mon–Tue roasting days)", ship:"Free across Peninsular Malaysia over RM 80. Sabah and Sarawak flat RM 12, 3–5 working days."};
+
+/* ---------- helpers ---------- */
+var root = document.documentElement;
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function byId(id){ for(var i=0;i<COFFEES.length;i++) if(COFFEES[i].id === id) return COFFEES[i]; return null; }
+
+/* seeded contour art for each bag */
+function topoSVG(seed){
+  var s = seed * 9301 + 49297, rnd = function(){ s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  var cx = 30 + rnd()*40, cy = 30 + rnd()*30, out = "", ph = [rnd()*6, rnd()*6, rnd()*6];
+  for(var r=8; r<120; r+=7){
+    var pts = [];
+    for(var a=0; a<=48; a++){
+      var th = a/48*Math.PI*2;
+      var rr = r * (1 + .16*Math.sin(th*3 + ph[0] + r*.03) + .09*Math.sin(th*5 + ph[1]) + .05*Math.sin(th*2 + ph[2] - r*.02));
+      pts.push((cx + Math.cos(th)*rr*0.8).toFixed(1) + "," + (cy + Math.sin(th)*rr).toFixed(1));
+    }
+    out += '<polyline points="' + pts.join(" ") + '" fill="none" stroke="currentColor" stroke-width="' + ((r/7)%5 === 1 ? 0.9 : 0.4) + '"/>';
+  }
+  return '<svg class="topo" viewBox="0 0 100 133" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + out + "</svg>";
+}
+function bagHTML(c, i, vtName){
+  return '<div class="bag" style="--bc:var(' + c.color + ')' + (vtName ? ';view-transition-name:' + vtName : '') + '">' + topoSVG(i + 3) +
+    '<div class="label"><span class="w">TANAH</span><span class="o">' + esc(c.country + " · " + c.name) + '</span><span class="a">' + esc(c.alt + " · " + c.process) + '</span></div></div>';
+}
+
+/* ---------- render home ---------- */
+var activeId = null;
+function renderGrid(){
+  $("grid").innerHTML = COFFEES.map(function(c, i){
+    var on = c.id === activeId;
+    return '<a class="card" href="#coffee-' + c.id + '" data-id="' + c.id + '">' + bagHTML(c, i, on ? "bag-active" : "") +
+      '<div><h3' + (on ? ' style="view-transition-name:title-active"' : '') + '>' + esc(c.name) + '</h3><div class="origin">' + esc(c.region + ", " + c.country) + '</div></div>' +
+      '<div class="notes">' + c.notes.map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("") + '</div>' +
+      '<div class="row"><span class="mono" style="color:var(--muted)">' + esc(c.roast) + '</span><span class="price">RM ' + c.price + '</span></div></a>';
+  }).join("");
+}
+function renderStatic(){
+  $("chapters").innerHTML = CHAPTERS.map(function(ch, i){
+    return '<article class="chapter" data-i="' + i + '"><div class="kicker">' + esc(ch.k) + '</div><h3>' + esc(ch.t) + '</h3><p>' + esc(ch.b) + '</p></article>';
+  }).join("");
+  $("about-p").textContent = ABOUT;
+  $("v-addr").textContent = VISIT.addr; $("v-hours").textContent = VISIT.hours; $("v-ship").textContent = VISIT.ship;
+}
+
+/* ---------- product view ---------- */
+var qty = 1;
+function renderProduct(c){
+  var idx = COFFEES.indexOf(c);
+  var others = COFFEES.filter(function(x){ return x !== c; }).slice(0, 4);
+  qty = 1;
+  $("view-product").innerHTML =
+    '<div class="shell product">' +
+      '<a class="back" href="#coffees" data-back>← All coffees</a>' +
+      '<div class="p-grid">' + bagHTML(c, idx, "bag-active") +
+        '<div class="p-info">' +
+          '<div class="kicker">' + esc(c.region + " · " + c.country) + '</div>' +
+          '<h1 style="view-transition-name:title-active">' + esc(c.name) + '</h1>' +
+          '<p class="lede">' + esc(c.story) + '</p>' +
+          '<div class="notes">' + c.notes.map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("") + '</div>' +
+          '<dl class="specs">' +
+            '<div><dt>Altitude</dt><dd>' + esc(c.alt) + '</dd></div>' +
+            '<div><dt>Process</dt><dd>' + esc(c.process) + '</dd></div>' +
+            '<div><dt>Variety</dt><dd>' + esc(c.variety) + '</dd></div>' +
+            '<div><dt>Roast</dt><dd>' + esc(c.roast) + '</dd></div>' +
+            '<div><dt>Producer</dt><dd>' + esc(c.producer) + '</dd></div>' +
+            '<div><dt>Size</dt><dd>250 g · RM ' + c.price + '</dd></div>' +
+          '</dl>' +
+          '<div class="buy">' +
+            '<div class="field"><label for="grind">Grind</label><select id="grind"><option>Whole bean</option><option>Filter (V60, Kalita)</option><option>French press</option><option>Espresso</option></select></div>' +
+            '<div class="field"><label id="qty-l">Quantity</label><div class="qty" role="group" aria-labelledby="qty-l"><button type="button" id="qty-minus" aria-label="One less">−</button><output id="qty-v">1</output><button type="button" id="qty-plus" aria-label="One more">+</button></div></div>' +
+            '<div class="field"><label>&nbsp;</label><button type="button" class="btn primary" id="add">Add to bag · RM ' + c.price + '</button></div>' +
+          '</div>' +
+          '<div class="brew"><span class="kicker">How we brew it</span><b>' + esc(c.brew) + '</b></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="more"><h2>More origins</h2><div class="coffees">' + others.map(function(o){
+        return '<a class="card" href="#coffee-' + o.id + '" data-id="' + o.id + '">' + bagHTML(o, COFFEES.indexOf(o), "") + '<div><h3>' + esc(o.name) + '</h3><div class="origin">' + esc(o.region + ", " + o.country) + '</div></div><div class="row"><span class="mono" style="color:var(--muted)">' + esc(o.roast) + '</span><span class="price">RM ' + o.price + '</span></div></a>';
+      }).join("") + '</div></div>' +
+    '</div>';
+  function setQty(n){ qty = Math.max(1, Math.min(9, n)); $("qty-v").textContent = qty; $("add").textContent = "Add to bag · RM " + (c.price * qty); }
+  $("qty-minus").addEventListener("click", function(){ setQty(qty - 1); });
+  $("qty-plus").addEventListener("click", function(){ setQty(qty + 1); });
+  $("add").addEventListener("click", function(){
+    cart += qty; saveCart(); showCart(true);
+    toast(qty + " × " + c.name + " (" + $("grind").value + ") added to your bag");
+  });
+}
+
+/* ---------- cart + toast ---------- */
+var cart = 0;
+try{ cart = parseInt(localStorage.getItem("tanah-cart") || "0", 10) || 0; }catch(e){}
+function saveCart(){ try{ localStorage.setItem("tanah-cart", String(cart)); }catch(e){} }
+function showCart(bump){ $("cart-n").textContent = cart; if(bump && !reduce){ var el = $("cart"); el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); } }
+var toastT;
+function toast(msg){ var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove("show"); }, 2600); }
+
+/* ---------- router with view transitions ---------- */
+var homeScroll = 0, current = "home";
+function parse(){ var h = location.hash.replace(/^#/, ""); return h.indexOf("coffee-") === 0 ? {view:"product", id:h.slice(7)} : {view:"home", anchor:h}; }
+function apply(r){
+  if(r.view === "product" && byId(r.id)){
+    if(current === "home") homeScroll = window.scrollY;
+    activeId = r.id;
+    renderProduct(byId(r.id));
+    $("view-home").hidden = true; $("view-product").hidden = false;
+    window.scrollTo(0, 0);
+    current = "product";
+    document.title = byId(r.id).name + " · Tanah Terroir Roasters";
+    var h1 = document.querySelector("#view-product h1"); if(h1){ h1.setAttribute("tabindex","-1"); h1.focus({preventScroll:true}); }
+  } else {
+    var wasProduct = current === "product";
+    renderGrid();
+    $("view-product").hidden = true; $("view-home").hidden = false;
+    current = "home";
+    document.title = "Tanah Terroir Roasters";
+    var target = r.anchor && r.anchor !== "top" ? $(r.anchor) : null;
+    if(wasProduct && r.anchor === "coffees" && activeId){
+      var card = document.querySelector('.card[data-id="' + activeId + '"]');
+      window.scrollTo(0, homeScroll);
+      if(card){ var rect = card.getBoundingClientRect(); if(rect.top < 0 || rect.bottom > innerHeight) card.scrollIntoView({block:"center"}); card.focus({preventScroll:true}); }
+    } else if(target){ target.scrollIntoView(); }
+    else if(r.anchor === "top" || !r.anchor){ if(wasProduct) window.scrollTo(0, 0); }
+  }
+}
+function go(){
+  var r = parse();
+  var swapping = (r.view === "product") || (current === "product");
+  if(!swapping){ return; } // plain in-page anchor: let the browser scroll
+  // name the element that will morph, before the snapshot
+  if(current === "home" && r.view === "product"){
+    activeId = r.id;
+    document.querySelectorAll("#grid .bag, #grid h3").forEach(function(el){ el.style.viewTransitionName = ""; });
+    var card = document.querySelector('#grid .card[data-id="' + r.id + '"]');
+    if(card){ card.querySelector(".bag").style.viewTransitionName = "bag-active"; card.querySelector("h3").style.viewTransitionName = "title-active"; }
+  } else if(current === "product" && r.view === "product"){
+    // product to product: morph the clicked "more origins" card
+    var pc = document.querySelector('#view-product .bag'); if(pc) pc.style.viewTransitionName = "";
+    var ph = document.querySelector('#view-product h1'); if(ph) ph.style.viewTransitionName = "";
+    var mc = document.querySelector('#view-product .more .card[data-id="' + r.id + '"]');
+    if(mc){ mc.querySelector(".bag").style.viewTransitionName = "bag-active"; mc.querySelector("h3").style.viewTransitionName = "title-active"; }
+  }
+  if(document.startViewTransition && !reduce){ document.startViewTransition(function(){ apply(r); }); }
+  else apply(r);
+}
+window.addEventListener("hashchange", go);
+document.addEventListener("click", function(e){
+  var a = e.target.closest("a[href^='#']");
+  if(!a) return;
+  if(a.hasAttribute("data-home") && current === "product"){ e.preventDefault(); location.hash = "top"; }
+  else if(current === "product" && !a.getAttribute("href").startsWith("#coffee-") && a.getAttribute("href") !== "#coffees"){
+    // header links from the product page: go home first, then to the anchor
+    e.preventDefault(); location.hash = a.getAttribute("href").slice(1);
+  }
+});
+
+/* ---------- story: active chapter, moving marker, counting stat ---------- */
+function initStory(){
+  var ridge = $("ridge"), trail = $("trail"), dot = $("dot"), halo = $("halo");
+  var L = ridge.getTotalLength(), pos = CHAPTERS[0].at, target = pos, raf = null, active = -1;
+  function place(f){
+    var p = ridge.getPointAtLength(L*f);
+    dot.setAttribute("cx", p.x.toFixed(1)); dot.setAttribute("cy", p.y.toFixed(1));
+    halo.setAttribute("cx", p.x.toFixed(1)); halo.setAttribute("cy", p.y.toFixed(1));
+    var d = "M", n = Math.max(2, Math.round(f*80));
+    for(var i=0;i<=n;i++){ var q = ridge.getPointAtLength(L*f*i/n); d += (i ? " L" : "") + q.x.toFixed(1) + " " + q.y.toFixed(1); }
+    trail.setAttribute("d", d);
+  }
+  function animate(){
+    pos += (target - pos) * 0.12;
+    if(Math.abs(target - pos) < 0.0008){ pos = target; place(pos); raf = null; return; }
+    place(pos); raf = requestAnimationFrame(animate);
+  }
+  function countTo(ch){
+    var el = $("stat-v"), m = /^(\d[\d,]*)$/.exec(ch.v);
+    $("stat-l").textContent = ch.l; $("stat-k").textContent = ch.k;
+    if(!m || reduce){ el.textContent = ch.v; return; }
+    var end = parseInt(ch.v.replace(/,/g, ""), 10), start = performance.now();
+    (function step(now){ var t = Math.min(1, (now - start)/700), v = Math.round(end * (1 - Math.pow(1 - t, 3))); el.textContent = v.toLocaleString("en-MY"); if(t < 1) requestAnimationFrame(step); })(start);
+  }
+  function setActive(i){
+    if(i === active) return; active = i;
+    document.querySelectorAll(".chapter").forEach(function(c){ c.classList.toggle("active", +c.dataset.i === i); });
+    target = CHAPTERS[i].at; countTo(CHAPTERS[i]);
+    if(reduce){ pos = target; place(pos); } else if(!raf) raf = requestAnimationFrame(animate);
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) setActive(+e.target.dataset.i); });
+  }, {rootMargin:"-45% 0px -45% 0px"});
+  document.querySelectorAll(".chapter").forEach(function(c){ io.observe(c); });
+  place(pos); setActive(0);
+}
+
+/* ---------- hero: WebGL liquid contour map ---------- */
+function initTerrain(){
+  var cv = $("terrain"), hint = $("hero-hint");
+  var gl = cv.getContext("webgl2", {antialias:false, alpha:false, powerPreference:"low-power"});
+  if(!gl){ cv.hidden = true; hint.hidden = true; return; }
+  var VS = "#version 300 es\nin vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
+  var FS = [
+    "#version 300 es",
+    "precision highp float;",
+    "uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform vec4 uDrops[16];",
+    "uniform vec3 uBg; uniform vec3 uBg2; uniform vec3 uLine; uniform vec3 uAccent;",
+    "out vec4 o;",
+    "float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }",
+    "float noise(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);",
+    "  return mix(mix(h21(i),h21(i+vec2(1,0)),u.x), mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),u.x), u.y); }",
+    "float fbm(vec2 p){ float v=0., a=.5; mat2 m=mat2(1.6,1.2,-1.2,1.6); for(int i=0;i<5;i++){ v+=a*noise(p); p=m*p; a*=.5; } return v; }",
+    "void main(){",
+    "  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x/uRes.y;",
+    "  vec2 p = vec2(uv.x*asp, uv.y);",
+    "  vec2 disp = vec2(0.);",
+    "  for(int i=0;i<16;i++){ vec4 d = uDrops[i]; if(d.w <= 0.) continue;",
+    "    float age = uTime - d.z; if(age < 0. || age > 4.) continue;",
+    "    vec2 q = p - vec2(d.x*asp, d.y); float r = length(q);",
+    "    float ring = sin(r*46. - age*9.) * exp(-r*5.5) * exp(-age*1.1) * d.w * smoothstep(age*.42+.06, age*.42-.06, r);",
+    "    disp += normalize(q+1e-5) * ring * .03; }",
+    "  vec2 m = vec2(uMouse.x*asp, uMouse.y); float md = length(p-m); disp += (p-m) * .06 * exp(-md*7.);",
+    "  vec2 sp = (p + disp) * 2.3 + vec2(uTime*.012, -uTime*.008);",
+    "  float peak = exp(-length((p - vec2(asp*.68,.62))*vec2(1.,1.3))*2.2);",
+    "  float h = fbm(sp) *.75 + peak*.55;",
+    "  float n = 22.; float c = h*n; float f = fract(c);",
+    "  float w = fwidth(c);",
+    "  float line = 1. - smoothstep(0., w*1.3, min(f, 1.-f));",
+    "  float major = step(.5, fract(floor(c+.5)/5.));",
+    "  vec3 col = mix(uBg, uBg2, smoothstep(.25,.95,h));",
+    "  col = mix(col, uLine, line*.55*(1.-major));",
+    "  col = mix(col, uAccent, line*.85*major);",
+    "  float glow = exp(-md*9.)*.10; col = mix(col, uAccent, glow);",
+    "  float vig = smoothstep(1.25, .35, length((uv-.5)*vec2(asp*.8,1.)));",
+    "  col = mix(uBg, col, .55 + .45*vig);",
+    "  o = vec4(col,1.);",
+    "}"
+  ].join("\n");
+  function sh(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
+  var prog = gl.createProgram();
+  try{ gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog)); }
+  catch(err){ console.warn("Terrain shader disabled:", err); cv.hidden = true; hint.hidden = true; return; }
+  gl.useProgram(prog);
+  var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  var U = {}; ["uRes","uTime","uMouse","uDrops","uBg","uBg2","uLine","uAccent"].forEach(function(n){ U[n] = gl.getUniformLocation(prog, n); });
+  var drops = new Float32Array(64), di = 0, mouse = [-5, -5], smooth = [-5, -5], t0 = performance.now(), visible = true, raf = null, lastDrop = 0;
+  function hex(v){ v = v.trim(); if(v[0] !== "#") return [0,0,0]; return [parseInt(v.substr(1,2),16)/255, parseInt(v.substr(3,2),16)/255, parseInt(v.substr(5,2),16)/255]; }
+  function colors(){ var cs = getComputedStyle(root);
+    gl.uniform3fv(U.uBg, hex(cs.getPropertyValue("--soil"))); gl.uniform3fv(U.uBg2, hex(cs.getPropertyValue("--soil-3")));
+    gl.uniform3fv(U.uLine, hex(cs.getPropertyValue("--muted"))); gl.uniform3fv(U.uAccent, hex(cs.getPropertyValue("--ochre"))); }
+  function size(){ var dpr = Math.min(1.5, devicePixelRatio || 1), r = cv.getBoundingClientRect();
+    cv.width = Math.max(1, Math.round(r.width*dpr)); cv.height = Math.max(1, Math.round(r.height*dpr));
+    gl.viewport(0, 0, cv.width, cv.height); gl.uniform2f(U.uRes, cv.width, cv.height); }
+  function now(){ return (performance.now() - t0)/1000; }
+  function addDrop(x, y, s){ drops[di*4] = x; drops[di*4+1] = y; drops[di*4+2] = now(); drops[di*4+3] = s; di = (di + 1) % 16; }
+  function draw(){
+    smooth[0] += (mouse[0] - smooth[0]) * .15; smooth[1] += (mouse[1] - smooth[1]) * .15;
+    gl.uniform1f(U.uTime, reduce ? 6.0 : now()); gl.uniform2f(U.uMouse, smooth[0], smooth[1]); gl.uniform4fv(U.uDrops, drops);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function loop(){ draw(); raf = visible && !document.hidden && !reduce ? requestAnimationFrame(loop) : null; }
+  function kick(){ if(!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(loop); }
+  function local(e){ var r = cv.getBoundingClientRect(); return [(e.clientX - r.left)/r.width, 1 - (e.clientY - r.top)/r.height]; }
+  var hero = cv.parentElement;
+  hero.addEventListener("pointermove", function(e){
+    var p = local(e); mouse = p;
+    var t = now(); if(t - lastDrop > .09){ lastDrop = t; addDrop(p[0], p[1], .55); }
+    hint.classList.add("gone");
+    if(reduce) draw();
+  });
+  hero.addEventListener("pointerleave", function(){ mouse = [-5, -5]; });
+  hero.addEventListener("pointerdown", function(e){ var p = local(e); addDrop(p[0], p[1], 1.4); });
+  new IntersectionObserver(function(es){ visible = es[0].isIntersecting; kick(); }).observe(cv);
+  document.addEventListener("visibilitychange", kick);
+  new ResizeObserver(function(){ size(); draw(); }).observe(cv);
+  function retheme(){ colors(); draw(); }
+  new MutationObserver(retheme).observe(root, {attributes:true, attributeFilter:["data-theme"]});
+  var mq = matchMedia("(prefers-color-scheme: light)"); if(mq.addEventListener) mq.addEventListener("change", retheme);
+  colors(); size();
+  if(!reduce){ addDrop(.68, .58, 1.2); setTimeout(function(){ addDrop(.3, .4, .9); }, 700); }
+  draw(); kick();
+}
+
+/* ---------- boot ---------- */
+renderStatic();
+renderGrid();
+showCart(false);
+try{ initStory(); }catch(e){ console.error("story", e); }
+try{ initTerrain(); }catch(e){ console.error("terrain", e); }
+var r0 = parse(); if(r0.view === "product" && byId(r0.id)) apply(r0);
+})();
+</script>
+</body>
+</html>

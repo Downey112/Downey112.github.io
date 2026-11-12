@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sejuk Cold Brew Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Onest:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: "Daily Ritual" preview. Icy mint ground, cold-brew ink, flavour colours from Malaysian kitchens.
+   Motion system: (1) physics flavour jar: drag tasting-note stickers into your cup to get a can recommendation,
+   (2) state-machine cold brew calculator (idle, steeping, ready) drawn in SVG, (3) magnetic buttons and running tickers. No external JS. */
+:root{
+  color-scheme: light;
+  --bg:#dcefeb; --bg2:#ecf7f4; --panel:#fbfefd; --ink:#1c1410; --ink2:#4f4741; --line:#b9d3cd;
+  --ice:#9fd3d6; --pandan:#2f8f55; --calamansi:#f0a412; --melaka:#8a4a1f; --chili:#d8432f; --brew:#3a2216; --water:#bfe3ea;
+  --on-dark:#fbfefd; --shadow:rgba(28,20,16,.18); --veil:rgba(220,239,235,.85);
+  --f-display:"Lilita One","Arial Black",system-ui,sans-serif;
+  --f-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme: dark;
+  --bg:#0d1716; --bg2:#13201f; --panel:#192927; --ink:#eaf4f1; --ink2:#a5b8b3; --line:#28403c;
+  --ice:#5aa9ad; --pandan:#4fbf7c; --calamansi:#f5b53a; --melaka:#c07a45; --chili:#ef6a55; --brew:#2a1810; --water:#3d6d75;
+  --on-dark:#0d1716; --shadow:rgba(0,0,0,.5); --veil:rgba(13,23,22,.85);
+}}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0d1716; --bg2:#13201f; --panel:#192927; --ink:#eaf4f1; --ink2:#a5b8b3; --line:#28403c;
+  --ice:#5aa9ad; --pandan:#4fbf7c; --calamansi:#f5b53a; --melaka:#c07a45; --chili:#ef6a55; --brew:#2a1810; --water:#3d6d75;
+  --on-dark:#0d1716; --shadow:rgba(0,0,0,.5); --veil:rgba(13,23,22,.85);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--bg)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;line-height:1}
+:focus-visible{outline:3px solid var(--calamansi);outline-offset:3px}
+[hidden]{display:none!important}
+.shell{max-width:1200px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.kicker{font:700 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--pandan)}
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;font:700 16px/1 var(--f-body);padding:17px 24px;border-radius:999px;text-decoration:none;border:2.5px solid var(--ink);color:var(--ink);background:var(--panel);cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:box-shadow .15s,background .2s,color .2s;will-change:transform}
+.btn span{display:inline-block;pointer-events:none;will-change:transform}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn:active{box-shadow:1px 1px 0 var(--ink)}
+.btn.primary{background:var(--calamansi);color:var(--ink)}
+.btn.primary:hover{background:var(--ink);color:var(--calamansi)}
+
+/* header */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--veil);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:2px solid var(--ink)}
+.head-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{font:400 30px/1 var(--f-display);text-decoration:none;letter-spacing:.02em}
+.logo span{color:var(--pandan)}
+.nav{display:flex;gap:20px;align-items:center}
+.nav a{text-decoration:none;font-weight:600;color:var(--ink2)}
+.nav a:hover{color:var(--ink)}
+.cart{font:700 13px/1 var(--f-mono);border:2px solid var(--ink);border-radius:999px;padding:8px 12px;background:var(--panel);display:inline-flex;gap:8px;align-items:center}
+.cart i{font-style:normal;background:var(--chili);color:var(--on-dark);border-radius:999px;padding:3px 7px}
+.cart.bump{animation:bump .45s cubic-bezier(.3,1.7,.5,1)}
+@keyframes bump{40%{transform:scale(1.15) rotate(-4deg)}}
+
+/* hero */
+.hero{padding-block:56px 0;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:center}
+.hero h1{font-size:clamp(56px,9vw,128px);line-height:.92;letter-spacing:.005em;margin-top:14px}
+.hero h1 em{font-style:normal;color:var(--chili);display:inline-block;transform:rotate(-3deg)}
+.hero .sub{font-size:clamp(17px,1.8vw,20px);color:var(--ink2);max-width:42ch;margin-top:20px}
+.ctas{display:flex;gap:16px;flex-wrap:wrap;margin-top:30px}
+.can-hero{justify-self:center;width:min(100%,320px)}
+.can-hero svg{width:100%;height:auto;overflow:visible}
+.can-float{animation:float 4.5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes float{50%{transform:translateY(-10px) rotate(2deg)}}
+.drop{animation:drip 3.2s ease-in infinite;transform-box:fill-box}
+@keyframes drip{0%,60%{transform:translateY(0);opacity:1}100%{transform:translateY(40px);opacity:0}}
+.ticker{margin-top:56px;border-block:2.5px solid var(--ink);background:var(--calamansi);color:var(--ink);overflow:hidden;white-space:nowrap}
+.ticker.alt{margin-top:0;background:var(--ink);color:var(--bg);border-top:0}
+.ticker div{display:inline-block;padding-block:12px;font:700 15px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;animation:tick 26s linear infinite}
+.ticker.alt div{animation-direction:reverse;animation-duration:32s}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+.sec{padding-block:88px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+.sec-head h2{font-size:clamp(38px,5.4vw,72px);margin-top:10px;max-width:14ch}
+.sec-head p{color:var(--ink2);max-width:42ch}
+
+/* jar */
+.jar-wrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:stretch}
+.jar{position:relative;height:440px;border:2.5px solid var(--ink);border-radius:24px;background:var(--bg2);overflow:hidden;box-shadow:6px 6px 0 var(--ink);touch-action:none}
+.jar canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.jar .tag{position:absolute;z-index:2;font:700 12px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);pointer-events:none}
+.jar .tag.l{left:16px;top:16px}.jar .tag.r{right:16px;top:16px}
+.jar-btns{position:absolute;z-index:3;left:14px;top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:700 13px/1 var(--f-mono);padding:9px 12px;border-radius:999px;border:2px solid var(--ink);background:var(--panel);color:var(--ink);cursor:pointer}
+.chip:hover{background:var(--ink);color:var(--bg)}
+.reco{border:2.5px solid var(--ink);border-radius:24px;background:var(--panel);padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:6px 6px 0 var(--ink)}
+.reco h3{font-size:36px}
+.reco .picked{display:flex;flex-wrap:wrap;gap:6px;min-height:30px}
+.reco .picked span{font:700 12px/1 var(--f-mono);padding:7px 10px;border-radius:999px;border:2px solid var(--ink)}
+.reco p{color:var(--ink2)}
+.reco .match{display:flex;align-items:center;gap:14px}
+.reco .match svg{width:64px;height:auto;flex:none}
+
+/* cans */
+.cans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:22px}
+.can-card{border:2.5px solid var(--ink);border-radius:24px;background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:6px 6px 0 var(--ink);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.can-card:hover{transform:translateY(-6px) rotate(-1deg)}
+.can-card .art{display:grid;place-items:center;height:190px;border-radius:16px}
+.can-card .art svg{height:170px;width:auto}
+.can-card h3{font-size:30px}
+.can-card .o{font-size:14px;color:var(--ink2)}
+.notes{display:flex;flex-wrap:wrap;gap:6px}
+.notes span{font:700 11px/1 var(--f-mono);padding:6px 9px;border-radius:999px;border:2px solid var(--ink);text-transform:uppercase}
+.can-card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;border-top:2px dashed var(--line);padding-top:12px}
+.can-card dt{font:700 11px/1.6 var(--f-mono);text-transform:uppercase;color:var(--ink2)}
+.can-card dd{margin:0;font-weight:600}
+.can-card .btn{margin-top:auto;justify-content:center;font-size:15px;padding:14px 18px}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:start}
+.calc-panel{border:2.5px solid var(--ink);border-radius:24px;background:var(--panel);padding:24px;display:flex;flex-direction:column;gap:18px;box-shadow:6px 6px 0 var(--ink)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:700 14px/1 var(--f-body);padding:11px 14px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.ctl{display:flex;flex-direction:column;gap:8px}
+.ctl label,.ctl .lbl{font:700 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);display:flex;justify-content:space-between;gap:12px}
+.ctl label b{color:var(--ink);font-size:14px}
+input[type=range]{width:100%;accent-color:var(--pandan)}
+.out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.out div{border:2px solid var(--ink);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.out dt{font:700 10px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.out dd{margin:0;font:400 28px/1 var(--f-display)}
+.calc-stage{border:2.5px solid var(--ink);border-radius:24px;background:var(--bg2);padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:6px 6px 0 var(--ink)}
+.calc-stage svg{width:100%;height:auto;max-height:360px}
+.state-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pill{font:700 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border-radius:999px;border:2px solid var(--ink);background:var(--panel)}
+.pill.on{background:var(--pandan);color:var(--on-dark);border-color:var(--pandan)}
+.msg{color:var(--ink2);min-height:3.2em}
+
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:22px;align-items:stretch}
+.plan{border:2.5px solid var(--ink);border-radius:24px;background:var(--panel);padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:6px 6px 0 var(--ink)}
+.plan.hot{background:var(--pandan);color:var(--on-dark)}
+.plan.hot p,.plan.hot .per{color:var(--on-dark);opacity:.88}
+.plan h3{font-size:32px}
+.plan .price{font:400 52px/1 var(--f-display)}
+.plan .price small{font:700 14px var(--f-mono);margin-left:4px}
+.plan .per{font:700 12px/1 var(--f-mono);color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
+.plan p{color:var(--ink2)}
+.plan .btn{margin-top:auto;justify-content:center}
+.plan.hot .btn{background:var(--panel);color:var(--ink)}
+.badge{align-self:flex-start;font:700 11px/1 var(--f-mono);text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--calamansi);color:var(--ink);border:2px solid var(--ink)}
+
+/* kiosk */
+.kiosk{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:start}
+.kiosk h2{font-size:clamp(36px,4.6vw,60px)}
+.kiosk p{color:var(--ink2);margin-top:14px;max-width:48ch}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 18px;border:2.5px solid var(--ink);border-radius:24px;background:var(--panel);padding:22px}
+.kv dt{font:700 11px/1.7 var(--f-mono);text-transform:uppercase;color:var(--ink2)}
+.kv dd{margin:0}
+.foot{border-top:2.5px solid var(--ink);padding-block:26px 44px;font-size:14px;color:var(--ink2)}
+.foot .shell{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.toast{position:fixed;z-index:80;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--bg);font:600 14px/1.2 var(--f-body);padding:14px 20px;border-radius:999px;transition:opacity .25s,transform .25s;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion: reduce){
+  .can-float,.drop,.ticker div{animation:none}
+  .can-card,.can-card:hover{transform:none;transition:none}
+}
+@media (max-width:860px){
+  .nav a.hide-sm{display:none}
+  .hero-grid,.jar-wrap,.calc,.kiosk{grid-template-columns:1fr}
+  .can-hero{width:min(60%,240px)}
+  .jar{height:380px}
+  .sec{padding-block:68px}
+  .out dd{font-size:22px}
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P7</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+
+<header class="site-head">
+  <div class="shell head-in">
+    <a class="logo" href="#top">SEJUK<span>.</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#jar" class="hide-sm">Flavour jar</a>
+      <a href="#cans" class="hide-sm">Cans</a>
+      <a href="#calc" class="hide-sm">Brew at home</a>
+      <a href="#plans" class="hide-sm">Club</a>
+      <span class="cart" id="cart" aria-live="polite">Cans <i id="cart-n">0</i></span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="shell hero-grid">
+      <div>
+        <div class="kicker">Sejuk Cold Brew Club · Kuala Lumpur</div>
+        <h1 id="hero-h">Cold brew for <em>hot</em> KL days.</h1>
+        <p class="sub">Steeped for 18 hours in Kuala Lumpur, single-origin Arabica, canned fresh for your desk, your gym bag and your afternoon slump.</p>
+        <div class="ctas">
+          <a class="btn primary magnet" href="#cans"><span>Build your 12-pack</span></a>
+          <a class="btn magnet" href="#plans"><span>Join the club</span></a>
+        </div>
+      </div>
+      <div class="can-hero" aria-hidden="true">
+        <svg viewBox="0 0 220 300">
+          <g class="can-float">
+            <ellipse cx="110" cy="286" rx="70" ry="8" fill="var(--shadow)"/>
+            <rect x="40" y="30" width="140" height="240" rx="18" fill="var(--pandan)" stroke="var(--ink)" stroke-width="4"/>
+            <rect x="48" y="18" width="124" height="20" rx="8" fill="var(--line)" stroke="var(--ink)" stroke-width="4"/>
+            <rect x="40" y="90" width="140" height="120" fill="var(--calamansi)" stroke="var(--ink)" stroke-width="4"/>
+            <text x="110" y="148" text-anchor="middle" font-family="Lilita One, sans-serif" font-size="38" fill="var(--ink)">SEJUK</text>
+            <text x="110" y="176" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" font-weight="700" fill="var(--ink)">HIJAU PANDAN · 250 ML</text>
+            <text x="110" y="196" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="var(--ink)">STEEPED 18 H</text>
+            <path d="M62 52 v24" stroke="var(--panel)" stroke-width="6" stroke-linecap="round" opacity=".6"/>
+            <circle class="drop" cx="70" cy="226" r="4" fill="var(--water)" stroke="var(--ink)" stroke-width="1.5"/>
+            <circle class="drop" cx="150" cy="240" r="3.5" fill="var(--water)" stroke="var(--ink)" stroke-width="1.5" style="animation-delay:-1.4s"/>
+            <circle class="drop" cx="120" cy="250" r="3" fill="var(--water)" stroke="var(--ink)" stroke-width="1.5" style="animation-delay:-2.3s"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true"><div id="tick-a"></div></div>
+    <div class="ticker alt" aria-hidden="true"><div id="tick-b"></div></div>
+  </section>
+
+  <section class="sec" id="jar" aria-labelledby="jar-h">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">The flavour jar</div><h2 id="jar-h">Pick your notes, get your can</h2></div>
+        <p>Drag two or three stickers into the cup on the right. We'll match them to the can that tastes most like your pick.</p>
+      </div>
+      <div class="jar-wrap">
+        <div class="jar" id="jar-box">
+          <canvas id="jar-cv" aria-label="Flavour stickers. Drag them into the cup area on the right." role="img"></canvas>
+          <span class="tag r">Your cup ↓</span>
+          <div class="jar-btns"><button type="button" class="chip" id="shake">Shake the jar</button><button type="button" class="chip" id="empty">Empty the cup</button></div>
+        </div>
+        <aside class="reco" aria-live="polite">
+          <div class="kicker">In your cup</div>
+          <div class="picked" id="picked"></div>
+          <div class="match" id="match"></div>
+          <p id="reco-p">Drag a sticker into the cup to start.</p>
+          <div id="reco-btn"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="cans" aria-labelledby="cans-h" style="background:var(--bg2);border-block:2.5px solid var(--ink)">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">The cans · 250 ml</div><h2 id="cans-h">Four cans, one fridge</h2></div>
+        <p>Single-origin cold brew, no added white sugar. Twelve-packs bring the price per can down.</p>
+      </div>
+      <div class="cans" id="can-grid"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="calc" aria-labelledby="calc-h">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">Brew at home</div><h2 id="calc-h">Cold brew calculator</h2></div>
+        <p>Set your batch and strength. We'll give you the coffee dose and steep time, then run the steep for you.</p>
+      </div>
+      <div class="calc">
+        <div class="calc-panel">
+          <div class="ctl"><span class="lbl">Style</span>
+            <div class="seg" role="group" aria-label="Brew style"><button type="button" id="m-conc" aria-pressed="true">Concentrate</button><button type="button" id="m-rtd" aria-pressed="false">Ready to drink</button></div></div>
+          <div class="ctl"><label for="ratio">Ratio <b id="ratio-v">1:6</b></label><input type="range" id="ratio" min="4" max="8" step="1" value="6"></div>
+          <div class="ctl"><label for="water">Water <b id="water-v">1,000 ml</b></label><input type="range" id="water" min="500" max="2000" step="100" value="1000"></div>
+          <div class="ctl"><span class="lbl">Where it steeps</span>
+            <div class="seg" role="group" aria-label="Steep location"><button type="button" id="p-fridge" aria-pressed="true">Fridge, 4 °C</button><button type="button" id="p-room" aria-pressed="false">Room, 20–24 °C</button></div></div>
+          <dl class="out">
+            <div><dt>Coffee</dt><dd id="o-coffee">167 g</dd></div>
+            <div><dt>Steep</dt><dd id="o-steep">16–24 h</dd></div>
+            <div><dt>Grind</dt><dd>Coarse</dd></div>
+          </dl>
+          <p class="msg" id="o-note" style="min-height:0"></p>
+        </div>
+        <div class="calc-stage">
+          <div class="state-row">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill on" id="s-idle">Idle</span><span class="pill" id="s-steep">Steeping</span><span class="pill" id="s-ready">Ready</span></div>
+            <button type="button" class="btn primary magnet" id="go"><span>Start the steep</span></button>
+          </div>
+          <svg viewBox="0 0 360 300" aria-hidden="true">
+            <defs><clipPath id="jar-clip"><rect x="92" y="60" width="176" height="210" rx="22"/></clipPath></defs>
+            <rect id="liquid" x="92" y="150" width="176" height="120" fill="var(--water)" clip-path="url(#jar-clip)"/>
+            <rect id="grounds" x="92" y="232" width="176" height="38" fill="var(--melaka)" clip-path="url(#jar-clip)"/>
+            <g id="bits" clip-path="url(#jar-clip)" fill="var(--brew)"></g>
+            <rect x="92" y="60" width="176" height="210" rx="22" fill="none" stroke="var(--ink)" stroke-width="4"/>
+            <rect x="84" y="40" width="192" height="26" rx="8" fill="var(--panel)" stroke="var(--ink)" stroke-width="4"/>
+            <path d="M110 80 v40" stroke="var(--panel)" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+            <g transform="translate(300 70)">
+              <circle r="30" fill="var(--panel)" stroke="var(--ink)" stroke-width="3"/>
+              <line id="hand" x1="0" y1="0" x2="0" y2="-22" stroke="var(--chili)" stroke-width="3" stroke-linecap="round"/>
+              <circle r="3" fill="var(--ink)"/>
+            </g>
+            <text id="hours" x="300" y="122" text-anchor="middle" font-family="Space Mono, monospace" font-size="13" font-weight="700" fill="var(--ink)">0 h</text>
+            <g id="filter" opacity="0">
+              <path d="M110 6 h140 l-40 40 h-60z" fill="var(--panel)" stroke="var(--ink)" stroke-width="3"/>
+              <path d="M180 46 v14" stroke="var(--brew)" stroke-width="5" stroke-linecap="round"/>
+            </g>
+            <text id="snow1" x="40" y="110" font-size="22" fill="var(--ice)">❄</text>
+            <text id="snow2" x="50" y="190" font-size="16" fill="var(--ice)">❄</text>
+          </svg>
+          <p class="msg" id="msg">Set your batch and strength, then start the steep.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="plans" aria-labelledby="plans-h" style="background:var(--bg2);border-block:2.5px solid var(--ink)">
+    <div class="shell">
+      <div class="sec-head">
+        <div><div class="kicker">The club</div><h2 id="plans-h">Never run out again</h2></div>
+        <p>Monthly drops, swap flavours any week, pause whenever you like.</p>
+      </div>
+      <div class="plans" id="plan-grid"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="kiosk" aria-labelledby="kiosk-h">
+    <div class="shell kiosk">
+      <div>
+        <div class="kicker">Pick up · delivery</div>
+        <h2 id="kiosk-h">Grab one cold from the Hatch</h2>
+        <p>Our TTDI kiosk keeps every can at fridge temperature. Collect your club drop, swap a flavour, or just grab one on the way to work.</p>
+      </div>
+      <dl class="kv">
+        <dt>Kiosk</dt><dd>Sejuk Hatch, Jalan Tun Mohd Fuad 2, Taman Tun Dr Ismail, Kuala Lumpur</dd>
+        <dt>Hours</dt><dd>Mon–Sat · 8 am–7 pm</dd>
+        <dt>Delivery</dt><dd>Same-day cold delivery in the Klang Valley for orders before 2 pm. 2 days to the rest of Peninsular Malaysia. Chilled air freight to Sabah and Sarawak.</dd>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="shell"><span>Sejuk Cold Brew Club · design preview, not a live shop</span><span style="font-family:var(--f-mono)">Brewed slow in Kuala Lumpur</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- content ---------- */
+var TICKS_A = ["Steeped cold 18 hours","Single-origin beans","No added white sugar","Real coffee, extra kaw","Straight to your fridge","Cans 100% recyclable"];
+var TICKS_B = ["Hitam Bold","Kelapa Cream","Hijau Pandan","Citrus Spark","Same-day Klang Valley"];
+var NOTES = [
+  {id:"melaka", label:"Gula Melaka", col:"#8a4a1f", ink:"#fbf4ea"},
+  {id:"pandan", label:"Pandan", col:"#2f8f55", ink:"#fbfefd"},
+  {id:"calamansi", label:"Calamansi", col:"#f0a412", ink:"#1c1410"},
+  {id:"cacao", label:"Cacao", col:"#4a2b1c", ink:"#fbf4ea"},
+  {id:"santan", label:"Santan", col:"#f4efe2", ink:"#1c1410"},
+  {id:"cengkih", label:"Cengkih", col:"#8e2f2a", ink:"#fbf4ea"},
+  {id:"nangka", label:"Nangka", col:"#f6cf4a", ink:"#1c1410"},
+  {id:"halia", label:"Halia", col:"#d9b98a", ink:"#1c1410"}
+];
+var CANS = [
+  {id:"hitam", name:"Hitam Bold", origin:"Mandheling, North Sumatra · wet-hulled", notes:["cacao","cengkih"], mg:210, can:"11.00", pack:"120.00", band:"var(--ink)", body:"var(--melaka)"},
+  {id:"kelapa", name:"Kelapa Cream", origin:"Cerrado Mineiro, Brazil · natural", notes:["santan","melaka","cacao"], mg:175, can:"13.00", pack:"142.00", band:"var(--panel)", body:"var(--melaka)"},
+  {id:"pandan", name:"Hijau Pandan", origin:"Chiang Mai, Thailand · washed", notes:["pandan","melaka"], mg:185, can:"12.50", pack:"136.00", band:"var(--calamansi)", body:"var(--pandan)"},
+  {id:"citrus", name:"Citrus Spark", origin:"Yirgacheffe, Ethiopia · washed", notes:["calamansi","halia"], mg:160, can:"12.50", pack:"136.00", band:"var(--panel)", body:"var(--calamansi)"}
+];
+var PLANS = [
+  {name:"Solo Stash", cans:12, price:120, per:"3 cans a week · RM 10.00 a can", perk:"Free Klang Valley doorstep delivery and weekly flavour swaps."},
+  {name:"Office Fuel", cans:24, price:228, per:"6 cans a week · RM 9.50 a can", perk:"Two free limited-run seasonal cans in every monthly drop.", hot:true},
+  {name:"Cold Syndicate", cans:48, price:432, per:"12 cans a week · RM 9.00 a can", perk:"Chilled delivery, a steel Sejuk can cooler, and first pick of rare lots."}
+];
+var MSG = {
+  idle:"Set your batch and strength, then start the steep.",
+  steeping:"Coffee is under water. The cold pulls out the sugars without the harsh acids.",
+  ready:"Steep time reached. Strain through a fine mesh or paper filter and chill straight away."
+};
+
+var root = document.documentElement;
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+function lerp(a,b,t){ return a+(b-a)*t; }
+function noteById(id){ for(var i=0;i<NOTES.length;i++) if(NOTES[i].id === id) return NOTES[i]; return null; }
+var T = {};
+function readTokens(){ var cs = getComputedStyle(root); ["ink","ink2","line","panel","bg2","water","brew","pandan"].forEach(function(n){ T[n] = cs.getPropertyValue("--"+n).trim(); }); }
+readTokens();
+var themeHooks = [];
+function onTheme(){ readTokens(); themeHooks.forEach(function(f){ f(); }); }
+new MutationObserver(onTheme).observe(root, {attributes:true, attributeFilter:["data-theme"]});
+var mq = matchMedia("(prefers-color-scheme: dark)"); if(mq.addEventListener) mq.addEventListener("change", onTheme);
+
+/* ---------- cart + toast ---------- */
+var cart = 0, toastT;
+function toast(m){ var t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove("show"); }, 2600); }
+function addCans(n, label){ cart += n; $("cart-n").textContent = cart; var c = $("cart"); if(!reduce){ c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); } toast(label); }
+
+/* ---------- can art ---------- */
+function canSVG(c, w){
+  return '<svg viewBox="0 0 120 180" ' + (w ? 'width="' + w + '"' : '') + ' aria-hidden="true"><rect x="16" y="14" width="88" height="156" rx="12" fill="' + c.body + '" stroke="var(--ink)" stroke-width="3"/><rect x="22" y="6" width="76" height="14" rx="6" fill="var(--line)" stroke="var(--ink)" stroke-width="3"/><rect x="16" y="62" width="88" height="66" fill="' + c.band + '" stroke="var(--ink)" stroke-width="3"/><text x="60" y="92" text-anchor="middle" font-family="Lilita One, sans-serif" font-size="20" fill="' + (c.band === "var(--ink)" ? "var(--panel)" : "var(--ink)") + '">SEJUK</text><text x="60" y="110" text-anchor="middle" font-family="Space Mono, monospace" font-size="7" font-weight="700" fill="' + (c.band === "var(--ink)" ? "var(--panel)" : "var(--ink)") + '">' + esc(c.name.toUpperCase()) + '</text><path d="M30 26 v22" stroke="var(--panel)" stroke-width="4" stroke-linecap="round" opacity=".55"/></svg>';
+}
+function noteChip(id){ var n = noteById(id); return '<span style="background:' + n.col + ';color:' + n.ink + '">' + esc(n.label) + "</span>"; }
+
+/* ---------- render static ---------- */
+function renderStatic(){
+  var a = TICKS_A.join("  ✱  ") + "  ✱  ", b = TICKS_B.join("  ///  ") + "  ///  ";
+  $("tick-a").textContent = a + a; $("tick-b").textContent = b + b + b;
+  $("can-grid").innerHTML = CANS.map(function(c){
+    return '<article class="can-card"><div class="art" style="background:var(--bg)">' + canSVG(c) + '</div><h3>' + esc(c.name) + '</h3><div class="o">' + esc(c.origin) + '</div><div class="notes">' + c.notes.map(noteChip).join("") +
+      '</div><dl><dt>Caffeine</dt><dd>' + c.mg + ' mg / can</dd><dt>Single</dt><dd>RM ' + c.can + '</dd><dt>12-pack</dt><dd>RM ' + c.pack + '</dd></dl><button type="button" class="btn primary magnet" data-pack="' + c.id + '"><span>Add 12-pack</span></button></article>';
+  }).join("");
+  $("plan-grid").innerHTML = PLANS.map(function(p){
+    return '<article class="plan' + (p.hot ? " hot" : "") + '">' + (p.hot ? '<span class="badge">Most picked</span>' : "") + '<h3>' + esc(p.name) + '</h3><div class="price">RM ' + p.price + '<small>/ month</small></div><div class="per">' + p.cans + " cans · " + esc(p.per) + '</div><p>' + esc(p.perk) + '</p><button type="button" class="btn magnet" data-plan="' + esc(p.name) + '"><span>Start ' + esc(p.name) + "</span></button></article>";
+  }).join("");
+  document.addEventListener("click", function(e){
+    var pk = e.target.closest("[data-pack]");
+    if(pk){ var c = CANS.filter(function(x){ return x.id === pk.getAttribute("data-pack"); })[0]; addCans(12, "12 × " + c.name + " added"); return; }
+    var pl = e.target.closest("[data-plan]");
+    if(pl){ toast(pl.getAttribute("data-plan") + " picked. Checkout would open here."); }
+  });
+}
+
+/* ---------- 1. physics flavour jar ---------- */
+function initJar(){
+  var box = $("jar-box"), cv = $("jar-cv"), ctx = cv.getContext("2d");
+  var W = 1, H = 1, dpr = 1, bodies = [], drag = null, visible = false, raf = null, G = 1300, E = 0.45, last = 0, lastKey = "";
+  function cupRect(){ var cw = Math.max(140, W*0.32); return {x: W - cw - 16, y: H*0.36, w: cw, h: H*0.64 - 16}; }
+  function fit(){
+    var r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height;
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
+    bodies.forEach(function(b){ b.x = clamp(b.x, b.r, W - b.r); b.y = clamp(b.y, b.r, H - b.r); });
+    draw();
+  }
+  function seed(){
+    bodies = NOTES.map(function(n, i){
+      var r = Math.max(34, Math.min(50, n.label.length*4.6 + 12));
+      return {n:n, r:r, x: 40 + (i*83) % Math.max(100, W*0.55), y: 70 + Math.floor(i/4)*70, vx:(Math.random()-.5)*60, vy:0, rot:(Math.random()-.5)*.6};
+    });
+  }
+  function solid(x0, y0, x1, y1, b){ // treat a line segment as a wall
+    var dx = x1 - x0, dy = y1 - y0, L2 = dx*dx + dy*dy, t = clamp(((b.x - x0)*dx + (b.y - y0)*dy)/L2, 0, 1);
+    var px = x0 + t*dx, py = y0 + t*dy, ox = b.x - px, oy = b.y - py, d = Math.hypot(ox, oy);
+    if(d > 0 && d < b.r){ var nx = ox/d, ny = oy/d; b.x = px + nx*b.r; b.y = py + ny*b.r; var vn = b.vx*nx + b.vy*ny; if(vn < 0){ b.vx -= (1+E)*vn*nx; b.vy -= (1+E)*vn*ny; } }
+  }
+  function step(dt){
+    var c = cupRect(), n = bodies.length, i, j;
+    for(i=0;i<n;i++){
+      var b = bodies[i]; if(drag && drag.b === b) continue;
+      b.vy += G*dt; b.x += b.vx*dt; b.y += b.vy*dt; b.rot += b.vx*dt*0.008;
+      if(b.x < b.r){ b.x = b.r; b.vx = -b.vx*E; } if(b.x > W - b.r){ b.x = W - b.r; b.vx = -b.vx*E; }
+      if(b.y < b.r){ b.y = b.r; b.vy = -b.vy*E; } if(b.y > H - b.r){ b.y = H - b.r; b.vy = -b.vy*E; b.vx *= 0.97; }
+      solid(c.x, c.y, c.x, c.y + c.h, b); // cup's left wall
+    }
+    for(i=0;i<n;i++) for(j=i+1;j<n;j++){
+      var a = bodies[i], o = bodies[j], dx = o.x - a.x, dy = o.y - a.y, d = Math.hypot(dx, dy), m = a.r + o.r;
+      if(d > 0 && d < m){
+        var nx = dx/d, ny = dy/d, pen = (m - d)/2, aD = drag && drag.b === a, oD = drag && drag.b === o;
+        if(!aD){ a.x -= nx*pen*(oD?2:1); a.y -= ny*pen*(oD?2:1); }
+        if(!oD){ o.x += nx*pen*(aD?2:1); o.y += ny*pen*(aD?2:1); }
+        var vn = (o.vx - a.vx)*nx + (o.vy - a.vy)*ny;
+        if(vn < 0){ var jn = -(1+E)*vn/2; a.vx -= jn*nx; a.vy -= jn*ny; o.vx += jn*nx; o.vy += jn*ny; }
+      }
+    }
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    var c = cupRect();
+    // cup
+    ctx.fillStyle = T.water; ctx.globalAlpha = .45; ctx.fillRect(c.x, c.y, c.w, c.h); ctx.globalAlpha = 1;
+    ctx.strokeStyle = T.ink; ctx.lineWidth = 3; ctx.setLineDash([8, 7]);
+    ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(c.x, c.y + c.h); ctx.stroke(); ctx.setLineDash([]);
+    ctx.font = "700 12px 'Space Mono', monospace"; ctx.fillStyle = T.ink2; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("DROP NOTES HERE", c.x + c.w/2, c.y + 20);
+    // stickers
+    ctx.font = "700 12px 'Space Mono', monospace";
+    bodies.forEach(function(b){
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.rot);
+      ctx.beginPath(); ctx.arc(3, 4, b.r, 0, 6.283); ctx.fillStyle = T.ink; ctx.fill();
+      ctx.beginPath(); ctx.arc(0, 0, b.r, 0, 6.283); ctx.fillStyle = b.n.col; ctx.fill();
+      ctx.lineWidth = 2.5; ctx.strokeStyle = T.ink; ctx.stroke();
+      ctx.fillStyle = b.n.ink; var parts = b.n.label.split(" ");
+      parts.forEach(function(p, k){ ctx.fillText(p.toUpperCase(), 0, (k - (parts.length - 1)/2)*14); });
+      ctx.restore();
+    });
+  }
+  function inCup(){ var c = cupRect(); return bodies.filter(function(b){ return b.x > c.x && b.y > c.y; }).map(function(b){ return b.n.id; }); }
+  function recommend(){
+    var ids = inCup().sort(), key = ids.join(","); if(key === lastKey) return; lastKey = key;
+    $("picked").innerHTML = ids.length ? ids.map(noteChip).join("") : '<span style="border-style:dashed;color:var(--ink2)">Empty</span>';
+    $("picked").className = "picked notes";
+    if(!ids.length){ $("match").innerHTML = ""; $("reco-p").textContent = "Drag a sticker into the cup to start."; $("reco-btn").innerHTML = ""; return; }
+    var best = null, score = 0;
+    CANS.forEach(function(c){ var s = c.notes.filter(function(n){ return ids.indexOf(n) >= 0; }).length; if(s > score){ score = s; best = c; } });
+    if(!best){ $("match").innerHTML = ""; $("reco-p").textContent = ids.indexOf("nangka") >= 0 ? "Nangka is our next seasonal can. Add another note and we'll match you today." : "No can matches that yet. Try another note."; $("reco-btn").innerHTML = ""; return; }
+    $("match").innerHTML = canSVG(best) + '<div><h3>' + esc(best.name) + '</h3><div style="color:var(--ink2);font-size:14px">' + esc(best.origin) + "</div></div>";
+    $("reco-p").textContent = "Matches " + score + " of your " + ids.length + " note" + (ids.length > 1 ? "s" : "") + ". " + best.mg + " mg caffeine per can.";
+    $("reco-btn").innerHTML = '<button type="button" class="btn primary magnet" data-pack="' + best.id + '"><span>Add a 12-pack · RM ' + best.pack + "</span></button>";
+    bindMagnets();
+  }
+  function loop(now){
+    var dt = Math.min(0.033, (now - last)/1000 || 0.016); last = now;
+    for(var s=0;s<3;s++) step(dt/3);
+    draw(); recommend();
+    raf = visible && !document.hidden ? requestAnimationFrame(loop) : null;
+  }
+  function kick(){ if(!raf && visible && !document.hidden){ last = performance.now(); raf = requestAnimationFrame(loop); } }
+  function local(e){ var r = cv.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; }
+  cv.addEventListener("pointerdown", function(e){
+    var p = local(e);
+    for(var i=bodies.length-1;i>=0;i--){ var b = bodies[i]; if(Math.hypot(p.x - b.x, p.y - b.y) < b.r){ drag = {b:b, x:p.x, y:p.y, t:performance.now()}; b.vx = b.vy = 0; cv.setPointerCapture(e.pointerId); cv.style.cursor = "grabbing"; bodies.splice(i,1); bodies.push(b); break; } }
+  });
+  cv.addEventListener("pointermove", function(e){
+    if(!drag) return;
+    var p = local(e), now = performance.now(), dt = Math.max(8, now - drag.t)/1000;
+    drag.b.vx = clamp((p.x - drag.x)/dt, -2400, 2400); drag.b.vy = clamp((p.y - drag.y)/dt, -2400, 2400);
+    drag.b.x = clamp(p.x, drag.b.r, W - drag.b.r); drag.b.y = clamp(p.y, drag.b.r, H - drag.b.r);
+    drag.x = p.x; drag.y = p.y; drag.t = now;
+    if(!raf){ draw(); recommend(); }
+  });
+  function end(){ drag = null; cv.style.cursor = "grab"; kick(); }
+  cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+  $("shake").addEventListener("click", function(){ bodies.forEach(function(b){ b.vx += (Math.random()-.5)*1000; b.vy -= 500 + Math.random()*700; }); kick(); });
+  $("empty").addEventListener("click", function(){ var c = cupRect(); bodies.forEach(function(b){ if(b.x > c.x && b.y > c.y){ b.x = 40 + Math.random()*(c.x - 80); b.y = 40; b.vx = 0; b.vy = 0; } }); kick(); if(!raf){ draw(); recommend(); } });
+  new IntersectionObserver(function(es){ visible = es[0].isIntersecting && !reduce; kick(); }).observe(box);
+  document.addEventListener("visibilitychange", kick);
+  themeHooks.push(draw);
+  var r0 = cv.getBoundingClientRect(); W = r0.width; H = r0.height; seed();
+  new ResizeObserver(fit).observe(cv);
+  if(reduce){ // settle without animating
+    fit(); for(var k=0;k<600;k++) step(1/120);
+    // pre-fill the cup so the recommendation panel shows an example
+    var c = cupRect(); [bodies[1], bodies[0]].forEach(function(b, i){ b.x = c.x + c.w/2 + (i ? -20 : 20); b.y = H - b.r - i*60; });
+    for(k=0;k<300;k++) step(1/120);
+    draw(); recommend();
+  }
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+}
+
+/* ---------- 2. cold brew calculator (state machine) ---------- */
+function initCalc(){
+  var mode = "conc", place = "fridge", state = "idle", h = 0, raf = null, start = 0;
+  var ratio = $("ratio"), water = $("water");
+  var liquid = $("liquid"), grounds = $("grounds"), bits = $("bits"), hand = $("hand"), hours = $("hours"), filter = $("filter");
+  var bitHTML = ""; for(var i=0;i<26;i++) bitHTML += '<circle cx="' + (100 + Math.random()*160).toFixed(0) + '" cy="' + (160 + Math.random()*70).toFixed(0) + '" r="' + (1.5 + Math.random()*2).toFixed(1) + '" opacity="0"/>';
+  bits.innerHTML = bitHTML;
+  function steepRange(){ return place === "fridge" ? [16, 24] : [12, 16]; }
+  function steepTarget(){ var r = steepRange(); return place === "fridge" ? 18 : 14; }
+  function update(){
+    var rv = +ratio.value, wv = +water.value, g = Math.round(wv / rv);
+    $("ratio-v").textContent = "1:" + rv;
+    $("water-v").textContent = wv.toLocaleString("en-MY") + " ml";
+    $("o-coffee").textContent = g + " g";
+    var sr = steepRange(); $("o-steep").textContent = sr[0] + "–" + sr[1] + " h";
+    $("o-note").textContent = mode === "conc" ? "Concentrate: dilute about 1:1 with water, milk or ice to serve." : "Ready to drink: pour straight over ice, no dilution.";
+    var fill = clamp((wv - 500)/1500, 0, 1), top = lerp(190, 110, fill);
+    liquid.setAttribute("y", top.toFixed(0)); liquid.setAttribute("height", (270 - top).toFixed(0));
+    var gh = lerp(16, 50, clamp(g/500, 0, 1)); grounds.setAttribute("y", (270 - gh).toFixed(0)); grounds.setAttribute("height", gh.toFixed(0));
+    paint();
+  }
+  function paint(){
+    var target = steepTarget(), k = clamp(h/target, 0, 1);
+    hand.setAttribute("transform", "rotate(" + (h/24*360).toFixed(1) + ")");
+    hours.textContent = Math.floor(h) + " h";
+    liquid.style.fill = k > 0 ? "color-mix(in srgb, var(--brew) " + Math.round(k*88) + "%, var(--water))" : "";
+    Array.prototype.forEach.call(bits.children, function(c, i){ c.setAttribute("opacity", state === "steeping" ? (0.25 + 0.5*Math.abs(Math.sin(h + i))).toFixed(2) : "0"); });
+    grounds.setAttribute("opacity", state === "ready" ? "0.25" : "1");
+    filter.setAttribute("opacity", state === "ready" ? "1" : "0");
+    ["idle","steep","ready"].forEach(function(s){ $("s-" + s).classList.toggle("on", (s === "steep" ? "steeping" : s) === state); });
+    $("msg").textContent = MSG[state] + (state === "steeping" ? " " + Math.floor(h) + " of " + target + " h." : "");
+    $("go").firstElementChild.textContent = state === "idle" ? "Start the steep" : state === "steeping" ? "Skip to ready" : "Brew another batch";
+  }
+  function run(now){
+    if(!start) start = now;
+    h = Math.min(steepTarget(), (now - start)/1000 * 2.4); // ~7.5 s for an 18 h fridge steep
+    if(h >= steepTarget()){ state = "ready"; raf = null; paint(); return; }
+    paint(); raf = requestAnimationFrame(run);
+  }
+  $("go").addEventListener("click", function(){
+    if(state === "idle"){ state = "steeping"; h = 0; start = 0; if(reduce){ h = steepTarget(); state = "ready"; paint(); } else raf = requestAnimationFrame(run); }
+    else if(state === "steeping"){ if(raf) cancelAnimationFrame(raf); raf = null; h = steepTarget(); state = "ready"; paint(); }
+    else { state = "idle"; h = 0; paint(); }
+  });
+  function setMode(m){
+    mode = m; $("m-conc").setAttribute("aria-pressed", String(m === "conc")); $("m-rtd").setAttribute("aria-pressed", String(m === "rtd"));
+    if(m === "conc"){ ratio.min = 4; ratio.max = 8; ratio.value = 6; } else { ratio.min = 12; ratio.max = 16; ratio.value = 14; }
+    update();
+  }
+  function setPlace(p){ place = p; $("p-fridge").setAttribute("aria-pressed", String(p === "fridge")); $("p-room").setAttribute("aria-pressed", String(p === "room")); if(state !== "steeping"){ state = "idle"; h = 0; } update(); }
+  $("m-conc").addEventListener("click", function(){ setMode("conc"); });
+  $("m-rtd").addEventListener("click", function(){ setMode("rtd"); });
+  $("p-fridge").addEventListener("click", function(){ setPlace("fridge"); });
+  $("p-room").addEventListener("click", function(){ setPlace("room"); });
+  ratio.addEventListener("input", update); water.addEventListener("input", update);
+  update();
+}
+
+/* ---------- 3. magnetic buttons ---------- */
+function bindMagnets(){
+  if(!fine || reduce) return;
+  document.querySelectorAll(".magnet:not([data-mag])").forEach(function(btn){
+    btn.setAttribute("data-mag", "");
+    var label = btn.firstElementChild, raf = null, tx = 0, ty = 0, cx = 0, cy = 0;
+    function loop(){ cx += (tx - cx)*0.2; cy += (ty - cy)*0.2;
+      btn.style.transform = "translate(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px)";
+      if(label) label.style.transform = "translate(" + (cx*0.4).toFixed(1) + "px," + (cy*0.4).toFixed(1) + "px)";
+      raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.1 ? requestAnimationFrame(loop) : null; }
+    var zone = btn.parentElement;
+    zone.addEventListener("pointermove", function(e){
+      if(e.pointerType !== "mouse") return;
+      var r = btn.getBoundingClientRect(), dx = e.clientX - (r.left + r.width/2 - cx), dy = e.clientY - (r.top + r.height/2 - cy), d = Math.hypot(dx, dy);
+      var f = d < 120 ? (1 - d/120) : 0; tx = dx*0.35*f; ty = dy*0.35*f; if(!raf) raf = requestAnimationFrame(loop);
+    });
+    zone.addEventListener("pointerleave", function(){ tx = ty = 0; if(!raf) raf = requestAnimationFrame(loop); });
+  });
+}
+
+try{ renderStatic(); }catch(e){ console.error("static", e); }
+try{ initJar(); }catch(e){ console.error("jar", e); }
+try{ initCalc(); }catch(e){ console.error("calc", e); }
+try{ bindMagnets(); }catch(e){ console.error("magnets", e); }
+})();
+</script>
+</body>
+</html>

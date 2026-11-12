@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laju Coffee Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: app-first chain — navy hero with phone mockup, outlet bar, tabbed drink grid, floating cart pill */
+:root {
+  color-scheme: light;
+  --navy: #002B49; --navy-dark: #001C30; --blue: #0055FF; --blue-hover: #0044CC; --sky: #7CC4FF;
+  --ice: #F0F4F8; --white: #FFFFFF; --slate: #5B6B80; --line: #E2E8F0; --success: #0E8A5F;
+  --font: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --pill: 9999px; --card: 20px; --sm: 12px;
+  --shadow-sm: 0 2px 8px rgba(0,43,73,.06); --shadow-md: 0 8px 24px rgba(0,43,73,.08); --shadow-lg: 0 16px 36px rgba(0,43,73,.16);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--ice); color: var(--navy); font-family: var(--font); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 101; background: var(--navy); }
+h1, h2, h3 { text-wrap: balance; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.wrap { max-width: 1140px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.dark :focus-visible { outline-color: var(--sky); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit; font-weight: 700; font-size: 15px; border-radius: var(--pill); padding: 12px 24px; text-decoration: none; cursor: pointer; border: none; white-space: nowrap; transition: background-color .15s ease, transform .15s ease; }
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--blue); color: var(--white); box-shadow: 0 4px 14px rgba(0,85,255,.35); }
+.btn-primary:hover { background: var(--blue-hover); }
+.btn-secondary { background: var(--white); color: var(--navy); border: 1px solid var(--line); }
+.btn-secondary:hover { background: var(--ice); }
+.btn-ghost { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,.45); }
+.btn-ghost:hover { background: rgba(255,255,255,.1); }
+.btn-sm { padding: 8px 18px; font-size: 13px; }
+
+.nav-band { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 100; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,.1); padding-block: 14px; }
+.nav-container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--white); }
+.brand-logo { width: 32px; height: 32px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.brand-name { font-size: 20px; font-weight: 900; letter-spacing: -.5px; }
+.brand-name span { color: var(--sky); }
+.nav-menu { display: flex; align-items: center; gap: 24px; list-style: none; }
+.nav-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: 15px; font-weight: 600; }
+.nav-link:hover { color: var(--white); }
+
+.hero-band { background: var(--navy); color: var(--white); padding-block: 56px 64px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 40px; }
+.hero-grid > * { min-width: 0; }
+.hero-badge { display: inline-flex; background: rgba(0,85,255,.25); border: 1px solid rgba(124,196,255,.4); color: var(--sky); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 6px 14px; border-radius: var(--pill); margin-bottom: 20px; }
+.hero-title { font-size: clamp(34px, 5.5vw, 56px); font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 18px; }
+.hero-text { font-size: 18px; color: rgba(255,255,255,.82); margin-bottom: 32px; max-width: 520px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.phone-wrap { display: flex; justify-content: center; }
+.phone-frame { width: 100%; max-width: 290px; background: var(--navy-dark); border: 8px solid #0B1926; border-radius: 40px; padding: 10px; box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,.1); }
+.phone-screen { background: var(--navy); border-radius: 28px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.phone-notch { width: 80px; height: 12px; background: #000000; border-radius: 10px; margin: 0 auto 4px; }
+.phone-status { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.7); }
+.phone-outlet { display: flex; justify-content: space-between; gap: 8px; background: rgba(255,255,255,.08); padding: 8px 12px; border-radius: 12px; font-size: 12px; }
+.phone-outlet span:last-child { color: var(--sky); font-weight: 700; }
+.phone-order { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.phone-item { display: flex; align-items: center; gap: 10px; }
+.phone-cup { width: 36px; height: 36px; background: var(--blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.phone-item h4 { font-size: 13px; font-weight: 700; line-height: 1.2; }
+.phone-item p { font-size: 11px; color: rgba(255,255,255,.65); }
+.phone-code { background: #001F35; border-radius: 10px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; }
+.phone-code span:first-child { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,.6); font-weight: 700; }
+.phone-code span:last-child { font-size: 16px; font-weight: 900; color: var(--sky); letter-spacing: 1px; }
+.phone-progress-label { font-size: 10px; color: rgba(255,255,255,.7); display: flex; justify-content: space-between; margin-bottom: 4px; }
+.phone-bar { height: 6px; background: rgba(255,255,255,.15); border-radius: 4px; overflow: hidden; }
+.phone-bar div { width: 70%; height: 100%; background: var(--blue); }
+.phone-btn { background: var(--blue); border-radius: 10px; padding: 8px; font-size: 12px; font-weight: 700; text-align: center; }
+
+.outlet-band { background: var(--white); border-bottom: 1px solid var(--line); padding-block: 20px; box-shadow: var(--shadow-sm); }
+.outlet-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.outlet-picker { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.outlet-label { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--slate); }
+.outlet-select { font: inherit; font-size: 15px; font-weight: 700; color: var(--navy); background: var(--ice); border: 1.5px solid var(--line); padding: 10px 16px; border-radius: var(--sm); cursor: pointer; }
+.outlet-details { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+.status-pill { display: inline-flex; align-items: center; gap: 6px; background: #ECFDF5; color: #065F46; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: var(--pill); }
+.status-pill.closed { background: #FEF2F2; color: #991B1B; }
+.status-dot { width: 8px; height: 8px; background: currentColor; border-radius: 50%; }
+.info-item { display: flex; flex-direction: column; }
+.info-sub { font-size: 11px; color: var(--slate); font-weight: 700; text-transform: uppercase; }
+.info-main { font-size: 14px; font-weight: 700; }
+.info-main small { font-size: 11px; font-weight: 400; color: var(--slate); }
+.waze-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--ice); color: var(--navy); text-decoration: none; font-size: 13px; font-weight: 700; padding: 9px 16px; border-radius: var(--pill); border: 1.5px solid var(--line); }
+.waze-btn:hover { background: var(--line); }
+
+.menu-band, .rewards-band { padding-block: 56px 64px; }
+.section-header { margin-bottom: 28px; }
+.section-badge { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--blue); letter-spacing: .8px; margin-bottom: 6px; }
+.section-title { font-size: clamp(26px, 4vw, 36px); font-weight: 900; letter-spacing: -.5px; }
+.tablist-wrap { margin-bottom: 32px; overflow-x: auto; padding: 2px 2px 4px; }
+.tab-list { display: inline-flex; background: var(--line); padding: 4px; border-radius: var(--pill); gap: 4px; }
+.tab-btn { font: inherit; font-size: 14px; font-weight: 700; border: none; background: transparent; color: var(--slate); padding: 10px 22px; border-radius: var(--pill); cursor: pointer; white-space: nowrap; }
+.tab-btn[aria-selected="true"] { background: var(--navy); color: var(--white); box-shadow: 0 2px 8px rgba(0,43,73,.15); }
+.menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.drink-card { min-width: 0; background: var(--white); border-radius: var(--card); padding: 20px; border: 1px solid var(--line); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 16px; transition: transform .15s ease, box-shadow .15s ease; }
+.drink-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.drink-visual { height: 110px; background: var(--ice); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+.drink-name { font-size: 16px; font-weight: 800; line-height: 1.3; margin-bottom: 4px; }
+.drink-desc { font-size: 13px; color: var(--slate); line-height: 1.4; }
+.size-fieldset { border: none; min-width: 0; }
+.size-options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--ice); padding: 4px; border-radius: 10px; position: relative; }
+.size-input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.size-label { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; padding: 6px 4px; border-radius: 7px; color: var(--slate); cursor: pointer; text-align: center; }
+.size-input:checked + .size-label { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(0,43,73,.1); }
+.size-input:focus-visible + .size-label { outline: 2px solid var(--blue); }
+.drink-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line); margin-top: auto; }
+.drink-price { font-size: 18px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.btn-add { background: var(--navy); color: var(--white); padding: 8px 18px; font: inherit; font-size: 13px; font-weight: 700; border-radius: var(--pill); border: none; cursor: pointer; }
+.btn-add:hover { background: var(--blue); }
+.btn-add.added { background: var(--success); }
+
+.steps-band { background: var(--white); border-block: 1px solid var(--line); padding-block: 56px 64px; }
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step-card { min-width: 0; background: var(--ice); border-radius: var(--card); padding: 28px; display: flex; flex-direction: column; gap: 14px; border: 1px solid var(--line); }
+.step-num { width: 42px; height: 42px; background: var(--navy); color: var(--white); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; }
+.step-title { font-size: 18px; font-weight: 800; }
+.step-desc { font-size: 14px; color: var(--slate); }
+
+.rewards-card { background: var(--navy); color: var(--white); border-radius: 24px; padding: 36px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; box-shadow: var(--shadow-lg); }
+.rewards-card > * { min-width: 0; }
+.rewards-pill { display: inline-block; background: rgba(0,85,255,.3); color: var(--sky); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 6px 14px; border-radius: var(--pill); margin-bottom: 14px; }
+.rewards-title { font-size: clamp(22px, 3.5vw, 30px); font-weight: 900; line-height: 1.2; margin-bottom: 10px; }
+.rewards-copy { font-size: 16px; color: rgba(255,255,255,.82); margin-bottom: 18px; }
+.rewards-status { font-size: 13px; font-weight: 700; color: var(--sky); }
+.stamp-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+.stamp-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: rgba(255,255,255,.7); }
+.stamps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stamp { aspect-ratio: 1; max-width: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; }
+.stamp.on { background: var(--blue); color: var(--white); box-shadow: 0 4px 12px rgba(0,85,255,.4); }
+.stamp.off { border: 2px dashed rgba(255,255,255,.3); color: rgba(255,255,255,.55); }
+.stamp.free { border: 2px solid #F59E0B; background: rgba(245,158,11,.15); color: #FBBF24; font-size: 10px; }
+
+.promos-band { padding-block: 0 64px; }
+.promos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.promo-card { min-width: 0; background: var(--white); border-radius: var(--card); padding: 28px; border: 1px solid var(--line); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+.promo-tag { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--blue); letter-spacing: .5px; }
+.promo-title { font-size: 22px; font-weight: 900; line-height: 1.25; margin-block: 6px; }
+.promo-desc { font-size: 14px; color: var(--slate); }
+.promo-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.promo-code { background: var(--ice); border: 1px dashed var(--slate); padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 800; }
+.promo-when { font-size: 13px; font-weight: 700; color: var(--slate); }
+
+.footer-band { background: var(--navy); color: var(--white); padding-block: 56px calc(96px + env(safe-area-inset-bottom, 0px)); }
+.footer-main { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; margin-bottom: 32px; }
+.footer-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.footer-brand-desc { font-size: 14px; color: rgba(255,255,255,.72); max-width: 340px; }
+.footer-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: rgba(255,255,255,.65); }
+.pay-list { display: flex; flex-wrap: wrap; gap: 8px; max-width: 380px; }
+.pay-badge { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 8px; }
+.store-btns { display: flex; flex-direction: column; gap: 8px; }
+.store-btn { display: inline-flex; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); color: var(--white); text-decoration: none; padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; }
+.store-btn:hover { background: rgba(255,255,255,.16); }
+.halal-strip { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); padding: 12px 18px; border-radius: var(--sm); font-size: 13px; color: var(--sky); font-weight: 600; margin-bottom: 24px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: rgba(255,255,255,.6); }
+.note-line { font-size: 12px; color: rgba(255,255,255,.7); min-height: 1em; }
+
+.cart-pill { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); right: calc(20px + env(safe-area-inset-right, 0px)); z-index: 99; background: var(--navy); color: var(--white); border-radius: var(--pill); padding: 10px 18px 10px 10px; box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,.2); display: flex; align-items: center; gap: 12px; font: inherit; font-size: 14px; font-weight: 700; border: none; cursor: pointer; transition: transform .15s ease; }
+.cart-pill.bump { transform: scale(1.06); }
+.cart-icon { width: 28px; height: 28px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.cart-total { color: var(--sky); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 960px) {
+  .hero-grid, .rewards-card, .promos-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 580px) {
+  .nav-menu { display: none; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .rewards-card { padding: 24px; }
+  .outlet-details { gap: 12px 20px; }
+}
+</style>
+</head>
+<body><div id="lh26-bar" style="position:relative;z-index:2147483000;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;justify-content:space-between;padding:8px 16px;background:#0b0d13;color:#fff;font:600 13px/1.4 'Titillium Web',system-ui,sans-serif;border-bottom:3px solid #e10600"><span><b style="font-family:Orbitron,system-ui,sans-serif;letter-spacing:.06em">P3</b> · Fictional café, a design concept by Luqman Hakim. Brand, menu, prices and address are made up.</span><a href="../#lab" style="color:#00d2be;font-weight:700;min-height:32px;display:inline-flex;align-items:center">← Back to the design lab</a></div>
+<header class="nav-band">
+  <div class="wrap nav-container">
+    <a href="#top" class="brand-link" id="top" aria-label="Laju Coffee home">
+      <span class="brand-logo" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+      <span class="brand-name">LAJU<span>.</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="#menu" class="nav-link">Menu</a></li>
+      <li><a href="#rewards" class="nav-link">Rewards</a></li>
+      <li><a href="#outlets" class="nav-link">Outlets</a></li>
+    </ul>
+    <a href="#app" class="btn btn-primary btn-sm">Get the app</a>
+  </div>
+</header>
+
+<section class="hero-band dark">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-badge">Order ahead</div>
+      <h1 class="hero-title">Order ahead. Skip the queue.</h1>
+      <p class="hero-text">Order in the app, pay cashless, and pick up your drink at the counter when it's ready.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">Order pickup</a>
+        <a href="#app" class="btn btn-ghost">Download app</a>
+      </div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone-frame" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="phone-status"><span>09:41</span><span>5G</span></div>
+          <div class="phone-outlet"><span>Outlet: <strong id="mock-outlet">Bangsar</strong></span><span>Ready in about 5 min</span></div>
+          <div class="phone-order">
+            <div class="phone-item">
+              <div class="phone-cup"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div>
+              <div><h4>Gula Melaka Latte</h4><p>Large · Less ice · Oat milk</p></div>
+            </div>
+            <div class="phone-code"><span>Pickup code</span><span>#LJ-308</span></div>
+            <div>
+              <div class="phone-progress-label"><span>Being made</span><span>Almost ready</span></div>
+              <div class="phone-bar"><div></div></div>
+            </div>
+          </div>
+          <div class="phone-btn">Show pickup code</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="outlet-band" id="outlets">
+  <div class="wrap outlet-bar">
+    <div class="outlet-picker">
+      <label for="outlet-select" class="outlet-label">Nearest outlet</label>
+      <select id="outlet-select" class="outlet-select">
+        <option value="Bangsar">Bangsar</option>
+        <option value="Subang Jaya">Subang Jaya</option>
+        <option value="Johor Bahru">Johor Bahru</option>
+      </select>
+    </div>
+    <div class="outlet-details" aria-live="polite">
+      <span class="status-pill" id="outlet-status"><span class="status-dot" aria-hidden="true"></span><span id="outlet-status-text">Open now</span></span>
+      <div class="info-item"><span class="info-sub">Hours</span><span class="info-main" id="outlet-hours">7:00 am – 10:00 pm</span></div>
+      <div class="info-item"><span class="info-sub">Ready in</span><span class="info-main"><span id="outlet-ready">about 5 min</span> <small>(estimate)</small></span></div>
+      <a id="outlet-waze" href="https://waze.com/ul?q=Bangsar" target="_blank" rel="noopener" class="waze-btn">Waze ↗</a>
+    </div>
+  </div>
+</section>
+
+<section class="menu-band" id="menu">
+  <div class="wrap">
+    <div class="section-header">
+      <div class="section-badge">Order ahead</div>
+      <h2 class="section-title">Popular drinks</h2>
+    </div>
+    <div class="tablist-wrap">
+      <div class="tab-list" role="tablist" aria-label="Drink categories">
+        <button type="button" role="tab" id="tab-coffee" aria-selected="true" aria-controls="panel-coffee" tabindex="0" class="tab-btn">Coffee</button>
+        <button type="button" role="tab" id="tab-noncoffee" aria-selected="false" aria-controls="panel-noncoffee" tabindex="-1" class="tab-btn">Non-coffee</button>
+        <button type="button" role="tab" id="tab-seasonal" aria-selected="false" aria-controls="panel-seasonal" tabindex="-1" class="tab-btn">Seasonal</button>
+      </div>
+    </div>
+    <div id="panel-coffee" role="tabpanel" aria-labelledby="tab-coffee" tabindex="0"><div class="menu-grid" data-cat="coffee"></div></div>
+    <div id="panel-noncoffee" role="tabpanel" aria-labelledby="tab-noncoffee" tabindex="0" hidden><div class="menu-grid" data-cat="noncoffee"></div></div>
+    <div id="panel-seasonal" role="tabpanel" aria-labelledby="tab-seasonal" tabindex="0" hidden><div class="menu-grid" data-cat="seasonal"></div></div>
+  </div>
+</section>
+
+<section class="steps-band">
+  <div class="wrap">
+    <div class="section-header">
+      <div class="section-badge">Fast pickup</div>
+      <h2 class="section-title">How it works</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">1</div><h3 class="step-title">Order in the app</h3><p class="step-desc">Choose your drink, ice and sugar level, and the outlet you'll pick up from.</p></div>
+      <div class="step-card"><div class="step-num">2</div><h3 class="step-title">Pay</h3><p class="step-desc">Pay with DuitNow QR, an e-wallet or a card. Your stamp is added automatically.</p></div>
+      <div class="step-card"><div class="step-num">3</div><h3 class="step-title">Pick up at the counter</h3><p class="step-desc">Show your pickup code at the counter and take your drink. No queue.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="rewards-band" id="rewards">
+  <div class="wrap">
+    <div class="rewards-card dark">
+      <div>
+        <div class="rewards-pill">Laju Club</div>
+        <h2 class="rewards-title">Collect a stamp per drink. 8 stamps = 1 free drink.</h2>
+        <p class="rewards-copy">Every drink ordered in the app earns one stamp. Your 8th drink is on us.</p>
+        <div class="rewards-status">Example: 5 of 8 stamps · 3 more to a free drink</div>
+      </div>
+      <div class="stamp-card" role="img" aria-label="Example stamp card with 5 of 8 stamps collected">
+        <div class="stamp-head"><span>Stamp card</span><span>5 / 8</span></div>
+        <div class="stamps" aria-hidden="true">
+          <div class="stamp on">✓</div><div class="stamp on">✓</div><div class="stamp on">✓</div><div class="stamp on">✓</div>
+          <div class="stamp on">✓</div><div class="stamp off">6</div><div class="stamp off">7</div><div class="stamp free">FREE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promos-band">
+  <div class="wrap promos-grid">
+    <div class="promo-card">
+      <div>
+        <span class="promo-tag">First order</span>
+        <h3 class="promo-title">RM 5 off your first app order</h3>
+        <p class="promo-desc">Download the app, sign up with your phone number, and get RM 5 off any drink.</p>
+      </div>
+      <div class="promo-footer"><span class="promo-code">Code: LAJU5</span><a href="#app" class="btn btn-primary btn-sm">Get the app</a></div>
+    </div>
+    <div class="promo-card">
+      <div>
+        <span class="promo-tag">Mornings</span>
+        <h3 class="promo-title">Breakfast set for RM 13.90</h3>
+        <p class="promo-desc">Any regular Americano or latte with a butter croissant. Until 10:30 am daily.</p>
+      </div>
+      <div class="promo-footer"><span class="promo-when">Daily 7:00–10:30 am</span><a href="#menu" class="btn btn-secondary btn-sm">See menu</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-band dark" id="app">
+  <div class="wrap">
+    <div class="footer-main">
+      <div class="footer-col">
+        <span class="brand-link"><span class="brand-logo" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="brand-name">LAJU<span>.</span></span></span>
+        <p class="footer-brand-desc">Coffee you order ahead and pick up fast.</p>
+      </div>
+      <div class="footer-col">
+        <span class="footer-title">We accept</span>
+        <div class="pay-list"><span class="pay-badge">DuitNow QR</span><span class="pay-badge">Touch 'n Go eWallet</span><span class="pay-badge">GrabPay</span><span class="pay-badge">FPX</span><span class="pay-badge">Visa / Mastercard</span></div>
+      </div>
+      <div class="footer-col">
+        <span class="footer-title">Get the app</span>
+        <div class="store-btns">
+          <a href="#app" class="store-btn" data-store="App Store">App Store</a>
+          <a href="#app" class="store-btn" data-store="Google Play">Google Play</a>
+        </div>
+        <p class="note-line" id="store-note" aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="halal-strip">Halal status: add your certification details here</div>
+    <div class="footer-bottom"><span>© 2026 Laju Coffee</span><span>Design preview. Brand, menu and prices are fictional.</span></div>
+  </div>
+</footer>
+
+<button type="button" class="cart-pill" id="cart-pill" aria-live="polite">
+  <span class="cart-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></span>
+  <span><span id="cart-count">0</span> items</span><span aria-hidden="true" style="opacity:.4">|</span><span class="cart-total" id="cart-total">RM 0.00</span>
+</button>
+
+<script>
+(function () {
+  var DRINKS = {
+    coffee: [
+      ['Gula Melaka Latte', 'Espresso, gula melaka and fresh milk.', 11.90, '#6B3F24', '#F0F4F8'],
+      ['Iced Americano', 'Double espresso over ice.', 9.90, '#1C1917', '#CBD5E1'],
+      ['Spanish Latte', 'Espresso with fresh and condensed milk.', 12.90, '#854D0E', '#F0F4F8'],
+      ['Toffee Macchiato', 'Espresso, milk and toffee caramel.', 13.90, '#451A03', '#FDE68A']
+    ],
+    noncoffee: [
+      ['Matcha Latte', 'Japanese matcha with fresh milk.', 13.90, '#15803D', '#DCFCE7'],
+      ['Chocolate', 'Dark cocoa with steamed milk.', 12.90, '#3B1E13', '#F0F4F8'],
+      ['Peach Oolong Sparkler', 'Sparkling oolong tea with peach.', 10.90, '#FB923C', '#FFEDD5'],
+      ['Roasted Oolong Milk', 'Roasted oolong tea with fresh milk.', 11.90, '#78350F', '#FEF3C7']
+    ],
+    seasonal: [
+      ['Pandan Cold Foam Latte', 'Iced latte with pandan cold foam.', 14.90, '#047857', '#FFFFFF'],
+      ['Bandung Latte', 'Rose syrup, milk and espresso.', 15.90, '#DB2777', '#FCE7F3'],
+      ['Calamansi Cold Brew', 'Cold brew with calamansi lime.', 13.90, '#65A30D', '#ECFCCB'],
+      ['Mango Coconut Freeze', 'Mango blended with coconut milk.', 15.90, '#EAB308', '#FEF08A']
+    ]
+  };
+  function rm(n) { return 'RM ' + n.toFixed(2); }
+  var count = 0, total = 0, idx = 0;
+  var countEl = document.getElementById('cart-count'), totalEl = document.getElementById('cart-total'), pill = document.getElementById('cart-pill');
+
+  document.querySelectorAll('.menu-grid').forEach(function (grid) {
+    DRINKS[grid.getAttribute('data-cat')].forEach(function (d) {
+      idx++;
+      var id = 'd' + idx;
+      var card = document.createElement('article');
+      card.className = 'drink-card';
+      card.innerHTML =
+        '<div class="drink-visual" aria-hidden="true"><svg width="72" height="72" viewBox="0 0 80 80">' +
+          '<path d="M24 22 L28 66 Q29 70 33 70 L47 70 Q51 70 52 66 L56 22 Z" fill="' + d[3] + '"/>' +
+          '<path d="M22 18 Q40 14 58 18 L56 22 L24 22 Z" fill="#002B49"/>' +
+          '<path d="M26 36 L27 50 L53 50 L54 36 Z" fill="' + d[4] + '"/></svg></div>' +
+        '<div><h3 class="drink-name">' + d[0] + '</h3><p class="drink-desc">' + d[1] + '</p></div>' +
+        '<fieldset class="size-fieldset"><legend class="sr-only">Size for ' + d[0] + '</legend><div class="size-options">' +
+          '<input type="radio" name="size-' + id + '" id="' + id + '-r" class="size-input" value="0" checked><label for="' + id + '-r" class="size-label">Regular</label>' +
+          '<input type="radio" name="size-' + id + '" id="' + id + '-l" class="size-input" value="2"><label for="' + id + '-l" class="size-label">Large +RM 2</label>' +
+        '</div></fieldset>' +
+        '<div class="drink-footer"><span class="drink-price">' + rm(d[2]) + '</span><button type="button" class="btn-add" id="' + id + '-add">Add</button></div>';
+      grid.appendChild(card);
+      var priceEl = card.querySelector('.drink-price'), btn = card.querySelector('.btn-add');
+      function current() { return d[2] + parseFloat(card.querySelector('.size-input:checked').value); }
+      card.querySelectorAll('.size-input').forEach(function (r) { r.addEventListener('change', function () { priceEl.textContent = rm(current()); }); });
+      btn.setAttribute('aria-label', 'Add ' + d[0]);
+      btn.addEventListener('click', function () {
+        count++; total += current();
+        countEl.textContent = count; totalEl.textContent = rm(total);
+        pill.classList.add('bump'); setTimeout(function () { pill.classList.remove('bump'); }, 160);
+        btn.classList.add('added'); btn.textContent = 'Added';
+        setTimeout(function () { btn.classList.remove('added'); btn.textContent = 'Add'; }, 1000);
+      });
+    });
+  });
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(tab); });
+    tab.addEventListener('keydown', function (e) {
+      var n = null;
+      if (e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') n = tabs[0];
+      else if (e.key === 'End') n = tabs[tabs.length - 1];
+      if (n) { e.preventDefault(); select(n); n.focus(); }
+    });
+  });
+
+  var OUTLETS = {
+    'Bangsar': { hours: '7:00 am – 10:00 pm', open: 7, close: 22 },
+    'Subang Jaya': { hours: '8:00 am – 11:00 pm', open: 8, close: 23 },
+    'Johor Bahru': { hours: '7:30 am – 9:30 pm', open: 7.5, close: 21.5 }
+  };
+  var sel = document.getElementById('outlet-select');
+  function updateOutlet() {
+    var name = sel.value, o = OUTLETS[name], now = new Date(), h = now.getHours() + now.getMinutes() / 60;
+    var open = h >= o.open && h < o.close;
+    document.getElementById('outlet-hours').textContent = o.hours;
+    document.getElementById('outlet-status-text').textContent = open ? 'Open now' : 'Closed now';
+    document.getElementById('outlet-status').classList.toggle('closed', !open);
+    document.getElementById('outlet-waze').href = 'https://waze.com/ul?q=' + encodeURIComponent(name);
+    document.getElementById('mock-outlet').textContent = name;
+  }
+  sel.addEventListener('change', updateOutlet);
+  updateOutlet();
+
+  document.querySelectorAll('.store-btn').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.getElementById('store-note').textContent = 'Preview only. Link this to your ' + a.getAttribute('data-store') + ' listing.';
+    });
+  });
+  pill.addEventListener('click', function () { document.getElementById('menu').scrollIntoView({ behavior: 'smooth' }); });
+})();
+</script>
+</body>
+</html>
