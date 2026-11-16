@@ -1644,7 +1644,9 @@
     /* Smooth scrolling: isolate the ambient quote layers and pause their drift while the page
        scrolls (and the hero rows while the hero is off screen), so scroll frames stay cheap. */
     .quote-drift-layer, .hero-quote-layer { contain: layout paint style; }
-    .drift-paused .drift-track { animation-play-state: paused; }
+    .drift-paused .drift-track,
+    .fx-lite .hero-quote-layer .drift-track { animation-play-state: paused; }
+    .fx-lite #speed-canvas { display: none; }
 
     /* #33 Odometer roll: the base rule shows the real number (no JS, reduced motion) */
     @property --num-counter { syntax: '<integer>'; initial-value: 0; inherits: false; }
@@ -2931,25 +2933,54 @@
       });
     }
 
-    function animateAero() {
+    // One pre-rendered streak (transparent -> white), stamped with drawImage + globalAlpha:
+    // no gradient objects are created per frame, so the hero holds 60 fps.
+    const streakSprite = document.createElement('canvas');
+    streakSprite.width = 128; streakSprite.height = 2;
+    (() => {
+      const g = streakSprite.getContext('2d');
+      const grad = g.createLinearGradient(0, 0, 128, 0);
+      grad.addColorStop(0, 'rgba(255,255,255,0)');
+      grad.addColorStop(1, 'rgba(255,255,255,1)');
+      g.fillStyle = grad; g.fillRect(0, 0, 128, 2);
+    })();
+    let aeroLast = 0;
+    // Frame-rate guard: if the hero misses 60 fps on more than 15% of frames over ~2 s,
+    // this device is too slow for the ambient effects, so drop the speed lines and freeze
+    // the hero quote drift. Fast machines never trip it.
+    let liteMode = false, guardFrames = 0, guardSlow = 0, guardWarm = 0;
+    function enterLiteMode() {
+      liteMode = true;
+      sCtx.clearRect(0, 0, speedCanvas.width, speedCanvas.height);
+      document.documentElement.classList.add('fx-lite');
+    }
+
+    function animateAero(t) {
+      if (liteMode) { aeroRaf = 0; return; }
+      // Move by elapsed time (tuned to the old per-frame speed at 60 Hz), so speed is the same on any refresh rate.
+      const dt = aeroLast ? t - aeroLast : 16.667;
+      const step = Math.min(dt / 16.667, 3);
+      aeroLast = t;
+      if (++guardWarm > 30 && !document.hidden) {            // skip the first half-second after load
+        guardFrames++; if (dt > 25) guardSlow++;
+        if (guardFrames >= 120) {
+          if (guardSlow / guardFrames > 0.15) { enterLiteMode(); aeroRaf = 0; return; }
+          guardFrames = 0; guardSlow = 0;
+        }
+      }
       sCtx.clearRect(0, 0, speedCanvas.width, speedCanvas.height);
       for (const st of streaks) {
-        st.x += st.speed;
+        st.x += st.speed * step;
         if (st.x > speedCanvas.width + st.len) {
           st.x = -st.len;
           st.y = Math.random() * speedCanvas.height;
         }
-        const grad = sCtx.createLinearGradient(st.x - st.len, st.y, st.x, st.y);
-        grad.addColorStop(0, 'rgba(255,255,255,0)');
-        grad.addColorStop(1, `rgba(255,255,255,${st.alpha})`);
-        sCtx.strokeStyle = grad;
-        sCtx.lineWidth = 1.5;
-        sCtx.beginPath();
-        sCtx.moveTo(st.x - st.len, st.y);
-        sCtx.lineTo(st.x, st.y);
-        sCtx.stroke();
+        sCtx.globalAlpha = st.alpha;
+        sCtx.drawImage(streakSprite, st.x - st.len, st.y - 0.75, st.len, 1.5);
       }
-      aeroRaf = heroVisible ? requestAnimationFrame(animateAero) : 0;
+      sCtx.globalAlpha = 1;
+      if (heroVisible) aeroRaf = requestAnimationFrame(animateAero);
+      else { aeroRaf = 0; aeroLast = 0; guardWarm = 0; guardFrames = 0; guardSlow = 0; }
     }
     // Only draw the speed lines while the hero is on screen (saves every frame after you scroll past it).
     let aeroRaf = 0;
