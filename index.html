@@ -10,6 +10,12 @@
     } }
   </script>
   <title>Muhammad Luqman Hakim bin Syahrulnizam | Data Analyst &amp; AI Engineer Portfolio</title>
+  <script>
+    /* Pixel budget: when the browser draws more than ~3.4 million physical pixels per frame
+       (e.g. a 1280px-wide window on a 2x laptop screen), the ambient speed lines and quote drift
+       would hold integrated GPUs at 30 fps, so they stay still. Everything else keeps its motion. */
+    if (innerWidth * innerHeight * Math.pow(devicePixelRatio || 1, 2) > 3.4e6) document.documentElement.classList.add('fx-lite');
+  </script>
   <meta name="description" content="Data analyst and AI engineer portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating January 2027 and open to graduate roles from March 2027: LLM agents, RAG systems, econometric models, OpenDOSM pipelines, Power BI and live Python apps." />
   <meta name="theme-color" content="#00a19c" />
   <meta property="og:type" content="website" />
@@ -618,7 +624,9 @@
       object-fit: contain;
       filter: drop-shadow(0 18px 32px rgba(0, 20, 20, 0.65)) contrast(1.04);
       transform-origin: bottom center;
-      animation: driverEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      /* backwards, not forwards: the end state is the natural state, and a forwards fill kept the
+         portrait (and its drop-shadow blur) re-rendering every frame as an "active" animation. */
+      animation: driverEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
 
     /* Helmet moment: the LH/26 helmet sits on the driver; the cursor fades a soft
@@ -1647,6 +1655,14 @@
     .drift-paused .drift-track,
     .fx-lite .hero-quote-layer .drift-track { animation-play-state: paused; }
     .fx-lite #speed-canvas { display: none; }
+    .fx-lite .drift-track { animation: none; will-change: auto; }
+
+    /* Faint quote text: alpha in the colour instead of per-word opacity (same look, no extra
+       compositing pass for every word). */
+    .quote-drift-layer .drift-item { opacity: 1; color: rgb(0 210 190 / 0.035); }
+    .quote-drift-layer .drift-sep  { opacity: 1; color: rgb(225 6 0 / 0.045); }
+    .hero-quote-layer .drift-item  { opacity: 1; color: rgb(255 255 255 / 0.06); }
+    .hero-quote-layer .drift-sep   { opacity: 1; color: rgb(255 255 255 / 0.08); }
 
     /* #33 Odometer roll: the base rule shows the real number (no JS, reduced motion) */
     @property --num-counter { syntax: '<integer>'; initial-value: 0; inherits: false; }
@@ -2985,7 +3001,7 @@
     // Only draw the speed lines while the hero is on screen (saves every frame after you scroll past it).
     let aeroRaf = 0;
     let heroVisible = true;
-    if (!reduceMotion) {
+    if (!reduceMotion && !document.documentElement.classList.contains('fx-lite')) {
       new IntersectionObserver(([entry]) => {
         heroVisible = entry.isIntersecting;
         if (heroVisible && !aeroRaf) aeroRaf = requestAnimationFrame(animateAero);
@@ -3071,13 +3087,33 @@
       return arr;
     }
 
-    document.querySelectorAll('.drift-track').forEach((track) => {
-      const group = shuffleQuotes(DRIFT_QUOTES)
-        .slice(0, 5)
-        .map((quote) => `<span class="drift-item">${quote}</span><span class="drift-sep">//</span>`)
-        .join('');
-      // Two identical groups let the -50% loop restart without a visible jump
-      track.innerHTML = `<div class="drift-group">${group}</div><div class="drift-group">${group}</div>`;
+    // Each track holds just enough quotes to cover the screen once, plus an identical copy for the
+    // seamless -50% loop (five long quotes per group made ~13,000px-wide layers, 26,000px on 2x
+    // screens). Duration follows the group width, so the drift speed stays ~90px/s.
+    const DRIFT_PX_PER_S = 90;
+    let driftBuiltFor = 0;
+    function buildDriftTracks() {
+      const need = Math.max(window.innerWidth, 640) + 160;
+      driftBuiltFor = window.innerWidth;
+      document.querySelectorAll('.drift-track').forEach((track) => {
+        const pool = shuffleQuotes(DRIFT_QUOTES);
+        const group = document.createElement('div');
+        group.className = 'drift-group';
+        track.replaceChildren(group);
+        for (let i = 0; i < pool.length && group.offsetWidth < need; i++) {
+          group.insertAdjacentHTML('beforeend', `<span class="drift-item">${pool[i]}</span><span class="drift-sep">//</span>`);
+        }
+        track.append(group.cloneNode(true));
+        // The CSS durations (78s-120s) set each row's relative speed; scale them to this row's width.
+        if (!track.dataset.cssDur) track.dataset.cssDur = parseFloat(getComputedStyle(track).animationDuration) || 90;
+        track.style.animationDuration = (group.offsetWidth / (DRIFT_PX_PER_S * 90 / +track.dataset.cssDur)).toFixed(1) + 's';
+      });
+    }
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(buildDriftTracks);
+    let driftResize = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(driftResize);
+      driftResize = setTimeout(() => { if (window.innerWidth > driftBuiltFor) buildDriftTracks(); }, 300);
     });
 
     // ================= 5. SMOOTH SCROLL: PAUSE QUOTE DRIFT WHILE SCROLLING =================
