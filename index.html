@@ -9,12 +9,12 @@
       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
     } }
   </script>
-  <title>Muhammad Luqman Hakim bin Syahrulnizam | Data Analyst Portfolio</title>
-  <meta name="description" content="Data analyst portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating February 2027 and open to graduate roles from March 2027: econometric models, OpenDOSM pipelines, Power BI and live Python apps." />
+  <title>Muhammad Luqman Hakim bin Syahrulnizam | Data Analyst &amp; AI Engineer Portfolio</title>
+  <meta name="description" content="Data analyst and AI engineer portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating January 2027 and open to graduate roles from March 2027: LLM agents, RAG systems, econometric models, OpenDOSM pipelines, Power BI and live Python apps." />
   <meta name="theme-color" content="#00a19c" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Luqman Hakim | Data Analyst Portfolio" />
-  <meta property="og:description" content="Econometrics, OpenDOSM data pipelines, Power BI and live Python apps. B.Sc. Statistics, UiTM. Open to graduate roles from March 2027, Kuala Lumpur." />
+  <meta property="og:title" content="Luqman Hakim | Data Analyst &amp; AI Engineer Portfolio" />
+  <meta property="og:description" content="LLM agents, RAG systems, econometrics, OpenDOSM pipelines and live Python apps. B.Sc. Statistics, UiTM. Open to graduate roles from March 2027, Kuala Lumpur." />
   <meta name="twitter:card" content="summary" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1591,6 +1591,86 @@
       color: var(--petronas-bright) !important;
       background: rgba(0, 210, 190, 0.08);
     }
+
+    /* ===== NATIVE MOTION 25/26/33/34 (2026-11) ===== */
+    :root {
+      --ease-ui: cubic-bezier(.2, .8, .2, 1);
+      --ease-entrance: cubic-bezier(.22, 1, .36, 1);
+      --dur-indicator: 240ms;
+      --dur-entrance: 900ms;
+      /* Same-document view transitions animate only named parts; the page itself stays live. */
+      view-transition-name: none;
+    }
+
+    /* Nav hover underline: scale instead of width (no layout animation) */
+    .nav-links a::after {
+      width: 100%;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform var(--dur-indicator) var(--ease-ui);
+    }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; transform: scaleX(1); }
+
+    /* #25 Sticky header shrink & tone (Chromium 133+; other engines keep the plain sticky nav) */
+    @supports (container-type: scroll-state) {
+      .main-nav { container-type: scroll-state; isolation: isolate; }
+      .main-nav::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-color: transparent;
+        border-bottom: 2px solid transparent;
+        transition: background-color var(--dur-indicator) var(--ease-ui), border-color var(--dur-indicator) var(--ease-ui);
+      }
+      .logo-mark {
+        display: inline-block;
+        transform-origin: left center;
+        transition: scale var(--dur-indicator) var(--ease-ui);
+      }
+      @container scroll-state(stuck: top) {
+        .main-nav::before {
+          background-color: color-mix(in srgb, var(--f1-black) 70%, transparent);
+          border-bottom-color: var(--petronas-mid);
+        }
+        .logo-mark { scale: 0.82; }
+      }
+    }
+
+    /* Scroll-spy: the active link's underline draws in with transform only (no view transition while scrolling) */
+
+    /* Smooth scrolling: isolate the ambient quote layers and pause their drift while the page
+       scrolls (and the hero rows while the hero is off screen), so scroll frames stay cheap. */
+    .quote-drift-layer, .hero-quote-layer { contain: layout paint style; }
+    .drift-paused .drift-track,
+    .fx-lite .hero-quote-layer .drift-track { animation-play-state: paused; }
+    .fx-lite #speed-canvas { display: none; }
+
+    /* #33 Odometer roll: the base rule shows the real number (no JS, reduced motion) */
+    @property --num-counter { syntax: '<integer>'; initial-value: 0; inherits: false; }
+    @keyframes roll-metric { to { --num-counter: var(--num-target); } }
+    .odometer-counter { font-variant-numeric: tabular-nums; counter-reset: stat-val var(--num-target); }
+    .odometer-counter::after { content: counter(stat-val); }
+    .telemetry-strip.odo-run .odometer-counter {
+      counter-reset: stat-val var(--num-counter);
+      animation: roll-metric var(--dur-entrance) var(--ease-entrance) forwards;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* #34 Shared view-transition morph when filtering projects */
+    .project-card { view-transition-class: project-card; }
+    ::view-transition-group(*.project-card) {
+      animation-duration: var(--dur-indicator);
+      animation-timing-function: var(--ease-ui);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -1701,7 +1781,7 @@
       <div class="driver-meta">
         <span><span class="flag-circle">🇲🇾</span> Kuala Lumpur</span>
         <span class="divider"></span>
-        <span>Data Analyst (B.Sc. Statistics)</span>
+        <span>Data Analyst &amp; AI Engineer (B.Sc. Statistics)</span>
         <span class="divider"></span>
         <span>UiTM</span>
       </div>
@@ -1732,28 +1812,28 @@
   <section class="telemetry-strip">
     <div class="stat-card">
       <div class="label">Streaming Replay Fill Rate</div>
-      <div class="value">99.1%</div>
+      <div class="value"><span class="sr-only">99.1%</span><span aria-hidden="true"><span class="odometer-counter" style="--num-target: 99"></span>.1%</span></div>
       <div class="sub">12,196 SKU-Store Series • Kafka + Spark</div>
     </div>
     <div class="stat-card">
       <div class="label">KPT Tracer Study Sample</div>
-      <div class="value">109,414</div>
+      <div class="value"><span class="sr-only">109,414</span><span aria-hidden="true"><span class="odometer-counter" style="--num-target: 109"></span>,414</span></div>
       <div class="sub">Graduates Modeled • Budget 2027 Floor</div>
     </div>
     <div class="stat-card">
       <div class="label">OpenDOSM Trade Horizon</div>
-      <div class="value">320 MOS</div>
+      <div class="value"><span class="sr-only">320 MOS</span><span aria-hidden="true"><span class="odometer-counter" style="--num-target: 320"></span> MOS</span></div>
       <div class="sub">3,190 Sector Rows • 51 DAX Measures</div>
     </div>
     <div class="stat-card">
       <div class="label">FYP OLS Explanatory Power</div>
-      <div class="value">64.0%</div>
+      <div class="value"><span class="sr-only">64.0%</span><span aria-hidden="true"><span class="odometer-counter" style="--num-target: 64"></span>.0%</span></div>
       <div class="sub">Adj. R² = 0.640 • N = 100 (G*Power)</div>
     </div>
     <div class="stat-card">
       <div class="label">Live Deployments</div>
-      <div class="value">7 LIVE</div>
-      <div class="sub">Apps &amp; Sites • Streamlit • Vercel • GitHub Pages</div>
+      <div class="value"><span class="sr-only">8 LIVE</span><span aria-hidden="true"><span class="odometer-counter" style="--num-target: 8"></span> LIVE</span></div>
+      <div class="sub">Apps, Sites &amp; APIs • Streamlit • Vercel • Render • GitHub Pages</div>
     </div>
   </section>
 
@@ -1769,6 +1849,7 @@
         <button class="filter-btn" data-filter="econometrics" aria-pressed="false">Econometrics & Regression</button>
         <button class="filter-btn" data-filter="pipelines" aria-pressed="false">Data Pipelines & BI</button>
         <button class="filter-btn" data-filter="apps" aria-pressed="false">Live Cloud Apps</button>
+        <button class="filter-btn" data-filter="ai" aria-pressed="false">AI Agents &amp; RAG</button>
       </div>
     </div>
 
@@ -1803,6 +1884,75 @@
             <div class="project-links">
               <a href="https://downey112.github.io/retail-demand-rt/dashboard/" target="_blank" rel="noopener" class="project-link">Live Dashboard →</a>
               <a href="https://github.com/Downey112/retail-demand-rt" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- A. Semiconductor Datasheet RAG -->
+      <article class="project-card" data-category="ai">
+        <div>
+          <div class="project-top">
+            <span class="sector-tag">NOV 2026 // RETRIEVAL &amp; RAG API</span>
+            <span class="lap-delta">RECALL@5 0.667</span>
+          </div>
+          <h3 class="project-title">Semiconductor Datasheet RAG</h3>
+          <div class="project-desc">
+            <ul>
+              <li>Compared table-aware chunking with plain page text on the same hybrid retriever (BM25 + bge-small-en-v1.5, Reciprocal Rank Fusion) over 6 public Texas Instruments datasheets (TI manufactures in Melaka).</li>
+              <li>On 30 golden questions about pins, I2C addresses and register values, keeping tables intact raised hit@1 from 0.233 to 0.400, recall@5 from 0.433 to 0.667 and MRR@10 from 0.309 to 0.525. The answer lands in the top 5 for 20 of 30 questions instead of 13. Most misses are TCA9555/TCA9535 pin tables where pdfplumber merges cells.</li>
+              <li>Served as a FastAPI <code>POST /v1/search</code> endpoint in a Docker image on GHCR, evaluated in CI and live on Render (free tier: the first request after 15 idle minutes takes about a minute).</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">FastAPI</span>
+            <span class="tech-pill">BM25 + bge-small-en-v1.5</span>
+            <span class="tech-pill">Reciprocal Rank Fusion</span>
+            <span class="tech-pill">Docker</span>
+            <span class="tech-pill">GitHub Actions</span>
+            <span class="tech-pill">Render</span>
+          </div>
+          <div class="project-footer">
+            <span>RAG &amp; Retrieval</span>
+            <div class="project-links">
+              <a href="https://semicon-datasheet-rag.onrender.com/docs" target="_blank" rel="noopener" class="project-link">Live API →</a>
+              <a href="https://github.com/Downey112/semicon-datasheet-rag" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- B. Bursa Filing Agent -->
+      <article class="project-card" data-category="ai">
+        <div>
+          <div class="project-top">
+            <span class="sector-tag">NOV 2026 // AGENT + GUARDRAIL</span>
+            <span class="lap-delta">0 WRONG OK</span>
+          </div>
+          <h3 class="project-title">Bursa Filing Agent</h3>
+          <div class="project-desc">
+            <ul>
+              <li>Reads Bursa Malaysia quarterly reports and extracts the balance sheet. A guardrail checks that assets = liabilities + equity within 0.5% before any ratio is computed.</li>
+              <li>A LangGraph state machine tries rules first, then falls back to an LLM filling a Pydantic schema, with at most 3 extraction attempts per filing.</li>
+              <li>On 11 real filings (June/July 2026 quarter): 8 correct, 2 sent to review, 1 detected as unsupported (scanned PDF), 0 wrong numbers reported as ok. CI fails if that zero ever breaks. Tools are served over MCP (<code>list_filings</code>, <code>analyse_filing</code>, <code>compute_ratios</code>).</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">LangGraph</span>
+            <span class="tech-pill">Pydantic</span>
+            <span class="tech-pill">MCP</span>
+            <span class="tech-pill">GitHub Actions</span>
+          </div>
+          <div class="project-footer">
+            <span>Agentic AI &amp; Finance</span>
+            <div class="project-links">
+              <a href="https://github.com/Downey112/bursa-filing-agent" target="_blank" rel="noopener" class="project-link">GitHub →</a>
             </div>
           </div>
         </div>
@@ -2511,6 +2661,11 @@
         <h3 style="font-size: 20px; margin-bottom: 18px; font-weight: 800;">Technical Stack</h3>
 
         <div class="skill-row">
+          <div class="skill-cat">AI Engineering</div>
+          <div class="tech-stack"><span class="tech-pill">LangGraph</span><span class="tech-pill">MCP servers</span><span class="tech-pill">RAG (BM25 + embeddings)</span><span class="tech-pill">Pydantic</span><span class="tech-pill">FastAPI</span><span class="tech-pill">Docker</span><span class="tech-pill">CI/CD (GitHub Actions)</span></div>
+        </div>
+
+        <div class="skill-row">
           <div class="skill-cat">Languages &amp; Query</div>
           <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">pandas</span><span class="tech-pill">statsmodels</span><span class="tech-pill">scikit-learn</span><span class="tech-pill">NumPy</span><span class="tech-pill">Plotly</span><span class="tech-pill">Streamlit</span><span class="tech-pill">FastAPI</span><span class="tech-pill">SQL</span><span class="tech-pill">DuckDB</span><span class="tech-pill">R</span><span class="tech-pill">SAS</span></div>
         </div>
@@ -2543,7 +2698,7 @@
               <span class="timeline-date">OCT 2026 – PRESENT</span>
             </div>
             <div class="timeline-sub">
-              Preparing user acceptance testing (UAT) scripts and sessions for a multi-role government attendance, booking and complaints system ahead of its December 2026 rollout. Writing user manuals, SOPs and meeting minutes.
+              Testing a web-based attendance, booking and complaints system for a public-sector client across its 17 user roles and permission levels, and preparing to lead UAT sessions ahead of a December 2026 multi-state rollout. Updating the user manuals for each role, writing the first SOP for setting up fingerprint attendance devices (nothing was documented before) and taking meeting minutes.
             </div>
           </div>
 
@@ -2566,6 +2721,16 @@
               Produced digital and print publicity content for faculty events under tight deadlines.
             </div>
           </div>
+
+          <div class="timeline-item">
+            <div class="timeline-head">
+              <span>Retail Assistant (Part-time) — Zara</span>
+              <span class="timeline-date">AUG 2023 – OCT 2023</span>
+            </div>
+            <div class="timeline-sub">
+              Met monthly sales targets and kept floor inventory and merchandising to brand standard in a high-traffic Kuala Lumpur store.
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2576,7 +2741,7 @@
           <div class="timeline-item">
             <div class="timeline-head">
               <span>B.Sc. (Hons.) Statistics — Universiti Teknologi MARA (UiTM), Kota Bharu</span>
-              <span class="timeline-date">OCT 2023 – FEB 2027</span>
+              <span class="timeline-date">OCT 2023 – JAN 2027</span>
             </div>
             <div class="timeline-sub">
               <strong>CGPA 3.11.</strong> Coursework: Programming for Data Science (R/Python), Business Data Analytics, Data Reporting & Visualisation.
@@ -2597,7 +2762,7 @@
         <h3 style="font-size: 16px; margin-bottom: 4px; font-weight: 800;">Certifications</h3>
         <div class="cert-item cert-exam">
           <span>EXAM-BASED • DATACAMP (NOV 2026, VALID TO 2028)</span>
-          AI Engineer for Data Scientists Associate • AI Engineer for Developers Associate
+          Data Scientist • AI Engineer for Data Scientists Associate • AI Engineer for Developers Associate
         </div>
         <dl class="cert-list">
           <dt>IBM professional certificates (Coursera)</dt>
@@ -2768,25 +2933,54 @@
       });
     }
 
-    function animateAero() {
+    // One pre-rendered streak (transparent -> white), stamped with drawImage + globalAlpha:
+    // no gradient objects are created per frame, so the hero holds 60 fps.
+    const streakSprite = document.createElement('canvas');
+    streakSprite.width = 128; streakSprite.height = 2;
+    (() => {
+      const g = streakSprite.getContext('2d');
+      const grad = g.createLinearGradient(0, 0, 128, 0);
+      grad.addColorStop(0, 'rgba(255,255,255,0)');
+      grad.addColorStop(1, 'rgba(255,255,255,1)');
+      g.fillStyle = grad; g.fillRect(0, 0, 128, 2);
+    })();
+    let aeroLast = 0;
+    // Frame-rate guard: if the hero misses 60 fps on more than 15% of frames over ~2 s,
+    // this device is too slow for the ambient effects, so drop the speed lines and freeze
+    // the hero quote drift. Fast machines never trip it.
+    let liteMode = false, guardFrames = 0, guardSlow = 0, guardWarm = 0;
+    function enterLiteMode() {
+      liteMode = true;
+      sCtx.clearRect(0, 0, speedCanvas.width, speedCanvas.height);
+      document.documentElement.classList.add('fx-lite');
+    }
+
+    function animateAero(t) {
+      if (liteMode) { aeroRaf = 0; return; }
+      // Move by elapsed time (tuned to the old per-frame speed at 60 Hz), so speed is the same on any refresh rate.
+      const dt = aeroLast ? t - aeroLast : 16.667;
+      const step = Math.min(dt / 16.667, 3);
+      aeroLast = t;
+      if (++guardWarm > 30 && !document.hidden) {            // skip the first half-second after load
+        guardFrames++; if (dt > 25) guardSlow++;
+        if (guardFrames >= 120) {
+          if (guardSlow / guardFrames > 0.15) { enterLiteMode(); aeroRaf = 0; return; }
+          guardFrames = 0; guardSlow = 0;
+        }
+      }
       sCtx.clearRect(0, 0, speedCanvas.width, speedCanvas.height);
       for (const st of streaks) {
-        st.x += st.speed;
+        st.x += st.speed * step;
         if (st.x > speedCanvas.width + st.len) {
           st.x = -st.len;
           st.y = Math.random() * speedCanvas.height;
         }
-        const grad = sCtx.createLinearGradient(st.x - st.len, st.y, st.x, st.y);
-        grad.addColorStop(0, 'rgba(255,255,255,0)');
-        grad.addColorStop(1, `rgba(255,255,255,${st.alpha})`);
-        sCtx.strokeStyle = grad;
-        sCtx.lineWidth = 1.5;
-        sCtx.beginPath();
-        sCtx.moveTo(st.x - st.len, st.y);
-        sCtx.lineTo(st.x, st.y);
-        sCtx.stroke();
+        sCtx.globalAlpha = st.alpha;
+        sCtx.drawImage(streakSprite, st.x - st.len, st.y - 0.75, st.len, 1.5);
       }
-      aeroRaf = heroVisible ? requestAnimationFrame(animateAero) : 0;
+      sCtx.globalAlpha = 1;
+      if (heroVisible) aeroRaf = requestAnimationFrame(animateAero);
+      else { aeroRaf = 0; aeroLast = 0; guardWarm = 0; guardFrames = 0; guardSlow = 0; }
     }
     // Only draw the speed lines while the hero is on screen (saves every frame after you scroll past it).
     let aeroRaf = 0;
@@ -2812,6 +3006,7 @@
     document.querySelectorAll('.project-card').forEach((el) => observer.observe(el));
 
     const filterBtns = document.querySelectorAll('.filter-btn');
+    let filterTransition = null;
     const cards = document.querySelectorAll('.project-card');
 
     filterBtns.forEach((btn) => {
@@ -2823,11 +3018,27 @@
         btn.classList.add('active');
         btn.setAttribute('aria-pressed', 'true');
         const filter = btn.dataset.filter;
-
-        cards.forEach((card) => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.style.display = match ? 'flex' : 'none';
+        const list = Array.from(cards);
+        const shows = (card) => filter === 'all' || card.dataset.category === filter;
+        const apply = () => list.forEach((card, i) => {
+          card.style.display = shows(card) ? 'flex' : 'none';
+          if (shows(card)) card.style.viewTransitionName = 'pc-' + i;
         });
+        // #34 Shared view-transition morph: name the visible cards before the snapshot,
+        // apply the filter, then clear every name so scroll-spy transitions stay light.
+        if (document.startViewTransition && !reduceMotion) {
+          if (filterTransition) filterTransition.skipTransition();
+          list.forEach((card, i) => {
+            if (card.style.display !== 'none') card.style.viewTransitionName = 'pc-' + i;
+          });
+          filterTransition = document.startViewTransition(apply);
+          filterTransition.finished.finally(() => {
+            filterTransition = null;
+            list.forEach((card) => { card.style.viewTransitionName = ''; });
+          });
+        } else {
+          list.forEach((card) => { card.style.display = shows(card) ? 'flex' : 'none'; });
+        }
       });
     });
 
@@ -2868,6 +3079,56 @@
       // Two identical groups let the -50% loop restart without a visible jump
       track.innerHTML = `<div class="drift-group">${group}</div><div class="drift-group">${group}</div>`;
     });
+
+    // ================= 5. SMOOTH SCROLL: PAUSE QUOTE DRIFT WHILE SCROLLING =================
+    (function () {
+      const pageLayer = document.querySelector('.quote-drift-layer');
+      const heroLayer = document.querySelector('.hero-quote-layer');
+      let idle = 0, scrolling = false, heroOn = true;
+      const sync = () => {
+        if (pageLayer) pageLayer.classList.toggle('drift-paused', scrolling);
+        if (heroLayer) heroLayer.classList.toggle('drift-paused', scrolling || !heroOn);
+      };
+      window.addEventListener('scroll', () => {
+        if (!scrolling) { scrolling = true; sync(); }
+        clearTimeout(idle);
+        idle = setTimeout(() => { scrolling = false; sync(); }, 250);
+      }, { passive: true });
+      if (heroLayer) new IntersectionObserver(([e]) => { heroOn = e.isIntersecting; sync(); }).observe(hero);
+    })();
+
+    // ================= 6. SCROLL-SPY (#26, transform underline) & ODOMETER (#33) =================
+    (function () {
+      const sections = ['projects', 'more-projects', 'telemetry']
+        .map((id) => document.getElementById(id)).filter(Boolean);
+      const links = Array.from(document.querySelectorAll('.nav-links a'));
+      const linkFor = { 'projects': '#projects', 'more-projects': '#more-projects', 'telemetry': '#telemetry' };
+      const inView = new Map(sections.map((s) => [s.id, false]));
+      let current = links.find((a) => a.classList.contains('active')) || null;
+
+      const setActive = (link) => {
+        if (!link || link === current) return;
+        if (current) { current.classList.remove('active'); current.removeAttribute('aria-current'); }
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'true');
+        current = link;
+      };
+
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach((e) => inView.set(e.target.id, e.isIntersecting));
+        const first = sections.find((s) => inView.get(s.id));
+        if (first) setActive(links.find((a) => a.getAttribute('href') === linkFor[first.id]));
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach((s) => spy.observe(s));
+
+      const strip = document.querySelector('.telemetry-strip');
+      if (strip && !reduceMotion) {
+        const roll = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) { strip.classList.add('odo-run'); roll.disconnect(); }
+        }, { threshold: 0.25 });
+        roll.observe(strip);
+      }
+    })();
   </script>
 </body>
 </html>
