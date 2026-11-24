@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muhammad Luqman Hakim bin Syahrulnizam | Data Analyst &amp; AI Engineer Portfolio</title>
-  <meta name="description" content="Data analyst and AI engineer portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating January 2027 and open to graduate roles from March 2027: LLM agents, RAG systems, econometric models, OpenDOSM pipelines, Power BI and live Python apps." />
+  <title>Muhammad Luqman Hakim bin Syahrulnizam | AI Engineer Portfolio</title>
+  <meta name="description" content="AI engineer portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating February 2027 and open to graduate AI Engineer roles in Kuala Lumpur from March 2027: LLM agents, RAG systems, econometric models, OpenDOSM pipelines, Power BI and live Python apps." />
   <meta name="theme-color" content="#faf9f6" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Luqman Hakim | Data Analyst &amp; AI Engineer Portfolio" />
-  <meta property="og:description" content="LLM agents, RAG systems, econometrics, OpenDOSM pipelines and live Python apps. B.Sc. Statistics, UiTM. Open to graduate roles from March 2027, Kuala Lumpur." />
+  <meta property="og:title" content="Luqman Hakim | AI Engineer Portfolio" />
+  <meta property="og:description" content="LLM agents, RAG systems, econometrics, OpenDOSM pipelines and live Python apps. B.Sc. Statistics, UiTM. Open to graduate AI Engineer roles from March 2027, Kuala Lumpur." />
   <meta name="twitter:card" content="summary" />
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,9 +40,9 @@
       <div class="hero-inner">
         <div class="hero-copy">
           <h1 id="hero-title">Muhammad Luqman Hakim</h1>
-          <p class="hero-role">Data analyst and AI engineer · B.Sc. Statistics, UiTM · Kuala Lumpur</p>
+          <p class="hero-role">AI engineer · B.Sc. Statistics, UiTM · Kuala Lumpur</p>
           <p class="hero-summary">I build LLM agents, RAG systems, econometric models, OpenDOSM pipelines and live Python apps. Right now I'm a business analyst intern at Alto Soft while I finish my Statistics degree.</p>
-          <p class="hero-fact">Open to graduate roles from March 2027</p>
+          <p class="hero-fact">Open to graduate AI Engineer roles from March 2027</p>
           <div class="hero-actions">
             <a class="btn-primary" href="mailto:luqmansyahrulnizam@gmail.com?subject=Graduate%20role">Email me about a role</a>
             <a class="link-secondary" href="#projects">See the projects</a>
@@ -99,36 +99,70 @@
     </div>
 
     <div class="project-grid">
-      <!-- 0. Real-Time Retail Demand Forecasting (flagship) -->
-      <article class="project-card featured" data-category="pipelines">
+      <!-- B. Bursa Filing Agent -->
+      <article class="project-card" data-category="ai">
         <div>
-          <span class="card-label">Flagship</span>
           <div class="project-top">
-            <span class="card-meta">OCT 2026 // STREAMING REPLAY</span>
-            <span class="card-stat">12,196 SERIES</span>
+            <span class="card-meta">NOV 2026 // AGENT + GUARDRAIL</span>
+            <span class="card-stat">0 WRONG OK</span>
           </div>
-          <h3 class="project-title">Real-Time Retail Demand Forecasting</h3>
+          <h3 class="project-title">Bursa Filing Agent</h3>
           <div class="project-desc">
             <ul>
-              <li>Streamed 28 held-out days of Walmart M5 sales through Kafka into Spark Structured Streaming, landing events in a Hive-catalogued data lake and closing each business day only after control totals reconcile.</li>
-              <li>Forecast next-day demand for 12,196 SKU-store series with an MLlib random forest (backtest WAPE 0.710, live 0.725), with a weekly champion/challenger retrain that runs without blocking the stream.</li>
-              <li>Set reorder points from negative-binomial lead-time demand and a newsvendor service level; the simulated stores reached a 99.1% fill rate. Results published as a Power BI report and a live web dashboard.</li>
+              <li>Reads Bursa Malaysia quarterly reports and extracts the balance sheet. A guardrail checks that assets = liabilities + equity within 0.5% before any ratio is computed.</li>
+              <li>A LangGraph state machine tries rules first, then falls back to an LLM filling a Pydantic schema, with at most 3 extraction attempts per filing.</li>
+              <li>On 11 real filings (June/July 2026 quarter): 8 correct, 2 sent to review, 1 detected as unsupported (scanned PDF), 0 wrong numbers reported as ok. CI fails if that zero ever breaks. Tools are served over MCP (<code>list_filings</code>, <code>analyse_filing</code>, <code>compute_ratios</code>).</li>
             </ul>
           </div>
         </div>
         <div>
           <div class="tech-stack">
-            <span class="tech-pill">Kafka</span>
-            <span class="tech-pill">Spark Structured Streaming</span>
-            <span class="tech-pill">Hive</span>
-            <span class="tech-pill">MLlib</span>
-            <span class="tech-pill">Power BI</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">LangGraph</span>
+            <span class="tech-pill">Pydantic</span>
+            <span class="tech-pill">MCP</span>
+            <span class="tech-pill">GitHub Actions</span>
           </div>
           <div class="project-footer">
-            <span>Streaming ML & Inventory</span>
+            <span>Agentic AI &amp; Finance</span>
             <div class="project-links">
-              <a href="https://downey112.github.io/retail-demand-rt/dashboard/" target="_blank" rel="noopener" class="project-link">Live Dashboard →</a>
-              <a href="https://github.com/Downey112/retail-demand-rt" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+              <a href="https://github.com/Downey112/bursa-filing-agent" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- C. Belanjawan Bot (v2) -->
+      <article class="project-card" data-category="ai">
+        <div>
+          <div class="project-top">
+            <span class="card-meta">NOV 2026 // HYBRID RAG + EVAL IN CI</span>
+            <span class="card-stat">RECALL@5 0.971</span>
+          </div>
+          <h3 class="project-title">Belanjawan Bot</h3>
+          <div class="project-desc">
+            <ul>
+              <li>RAG chatbot over Malaysia's Budget 2026 and Budget 2027 documents. It answers only from the official Ministry of Finance PDFs, cites the page each fact came from, and says so when the documents don't answer.</li>
+              <li>v2 moved to hybrid retrieval: BM25 keyword search and MiniLM vector search fused by Reciprocal Rank Fusion, then a cross-encoder rerank. On a 34-question golden set, recall@5 rose from 0.794 (v1, vector only) to 0.971 and hit@1 from 0.324 to 0.559. Caveat: most golden questions reuse the documents' own wording, which flatters keyword search.</li>
+              <li>CI re-runs the retrieval eval on every pull request and fails if any mode drops by more than 0.03. Guardrails refuse before calling the LLM when nothing relevant is found and drop citations that point at a page never retrieved. Served as a Streamlit chat and a FastAPI API sharing the same code.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">FastAPI</span>
+            <span class="tech-pill">Streamlit</span>
+            <span class="tech-pill">BM25 + MiniLM (RRF)</span>
+            <span class="tech-pill">FlashRank rerank</span>
+            <span class="tech-pill">Groq (GPT-OSS 120B)</span>
+            <span class="tech-pill">GitHub Actions</span>
+          </div>
+          <div class="project-footer">
+            <span>RAG &amp; Guardrails</span>
+            <div class="project-links">
+              <a href="https://belanjawan-bot-ut48esxousutb5xbp8ehqz.streamlit.app/" target="_blank" rel="noopener" class="project-link">Live App →</a>
+              <a href="https://github.com/Downey112/belanjawan-bot" target="_blank" rel="noopener" class="project-link">GitHub →</a>
             </div>
           </div>
         </div>
@@ -170,34 +204,36 @@
         </div>
       </article>
 
-      <!-- B. Bursa Filing Agent -->
-      <article class="project-card" data-category="ai">
+      <!-- 0. Real-Time Retail Demand Forecasting (flagship) -->
+      <article class="project-card featured" data-category="pipelines">
         <div>
+          <span class="card-label">Flagship</span>
           <div class="project-top">
-            <span class="card-meta">NOV 2026 // AGENT + GUARDRAIL</span>
-            <span class="card-stat">0 WRONG OK</span>
+            <span class="card-meta">OCT 2026 // STREAMING REPLAY</span>
+            <span class="card-stat">12,196 SERIES</span>
           </div>
-          <h3 class="project-title">Bursa Filing Agent</h3>
+          <h3 class="project-title">Real-Time Retail Demand Forecasting</h3>
           <div class="project-desc">
             <ul>
-              <li>Reads Bursa Malaysia quarterly reports and extracts the balance sheet. A guardrail checks that assets = liabilities + equity within 0.5% before any ratio is computed.</li>
-              <li>A LangGraph state machine tries rules first, then falls back to an LLM filling a Pydantic schema, with at most 3 extraction attempts per filing.</li>
-              <li>On 11 real filings (June/July 2026 quarter): 8 correct, 2 sent to review, 1 detected as unsupported (scanned PDF), 0 wrong numbers reported as ok. CI fails if that zero ever breaks. Tools are served over MCP (<code>list_filings</code>, <code>analyse_filing</code>, <code>compute_ratios</code>).</li>
+              <li>Streamed 28 held-out days of Walmart M5 sales through Kafka into Spark Structured Streaming, landing events in a Hive-catalogued data lake and closing each business day only after control totals reconcile.</li>
+              <li>Forecast next-day demand for 12,196 SKU-store series with an MLlib random forest (backtest WAPE 0.710, live 0.725), with a weekly champion/challenger retrain that runs without blocking the stream.</li>
+              <li>Set reorder points from negative-binomial lead-time demand and a newsvendor service level; the simulated stores reached a 99.1% fill rate. Results published as a Power BI report and a live web dashboard.</li>
             </ul>
           </div>
         </div>
         <div>
           <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">LangGraph</span>
-            <span class="tech-pill">Pydantic</span>
-            <span class="tech-pill">MCP</span>
-            <span class="tech-pill">GitHub Actions</span>
+            <span class="tech-pill">Kafka</span>
+            <span class="tech-pill">Spark Structured Streaming</span>
+            <span class="tech-pill">Hive</span>
+            <span class="tech-pill">MLlib</span>
+            <span class="tech-pill">Power BI</span>
           </div>
           <div class="project-footer">
-            <span>Agentic AI &amp; Finance</span>
+            <span>Streaming ML & Inventory</span>
             <div class="project-links">
-              <a href="https://github.com/Downey112/bursa-filing-agent" target="_blank" rel="noopener" class="project-link">GitHub →</a>
+              <a href="https://downey112.github.io/retail-demand-rt/dashboard/" target="_blank" rel="noopener" class="project-link">Live Dashboard →</a>
+              <a href="https://github.com/Downey112/retail-demand-rt" target="_blank" rel="noopener" class="project-link">GitHub →</a>
             </div>
           </div>
         </div>
@@ -822,12 +858,6 @@
           <div class="project-links"><a href="https://github.com/Downey112/ev-conformal" target="_blank" rel="noopener" class="project-link" aria-label="EV Conformal: GitHub repository">GitHub →</a></div>
         </article>
         <article class="mini-card">
-          <h3 class="mini-title">Belanjawan Bot</h3>
-          <p class="mini-desc">RAG chatbot over Malaysia Budget 2026 documents that answers with page citations.</p>
-          <div class="tech-stack"><span class="tech-pill">ChromaDB</span><span class="tech-pill">sentence-transformers</span><span class="tech-pill">Groq (Llama 3.3 70B)</span></div>
-          <div class="project-links"><a href="https://belanjawan-bot-ut48esxousutb5xbp8ehqz.streamlit.app/" target="_blank" rel="noopener" class="project-link" aria-label="Belanjawan Bot: live site">Live →</a><a href="https://github.com/Downey112/belanjawan-bot" target="_blank" rel="noopener" class="project-link" aria-label="Belanjawan Bot: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
           <h3 class="mini-title">Audit Fraud Detection</h3>
           <p class="mini-desc">End-to-end anomaly and fraud detection pipeline on 1M+ imbalanced transactions.</p>
           <div class="tech-stack"><span class="tech-pill">SMOTE</span><span class="tech-pill">Logistic Regression</span><span class="tech-pill">Neural Networks</span></div>
@@ -941,7 +971,7 @@
               <span class="timeline-date">OCT 2026 – PRESENT</span>
             </div>
             <div class="timeline-sub">
-              Testing a web-based attendance, booking and complaints system for a public-sector client across its 17 user roles and permission levels, and preparing to lead UAT sessions ahead of a December 2026 multi-state rollout. Updating the user manuals for each role, writing the first SOP for setting up fingerprint attendance devices (nothing was documented before) and taking meeting minutes.
+              Wrote the user requirements specification and 235 UAT cases for v2 of a public-sector attendance, booking and complaints system with 17 user roles, found an HTTP 500 bug during UAT, and retest developer fixes against their Jira tickets. Updating the user manuals for each role, writing the first SOP for setting up fingerprint attendance devices (nothing was documented before) and taking meeting minutes.
             </div>
           </div>
 
@@ -984,7 +1014,7 @@
           <div class="timeline-item">
             <div class="timeline-head">
               <span>B.Sc. (Hons.) Statistics — Universiti Teknologi MARA (UiTM), Kota Bharu</span>
-              <span class="timeline-date">OCT 2023 – JAN 2027</span>
+              <span class="timeline-date">OCT 2023 – FEB 2027</span>
             </div>
             <div class="timeline-sub">
               <strong>CGPA 3.11.</strong> Coursework: Programming for Data Science (R/Python), Business Data Analytics, Data Reporting & Visualisation.
