@@ -1,1244 +1,1045 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muhammad Luqman Hakim bin Syahrulnizam | AI Engineer Portfolio</title>
-  <meta name="description" content="AI engineer portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating February 2027 and open to graduate AI Engineer roles in Kuala Lumpur from March 2027: LLM agents, RAG systems, econometric models, OpenDOSM pipelines, Power BI and live Python apps." />
-  <meta name="theme-color" content="#1d2633" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Luqman Hakim | AI Engineer Portfolio" />
-  <meta property="og:description" content="LLM agents, RAG systems, econometrics, OpenDOSM pipelines and live Python apps. B.Sc. Statistics, UiTM. Open to graduate AI Engineer roles from March 2027, Kuala Lumpur." />
-  <meta name="twitter:card" content="summary" />
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=1000">
+<title>Muhammad Luqman Hakim bin Syahrulnizam | AI Engineer Portfolio</title>
+<meta content="AI engineer portfolio of Muhammad Luqman Hakim bin Syahrulnizam (B.Sc. Statistics, UiTM), graduating February 2027 and open to graduate AI Engineer roles in Kuala Lumpur from March 2027: LLM agents, RAG systems, econometric models, OpenDOSM pipelines, Power BI and live Python apps." name="description"/>
+<meta content="#1d2633" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="Luqman Hakim | AI Engineer Portfolio" property="og:title"/>
+<meta content="LLM agents, RAG systems, econometrics, OpenDOSM pipelines and live Python apps. B.Sc. Statistics, UiTM. Open to graduate AI Engineer roles from March 2027, Kuala Lumpur." property="og:description"/>
+<meta content="summary" name="twitter:card"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Chewy&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Lilita+One&family=Pacifico&family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&family=Saira+Stencil+One&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ==== LUQMAN HAKIM — pixel portfolio, mid-2000s maximalist skin ==== */
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0;min-width:1000px;
+  font:12px/1.5 Verdana,Tahoma,Geneva,sans-serif;color:#222;background-color:#9ec3e8;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M8 1L15 4.5 8 8 1 4.5Z' fill='%23dff0ff' stroke='%238fb6d6' stroke-width='1'/%3E%3Cpath d='M1 4.5L8 8 8 15 1 11.5Z' fill='%23bcd7ef' stroke='%238fb6d6' stroke-width='1'/%3E%3Cpath d='M15 4.5L8 8 8 15 15 11.5Z' fill='%23a9cdec' stroke='%238fb6d6' stroke-width='1'/%3E%3C/svg%3E")}
+a{color:#0b4fa8}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px dashed #d81e3f;outline-offset:2px}
+.page{width:960px;margin:14px auto 30px;position:relative}
+.skip-link{position:absolute;left:-999px;top:0;z-index:99;background:#ffd23f;color:#5a3200;padding:6px 10px;
+  font-family:'Silkscreen',monospace;font-size:10px;text-decoration:none;border:2px solid #5a3200}
+.skip-link:focus{left:8px;top:8px}
+
+/* ---------- ticker ---------- */
+.ticker{background:#101323;border:2px solid #454f6e;border-radius:4px;color:#ffe14d;
+  font-family:'VT323',monospace;font-size:17px;letter-spacing:1px;padding:3px 6px;margin-bottom:8px}
+
+/* ---------- header ---------- */
+.hdr{position:relative;margin:0 0 10px;padding:16px 18px 12px;
+  background:linear-gradient(#eaf5ff 0%,#c8e2f7 55%,#a9cdec 100%);
+  border:3px solid #2e4a6e;border-radius:10px;box-shadow:4px 4px 0 rgba(0,0,0,.25)}
+.hdr-left{width:430px}
+.logo{margin:0;font-family:'Bungee',cursive;font-size:29px;line-height:1.1;
+  color:#ff4d6d;text-shadow:3px 3px 0 #7a1f33,6px 6px 0 rgba(0,0,0,.22);letter-spacing:1px}
+.logo .t1{color:#ffd23f}.logo .t2{color:#54d1c8}.logo .t3{color:#ff8fb1}
+.tagline{font-family:'Chewy',cursive;font-size:18px;color:#2e4a6e;margin:6px 0 10px}
+.counter{display:inline-block;font-family:'Press Start 2P',monospace;font-size:10px;
+  background:#101323;color:#7cfc9a;border:2px inset #666;padding:7px 10px;border-radius:3px}
+.counter.wig{animation:wig .32s ease}
+@keyframes wig{25%{transform:rotate(-2.5deg) scale(1.06)}75%{transform:rotate(2deg) scale(1.02)}}
+.hdr-sky{position:absolute;right:14px;top:10px;width:330px;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.2))}
+.hdr-note{margin:8px 0 0;font-family:'Comic Neue',cursive;font-size:12px;color:#5c3b1e;font-style:italic}
+
+/* ---------- nav tabs ---------- */
+.nav{list-style:none;display:flex;gap:5px;margin:0;padding:0 4px;flex-wrap:wrap}
+.nav a{display:block;padding:8px 18px;text-decoration:none;color:#0d2a4a;
+  font-family:'Silkscreen',monospace;font-size:11px;
+  background:linear-gradient(#a5d3f5 0%,#5f9bd0 100%);border:2px outset #7ab5e8;
+  border-radius:7px 7px 0 0;text-shadow:1px 1px 0 #dcefff}
+.nav a:hover{background:linear-gradient(#c9e6ff 0%,#7fb3e0 100%)}
+.nav .on a{background:linear-gradient(#ffe28a 0%,#ffab3d 100%);border-color:#ffd23f;color:#5a3200}
+.nav li:nth-child(2){transform:rotate(-1.5deg)}
+.nav li:nth-child(4){transform:rotate(1.8deg) translateY(2px)}
+.nav li:nth-child(6){transform:rotate(-1deg) translateY(-1px)}
+
+/* ---------- cert banner "ad" strip ---------- */
+.adstrip{position:relative;min-height:96px;margin:12px 0;display:flex;align-items:center;gap:18px;
+  padding:12px 20px 12px 84px;
+  background:repeating-linear-gradient(45deg,#141b33 0 18px,#1b2447 18px 36px);
+  border:3px ridge #ffd23f;border-radius:6px;overflow:hidden;transform:rotate(-.6deg)}
+.adstrip .adtag{position:absolute;left:0;top:0;background:#ffd23f;color:#5a3200;
+  font-family:'Silkscreen',monospace;font-size:8px;padding:3px 6px;
+  border-right:2px solid #5a3200;border-bottom:2px solid #5a3200}
+.adbig{font-family:'Bungee',cursive;font-size:17px;line-height:1.3;color:#ffd23f;
+  text-shadow:3px 3px 0 #a10f2b;max-width:500px}
+.adbig .blink{color:#ff5252;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:.15}}
+.adsmall{font-family:'Pacifico',cursive;font-size:14px;color:#9fd0ff}
+.adcta{margin-left:auto;font-family:'Lilita One',cursive;font-size:16px;color:#fff;white-space:nowrap;
+  background:linear-gradient(#7ce07c,#2f9e2f);border:3px outset #63c563;padding:9px 16px;
+  border-radius:8px;text-decoration:none;text-shadow:1px 1px 0 #145214}
+.adcta:hover{filter:brightness(1.08)}
+
+/* ---------- full-width project hall ---------- */
+.hall{display:grid;grid-template-columns:1fr 1fr;gap:18px 16px;align-items:start;margin-top:6px}
+.hall>*{margin-bottom:0!important;width:auto!important;margin-left:0!important;margin-right:0!important}
+.hall>*:nth-child(4n+2){margin-top:22px!important}
+.hall>*:nth-child(4n+3){margin-top:-10px!important}
+.morehall{margin-top:22px;transform:rotate(-.4deg)}
+.moregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 18px;align-items:start}
+/* ---------- 3-column layout ---------- */
+.layout{display:flex;gap:14px;align-items:flex-start;margin-top:4px;position:relative}
+.colL{width:172px;flex:none;margin-top:18px}
+.colC{flex:1;min-width:0}
+.colR{width:216px;flex:none;margin-top:-6px}
+
+.box{background:#fff;border:2px solid #2e4a6e;border-radius:7px;
+  box-shadow:3px 3px 0 rgba(0,0,0,.28);margin-bottom:16px;overflow:hidden}
+.box>h3,.box>h2{margin:0;padding:6px 10px;font-weight:400;font-size:15px;color:#fff;
+  border-bottom:2px solid rgba(0,0,0,.35);text-shadow:1px 1px 0 rgba(0,0,0,.45)}
+.box .bd{padding:9px 10px}
+
+.h-news>h3,.h-news>h2{font-family:'Chewy',cursive;background:linear-gradient(#7ab5e8,#3d6da0)}
+.h-room>h3,.h-room>h2{font-family:'Bungee',cursive;font-size:12px;background:linear-gradient(#ff9d6b,#d84f1f)}
+.h-lb>h3,.h-lb>h2{font-family:'Press Start 2P',monospace;font-size:10px;background:linear-gradient(#8e6fd8,#5a3fa0)}
+.h-shout>h3,.h-shout>h2{font-family:'Lilita One',cursive;background:linear-gradient(#6fcf97,#2b8a55)}
+.h-poll>h3,.h-poll>h2{font-family:'Saira Stencil One',sans-serif;letter-spacing:1px;background:linear-gradient(#f2a63c,#b56a10)}
+.h-picks>h3,.h-picks>h2{font-family:'Pixelify Sans',cursive;background:linear-gradient(#ef7fae,#b03a72)}
+.h-status>h3,.h-status>h2{font-family:'VT323',monospace;font-size:19px;background:linear-gradient(#5f9bd0,#2e4a6e)}
+.h-hot>h3,.h-hot>h2{font-family:'Silkscreen',monospace;font-size:11px;background:linear-gradient(#ff8fb1,#c22553)}
+.h-pals>h3,.h-pals>h2{font-family:'Chewy',cursive;background:linear-gradient(#54d1c8,#1f8a82)}
+.h-link>h3,.h-link>h2{font-family:'Saira Stencil One',sans-serif;background:linear-gradient(#9fd0ff,#3d6da0)}
+
+/* scatter / rotations / staggered offsets */
+.rA{transform:rotate(-1.1deg)}
+.rB{transform:rotate(1.3deg)}
+.rC{transform:rotate(-2.1deg)}
+.rD{transform:rotate(2.3deg)}
+.rE{transform:rotate(.7deg) translateX(-8px)}
+.pr1{transform:rotate(-1.2deg)}
+.pr2{transform:rotate(1.5deg)}
+.pr3{transform:rotate(-.9deg) translateX(-6px)}
+.pr4{transform:rotate(1.1deg) translateX(6px)}
+.pr5{transform:rotate(-1.4deg)}
+.offL{width:88%;margin-left:auto}
+.push{margin-left:14px}
+
+/* ---------- stickers / badges ---------- */
+.badgenew{position:absolute;top:-26px;left:-30px;width:56px;height:56px;display:flex;
+  align-items:center;justify-content:center;text-align:center;border-radius:50%;
+  background:#ff3b30;color:#fff;border:2px dashed #fff;font-family:'Press Start 2P',monospace;
+  font-size:8px;line-height:1.3;transform:rotate(-14deg);box-shadow:2px 3px 0 rgba(0,0,0,.3);z-index:5;padding:4px}
+.hotstar{position:absolute;top:-20px;right:-8px;width:74px;height:74px;display:flex;align-items:center;
+  justify-content:center;text-align:center;background:#ffd23f;color:#7a1f33;
+  font-family:'Press Start 2P',monospace;font-size:7px;line-height:1.4;transform:rotate(11deg);
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  z-index:5;padding:6px;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.25))}
+.hotstar span{transform:rotate(-8deg);display:block}
+.credstick{position:absolute;right:-24px;top:96px;z-index:6;transform:rotate(-9deg);
+  font-family:'Pacifico',cursive;font-size:16px;color:#7a1f33;background:#ffd23f;
+  border:2px solid #b8860b;border-radius:12px;padding:5px 12px;box-shadow:2px 3px 0 rgba(0,0,0,.3)}
+.flt{position:absolute;z-index:7;pointer-events:none;box-shadow:2px 3px 0 rgba(0,0,0,.3)}
+.flt.wow{left:-46px;top:560px;transform:rotate(-16deg);background:#54d1c8;color:#0d2a4a;
+  font-family:'Bungee',cursive;font-size:14px;padding:6px 10px;border:2px solid #0d2a4a;border-radius:4px}
+.flt.tape{left:470px;top:-8px;width:90px;height:22px;background:rgba(255,240,160,.8);transform:rotate(4deg);box-shadow:none}
+.flt.rad{right:-58px;top:880px;transform:rotate(12deg);background:#fff;color:#c22553;
+  font-family:'Pacifico',cursive;font-size:15px;padding:4px 12px;border:2px dashed #c22553;border-radius:20px}
+.flt.pix{right:-52px;top:1450px;transform:rotate(-8deg);background:#101323;color:#ffd23f;
+  font-family:'Press Start 2P',monospace;font-size:8px;padding:8px;border:2px solid #ffd23f}
+
+/* ---------- enter box ---------- */
+.enter{padding:14px 10px 16px;text-align:center;border:3px double #b8860b;border-radius:9px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.9),rgba(255,255,255,0) 60%),
+    repeating-linear-gradient(90deg,#fff9d6 0 14px,#ffef9c 14px 28px);
+  box-shadow:3px 3px 0 rgba(0,0,0,.28);margin-bottom:16px}
+.enter h2{margin:0 0 10px;font-family:'Saira Stencil One',sans-serif;font-size:19px;color:#7a1f33;letter-spacing:2px}
+.bigbtn{display:inline-block;font-family:'Bungee',cursive;font-size:23px;color:#fff;
+  background:linear-gradient(#ffc36b 0%,#ff5e3a 45%,#e8321f 100%);
+  border:3px outset #ff9d2e;border-radius:14px;padding:13px 34px 11px;
+  text-shadow:2px 2px 0 #7a1f1f;text-decoration:none;
+  box-shadow:0 6px 0 #a32414,0 11px 16px rgba(0,0,0,.35)}
+.bigbtn:hover{filter:brightness(1.08)}
+.bigbtn:active{transform:translateY(4px);box-shadow:0 2px 0 #a32414}
+.enter .fine{font-size:10px;color:#7a5a1f;margin-top:8px}
+
+/* ---------- section header bars ---------- */
+.sechdr{margin:0 0 14px;font-family:'Saira Stencil One',sans-serif;font-size:16px;letter-spacing:1px;color:#fff;
+  background:linear-gradient(#f2a63c,#b56a10);border:2px solid #7a4a00;border-radius:7px;padding:8px 13px;
+  text-shadow:1px 1px 0 rgba(0,0,0,.4);box-shadow:3px 3px 0 rgba(0,0,0,.28);transform:rotate(-.5deg)}
+.colR .sechdr{font-size:13px}
+
+/* ---------- project boxes ---------- */
+.proj{margin-bottom:20px}
+.proj>h3{padding:8px 12px}
+.pmeta{display:block;font-family:'Silkscreen',monospace;font-size:7px;letter-spacing:1px;margin-bottom:3px}
+.ptitle{display:block}
+.pstat{display:inline-block;font-family:'VT323',monospace;font-size:14px;background:rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.4);padding:0 7px;border-radius:4px;margin-top:4px}
+.flag{display:inline-block;font-family:'Press Start 2P',monospace;font-size:7px;background:#ffd23f;color:#5a3200;
+  border:1px dashed #b8860b;padding:2px 5px;margin-right:5px;vertical-align:middle}
+.project-desc{font-size:11px}
+.project-desc ul{margin:4px 0 8px;padding-left:17px;list-style:square}
+.project-desc li{margin-bottom:5px}
+.project-desc code{font-family:'Courier New',monospace;background:#eaf5ff;border:1px solid #bcd7ef;padding:0 3px}
+.project-shots{display:flex;gap:10px;overflow-x:auto;padding:9px 6px;margin:6px 0 10px;
+  background:#eaf5ff;border:2px inset #9ec3e8}
+.project-shots figure{margin:0;flex:none;max-width:235px}
+.project-shots img{height:150px;width:auto;display:block;border:2px solid #2e4a6e;border-radius:3px;background:#fff}
+.project-shots figcaption{font-family:'VT323',monospace;font-size:13px;color:#b56a10;margin-top:2px}
+
+/* tech tags as tilted mini badges (cycled colours) */
+.tech-pill{display:inline-block;margin:2px 3px 2px 0;padding:2px 6px;border-radius:8px;
+  font-family:'Press Start 2P',monospace;font-size:6px;color:#fff;background:#c22553;
+  border:1px dashed rgba(255,255,255,.6);transform:rotate(-3deg)}
+.tech-pill:nth-of-type(3n+1){background:#2b8a55;transform:rotate(2deg)}
+.tech-pill:nth-of-type(3n){background:#3d6da0;transform:rotate(-1deg)}
+
+/* project links as chunky 3D buttons */
+.project-link{display:inline-block;margin:4px 6px 2px 0;padding:5px 12px;text-decoration:none;
+  font-family:'Lilita One',cursive;font-size:13px;color:#fff;
+  background:linear-gradient(#7ce07c,#2f9e2f);border:3px outset #63c563;border-radius:8px;
+  text-shadow:1px 1px 0 #145214;box-shadow:0 4px 0 #1c6b1c}
+.project-link:hover{filter:brightness(1.08)}
+.project-link:active{transform:translateY(3px);box-shadow:0 1px 0 #1c6b1c}
+.project-footer{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;
+  border-top:2px dashed #b9cfe6;padding-top:7px;margin-top:4px}
+.project-footer>span{font-family:'Silkscreen',monospace;font-size:8px;background:#fff;
+  border:1px solid #9ec3e8;border-radius:6px;padding:2px 7px;color:#2e4a6e}
+
+/* ---------- left column: about / stats / contact / certs ---------- */
+.aboutme{font-size:10.5px}
+.hero-actions{margin-top:9px;display:flex;flex-direction:column;gap:7px}
+.hero-actions .btn-primary{display:block;text-align:center;text-decoration:none;
+  font-family:'Lilita One',cursive;font-size:12px;color:#fff;
+  background:linear-gradient(#ffc36b,#ff5e3a);border:3px outset #ff9d2e;border-radius:9px;padding:8px 10px;
+  text-shadow:1px 1px 0 #7a1f1f;box-shadow:0 4px 0 #a32414}
+.hero-actions .btn-primary:hover{filter:brightness(1.08)}
+.hero-actions .btn-primary:active{transform:translateY(3px);box-shadow:0 1px 0 #a32414}
+.hero-actions .link-secondary{display:block;text-align:center;font-family:'Silkscreen',monospace;font-size:9px}
+
+.stats-list{margin:0}
+.stats-list .stat{padding:6px 0;border-bottom:1px dashed #b9cfe6}
+.stats-list .stat:last-child{border-bottom:0}
+.stats-list dt{font-family:'Chewy',cursive;font-size:13px;color:#2e4a6e}
+.stats-list .stat-value{margin:0;font-family:'VT323',monospace;font-size:20px;color:#2b8a55}
+.stats-list .stat-sub{margin:0;font-size:9px;color:#667}
+
+.contact-list{margin:0;padding:0;list-style:none}
+.contact-list li{overflow-wrap:anywhere;padding:4px 2px;border-bottom:1px dotted #bfe0cd;list-style:none}
+.contact-list li:last-child{border-bottom:0}
+
+.cert-exam{font-family:'VT323',monospace;font-size:14px;line-height:1.35;background:#101323;color:#7cfc9a;
+  border:2px inset #555;padding:7px 9px;margin:0 0 9px}
+.cert-exam span{display:block;color:#ffd23f;letter-spacing:1px}
+.cert-list{margin:0}
+.cert-list dt{font-family:'Chewy',cursive;font-size:12px;color:#5a3fa0;margin-top:7px;padding:1px 3px}
+.cert-list dd{margin:0 0 3px;font-size:10px;color:#333;padding:0 3px}
+.cert-list dt.isnew,.cert-list dd.isnew{background:#fff3b0;border:1px dashed #b8860b;border-radius:4px}
+.newbadge{display:inline-block;font-family:'Press Start 2P',monospace;font-size:7px;color:#fff;background:#ff3b30;
+  border:1px dashed #fff;border-radius:4px;padding:2px 5px;margin-left:4px;vertical-align:middle;
+  animation:blink .9s steps(1) infinite}
+
+/* ---------- right column: skills / experience / education ---------- */
+.skill-row{padding:6px 0;border-bottom:1px dashed #cbb8ec}
+.skill-row:last-child{border-bottom:0}
+.skill-cat{font-family:'Chewy',cursive;font-size:13px;color:#8c2a56;margin-bottom:3px}
+
+.timeline-list{margin:0}
+.timeline-item{padding:7px 0;border-bottom:1px dashed #b9cfe6}
+.timeline-item:last-child{border-bottom:0}
+.timeline-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;
+  font-family:'Pixelify Sans',cursive;font-size:11px;font-weight:700;color:#0d2a4a}
+.timeline-date{font-family:'VT323',monospace;font-size:14px;color:#b56a10;white-space:nowrap}
+.timeline-sub{margin:3px 0 0;font-size:10px;color:#444}
+
+/* ---------- more projects (compact list) ---------- */
+.mini-card{padding:7px 0;border-bottom:1px dashed #ffd1e0}
+.mini-card:last-child{border-bottom:0}
+.mini-title{margin:0;font-family:'Pixelify Sans',cursive;font-size:12px;color:#8c0f38}
+.mini-desc{margin:3px 0 4px;font-size:10px;color:#555}
+.mini-card .project-link{font-size:11px;padding:4px 10px}
+
+/* ---------- 88x31 buttons ---------- */
+.tbtn{display:block;width:88px;height:31px;margin:8px auto 0;line-height:31px;text-align:center;
+  font-family:'Silkscreen',monospace;font-size:8px;text-decoration:none;border:2px outset #ccc;
+  border-radius:2px;overflow:hidden;white-space:nowrap}
+.tbtn.a{background:linear-gradient(#333,#000);color:#7cfc9a}
+.tbtn.b{background:linear-gradient(#ffd23f,#e2a100);color:#5a3200}
+.tbtn:hover{filter:brightness(1.15)}
+
+/* ---------- footer ---------- */
+.footer{margin-top:8px;background:linear-gradient(#2e4a6e,#0d1c30);border:3px solid #08111f;
+  border-radius:9px;padding:14px 16px;color:#cfe0f4}
+.footer a{color:#ffd23f;text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.fname{text-align:center;margin:0 0 10px;font-family:'Pixelify Sans',cursive;font-size:13px;color:#ffd23f}
+.flinks-list{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;
+  margin:0 0 12px;padding:0;font-size:10px;text-align:center}
+.fbadges{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.fbadge{display:inline-block;font-family:'Silkscreen',monospace;font-size:8px;padding:2px 7px;
+  border:1px solid #5f7ea3;border-radius:2px;background:#16273f;color:#9fd0ff}
+.odigits{display:flex;justify-content:center;gap:2px;margin:10px 0}
+.odigits span{font-family:'VT323',monospace;font-size:22px;background:#000;color:#7cfc9a;
+  border:1px inset #454f6e;padding:1px 6px}
+.fcopy{text-align:center;font-size:10px;color:#8fa3c8;margin:10px 0 0}
+
+@media (prefers-reduced-motion:reduce){
+  .adbig .blink,.newbadge,.counter.wig{animation:none}
+}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="wordmark" href="#main">Luqman Hakim</a>
-      <nav class="site-nav" aria-label="Primary">
-        <ul>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#more-projects">More</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="about/">About</a></li>
-          <li><a href="https://github.com/Downey112" target="_blank" rel="noopener">GitHub</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <h1 id="hero-title">Muhammad Luqman Hakim</h1>
-          <p class="hero-role">AI engineer · B.Sc. Statistics, UiTM · Kuala Lumpur</p>
-          <p class="hero-summary">I build LLM agents, RAG systems, econometric models, OpenDOSM pipelines and live Python apps. Right now I'm a business analyst intern at Alto Soft while I finish my Statistics degree.</p>
-          <p class="hero-fact">Open to graduate AI Engineer roles from March 2027</p>
-          <div class="hero-actions">
-            <a class="btn-primary" href="mailto:luqmansyahrulnizam@gmail.com?subject=Graduate%20role">Email me about a role</a>
-            <a class="link-secondary" href="#projects">See the projects</a>
-          </div>
-        </div>
-        <div class="hero-figure hero-room">
-          <svg viewBox="10 -8 300 306" role="img" shape-rendering="crispEdges" aria-labelledby="room-title">
-          <title id="room-title">Pixel-art room with a framed portrait of Muhammad Luqman Hakim bin Syahrulnizam on the wall, a desk with a laptop showing a bar chart, a bookshelf and a plant</title>
-          <polygon class="rm-wall-l" points="20,220.0 160,150.0 160,10.0 20,80.0"/>
-          <polygon class="rm-wall-r" points="160,150.0 300,220.0 300,80.0 160,10.0"/>
-          <polygon class="rm-cap" points="20,80.0 160,10.0 160,4.0 20,74.0"/>
-          <polygon class="rm-cap" points="160,10.0 300,80.0 300,74.0 160,4.0"/>
-          <polygon class="rm-skirt" points="20,220.0 160,150.0 160,144.0 20,214.0"/>
-          <polygon class="rm-skirt" points="160,150.0 300,220.0 300,214.0 160,144.0"/>
-          <polygon class="rm-tile-a" points="160.0,150.0 188.0,164.0 160.0,178.0 132.0,164.0"/>
-          <polygon class="rm-tile-b" points="132.0,164.0 160.0,178.0 132.0,192.0 104.0,178.0"/>
-          <polygon class="rm-tile-a" points="104.0,178.0 132.0,192.0 104.0,206.0 76.0,192.0"/>
-          <polygon class="rm-tile-b" points="76.0,192.0 104.0,206.0 76.0,220.0 48.0,206.0"/>
-          <polygon class="rm-tile-a" points="48.0,206.0 76.0,220.0 48.0,234.0 20.0,220.0"/>
-          <polygon class="rm-tile-b" points="188.0,164.0 216.0,178.0 188.0,192.0 160.0,178.0"/>
-          <polygon class="rm-tile-a" points="160.0,178.0 188.0,192.0 160.0,206.0 132.0,192.0"/>
-          <polygon class="rm-tile-b" points="132.0,192.0 160.0,206.0 132.0,220.0 104.0,206.0"/>
-          <polygon class="rm-tile-a" points="104.0,206.0 132.0,220.0 104.0,234.0 76.0,220.0"/>
-          <polygon class="rm-tile-b" points="76.0,220.0 104.0,234.0 76.0,248.0 48.0,234.0"/>
-          <polygon class="rm-tile-a" points="216.0,178.0 244.0,192.0 216.0,206.0 188.0,192.0"/>
-          <polygon class="rm-tile-b" points="188.0,192.0 216.0,206.0 188.0,220.0 160.0,206.0"/>
-          <polygon class="rm-tile-a" points="160.0,206.0 188.0,220.0 160.0,234.0 132.0,220.0"/>
-          <polygon class="rm-tile-b" points="132.0,220.0 160.0,234.0 132.0,248.0 104.0,234.0"/>
-          <polygon class="rm-tile-a" points="104.0,234.0 132.0,248.0 104.0,262.0 76.0,248.0"/>
-          <polygon class="rm-tile-b" points="244.0,192.0 272.0,206.0 244.0,220.0 216.0,206.0"/>
-          <polygon class="rm-tile-a" points="216.0,206.0 244.0,220.0 216.0,234.0 188.0,220.0"/>
-          <polygon class="rm-tile-b" points="188.0,220.0 216.0,234.0 188.0,248.0 160.0,234.0"/>
-          <polygon class="rm-tile-a" points="160.0,234.0 188.0,248.0 160.0,262.0 132.0,248.0"/>
-          <polygon class="rm-tile-b" points="132.0,248.0 160.0,262.0 132.0,276.0 104.0,262.0"/>
-          <polygon class="rm-tile-a" points="272.0,206.0 300.0,220.0 272.0,234.0 244.0,220.0"/>
-          <polygon class="rm-tile-b" points="244.0,220.0 272.0,234.0 244.0,248.0 216.0,234.0"/>
-          <polygon class="rm-tile-a" points="216.0,234.0 244.0,248.0 216.0,262.0 188.0,248.0"/>
-          <polygon class="rm-tile-b" points="188.0,248.0 216.0,262.0 188.0,276.0 160.0,262.0"/>
-          <polygon class="rm-tile-a" points="160.0,262.0 188.0,276.0 160.0,290.0 132.0,276.0"/>
-          <polygon class="rm-rug" points="157.2,207.4 216.0,236.8 157.2,266.2 98.4,236.8"/>
-          <polygon class="rm-rug-in" points="157.2,215.8 199.2,236.8 157.2,257.8 115.2,236.8"/>
-          <polygon class="rm-frame" points="230.0,127.0 283.2,153.6 283.2,89.6 230.0,63.0"/>
-          <polygon class="rm-sky" points="232.8,124.4 280.4,148.2 280.4,92.2 232.8,68.4"/>
-          <g class="rm-cloud"><polygon class="rm-cloud-px" points="238.4,91.2 252.4,98.2 252.4,92.2 238.4,85.2"/><polygon class="rm-cloud-px" points="242.6,87.3 249.6,90.8 249.6,85.8 242.6,82.3"/></g>
-          <polygon class="rm-frame" points="255.8,135.9 257.4,136.7 257.4,80.7 255.8,79.9"/>
-          <polygon class="rm-frame" points="232.8,97.4 280.4,121.2 280.4,118.2 232.8,94.4"/>
-          <polygon class="rm-wood-l" points="223.0,133.1 279.0,161.1 279.0,157.1 223.0,129.1"/>
-          <polygon class="rm-wood-r" points="284.6,158.3 279.0,161.1 279.0,157.1 284.6,154.3"/>
-          <polygon class="rm-wood-t" points="228.6,126.3 284.6,154.3 279.0,157.1 223.0,129.1"/>
-          <g transform="matrix(1 -0.5 0 1 50.8 82.6)"><rect class="rm-frame-gold" x="-5" y="-5" width="68" height="82"/><rect class="rm-frame-dark" x="-2" y="-2" width="62" height="76"/><image href="assets/web/portrait.webp" x="0" y="0" width="58" height="72" preserveAspectRatio="xMidYMin slice"/></g>
-          <g transform="matrix(1 -0.5 0 1 73.2 149.4)"><rect class="rm-plate" x="0" y="0" width="26" height="7"/></g>
-          <polygon class="rm-wood-l" points="118.0,171.0 134.8,179.4 134.8,83.4 118.0,75.0"/>
-          <polygon class="rm-wood-r" points="169.8,161.9 134.8,179.4 134.8,83.4 169.8,65.9"/>
-          <polygon class="rm-wood-t" points="153.0,57.5 169.8,65.9 134.8,83.4 118.0,75.0"/>
-          <polygon class="rm-bk1" points="119.7,161.8 121.9,163.0 121.9,143.0 119.7,141.8"/>
-          <polygon class="rm-bk2" points="122.5,163.2 125.3,164.6 125.3,148.6 122.5,147.2"/>
-          <polygon class="rm-bk3" points="125.8,164.9 129.2,166.6 129.2,146.6 125.8,144.9"/>
-          <polygon class="rm-bk4" points="129.8,166.9 132.0,168.0 132.0,152.0 129.8,150.9"/>
-          <polygon class="rm-bk1" points="132.6,168.3 135.4,169.7 135.4,149.7 132.6,148.3"/>
-          <polygon class="rm-bk2" points="119.7,131.8 121.9,133.0 121.9,113.0 119.7,111.8"/>
-          <polygon class="rm-bk3" points="122.5,133.2 125.3,134.6 125.3,118.6 122.5,117.2"/>
-          <polygon class="rm-bk4" points="125.8,134.9 129.2,136.6 129.2,116.6 125.8,114.9"/>
-          <polygon class="rm-bk1" points="129.8,136.9 132.0,138.0 132.0,122.0 129.8,120.9"/>
-          <polygon class="rm-bk2" points="132.6,138.3 135.4,139.7 135.4,119.7 132.6,118.3"/>
-          <polygon class="rm-bk3" points="119.7,101.8 121.9,103.0 121.9,83.0 119.7,81.8"/>
-          <polygon class="rm-bk4" points="122.5,103.2 125.3,104.6 125.3,88.6 122.5,87.2"/>
-          <polygon class="rm-bk1" points="125.8,104.9 129.2,106.6 129.2,86.6 125.8,84.9"/>
-          <polygon class="rm-bk2" points="129.8,106.9 132.0,108.0 132.0,92.0 129.8,90.9"/>
-          <polygon class="rm-bk3" points="132.6,108.3 135.4,109.7 135.4,89.7 132.6,88.3"/>
-          <polygon class="rm-wood-l" points="160.0,144.0 196.4,162.2 196.4,158.2 160.0,140.0"/>
-          <polygon class="rm-wood-r" points="224.4,148.2 196.4,162.2 196.4,158.2 224.4,144.2"/>
-          <polygon class="rm-wood-t" points="188.0,126.0 224.4,144.2 196.4,158.2 160.0,140.0"/>
-          <polygon class="rm-wood-l" points="162.1,178.3 164.2,179.4 164.2,145.4 162.1,144.3"/>
-          <polygon class="rm-wood-r" points="166.3,178.3 164.2,179.4 164.2,145.4 166.3,144.3"/>
-          <polygon class="rm-wood-l" points="164.2,143.3 166.3,144.3 164.2,145.4 162.1,144.3"/>
-          <polygon class="rm-wood-l" points="194.3,194.5 196.4,195.5 196.4,161.5 194.3,160.5"/>
-          <polygon class="rm-wood-r" points="198.5,194.4 196.4,195.5 196.4,161.5 198.5,160.4"/>
-          <polygon class="rm-wood-l" points="196.4,159.4 198.5,160.4 196.4,161.5 194.3,160.5"/>
-          <polygon class="rm-wood-l" points="216.7,183.2 218.8,184.3 218.8,150.3 216.7,149.2"/>
-          <polygon class="rm-wood-r" points="220.9,183.2 218.8,184.3 218.8,150.3 220.9,149.2"/>
-          <polygon class="rm-wood-l" points="218.8,148.2 220.9,149.2 218.8,150.3 216.7,149.2"/>
-          <polygon class="rm-metal-l" points="175.4,140.7 195.0,150.5 195.0,148.5 175.4,138.7"/>
-          <polygon class="rm-metal-r" points="207.6,144.2 195.0,150.5 195.0,148.5 207.6,142.2"/>
-          <polygon class="rm-metal-t" points="188.0,132.4 207.6,142.2 195.0,148.5 175.4,138.7"/>
-          <polygon class="rm-metal-l" points="188.0,132.4 207.6,142.2 207.6,112.2 188.0,102.4"/>
-          <polygon class="rm-screen" points="189.4,130.1 206.2,138.5 206.2,114.5 189.4,106.1"/>
-          <polygon class="rm-bar" points="191.5,128.1 193.7,129.3 193.7,121.3 191.5,120.1"/>
-          <polygon class="rm-bar" points="195.0,129.9 197.2,131.0 197.2,117.0 195.0,115.9"/>
-          <polygon class="rm-bar" points="198.5,131.6 200.7,132.8 200.7,121.8 198.5,120.6"/>
-          <polygon class="rm-bar" points="202.0,133.4 204.2,134.5 204.2,115.5 202.0,114.4"/>
-          <g class="rm-blink"><polygon class="rm-cursor" points="204.5,134.7 205.6,135.2 205.6,129.2 204.5,128.7"/></g>
-          <polygon class="rm-mug-l" points="198.5,151.6 202.0,153.3 202.0,145.3 198.5,143.6"/>
-          <polygon class="rm-mug-r" points="205.5,151.6 202.0,153.3 202.0,145.3 205.5,143.6"/>
-          <polygon class="rm-mug-t" points="202.0,141.8 205.5,143.6 202.0,145.3 198.5,143.6"/>
-          <polygon class="rm-seat-l" points="143.2,177.6 157.2,184.6 157.2,181.6 143.2,174.6"/>
-          <polygon class="rm-seat-r" points="171.2,177.6 157.2,184.6 157.2,181.6 171.2,174.6"/>
-          <polygon class="rm-seat-t" points="157.2,167.6 171.2,174.6 157.2,181.6 143.2,174.6"/>
-          <polygon class="rm-metal-l" points="154.4,197.6 157.2,199.0 157.2,179.0 154.4,177.6"/>
-          <polygon class="rm-metal-r" points="160.0,197.6 157.2,199.0 157.2,179.0 160.0,177.6"/>
-          <polygon class="rm-metal-l" points="157.2,176.2 160.0,177.6 157.2,179.0 154.4,177.6"/>
-          <polygon class="rm-pot-l" points="265.0,217.9 277.6,224.2 277.6,210.2 265.0,203.9"/>
-          <polygon class="rm-pot-r" points="290.2,217.9 277.6,224.2 277.6,210.2 290.2,203.9"/>
-          <polygon class="rm-pot-t" points="277.6,197.6 290.2,203.9 277.6,210.2 265.0,203.9"/>
-          <rect class="rm-leaf" x="267.6" y="185.9" width="8" height="14"/>
-          <rect class="rm-leaf" x="279.6" y="179.9" width="8" height="18"/>
-          <rect class="rm-leaf" x="273.6" y="169.9" width="8" height="12"/>
-          <rect class="rm-leaf" x="285.6" y="189.9" width="7" height="10"/>
-          <rect class="rm-leaf" x="263.6" y="195.9" width="6" height="8"/>
-          <rect class="rm-leaf-hi" x="281.6" y="181.9" width="3" height="8"/>
-
-          </svg>
-        </div>
-      </div>
-    </section>
-
-    <section class="stats-row" aria-label="Portfolio facts">
-      <dl class="stats-list">
-        <div class="stat">
-          <dt>Retail fill rate</dt>
-          <dd class="stat-value">99.1%</dd>
-          <dd class="stat-sub">12,196 SKU-Store Series • Kafka + Spark</dd>
-        </div>
-        <div class="stat">
-          <dt>KPT Tracer Study Sample</dt>
-          <dd class="stat-value">109,414</dd>
-          <dd class="stat-sub">Graduates Modeled • Budget 2027 Floor</dd>
-        </div>
-        <div class="stat">
-          <dt>OpenDOSM Trade Horizon</dt>
-          <dd class="stat-value">320 months</dd>
-          <dd class="stat-sub">3,190 Sector Rows • 51 DAX Measures</dd>
-        </div>
-        <div class="stat">
-          <dt>FYP OLS Explanatory Power</dt>
-          <dd class="stat-value">64.0%</dd>
-          <dd class="stat-sub">Adj. R² = 0.640 • N = 100 (G*Power)</dd>
-        </div>
-        <div class="stat">
-          <dt>Live Deployments</dt>
-          <dd class="stat-value">8 live</dd>
-          <dd class="stat-sub">Apps, Sites &amp; APIs • Streamlit • Vercel • Render • GitHub Pages</dd>
-        </div>
-      </dl>
-    </section>
-
-  <section class="section-container" id="projects">
-    <div class="section-header">
-      <div class="section-title-wrap">
-        <h2 class="section-title">Projects & Production Pipelines</h2>
-      </div>
-      <div class="filter-group">
-        <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
-        <button class="filter-btn" data-filter="econometrics" aria-pressed="false">Econometrics & Regression</button>
-        <button class="filter-btn" data-filter="pipelines" aria-pressed="false">Data Pipelines & BI</button>
-        <button class="filter-btn" data-filter="apps" aria-pressed="false">Live Cloud Apps</button>
-        <button class="filter-btn" data-filter="ai" aria-pressed="false">AI Agents &amp; RAG</button>
-      </div>
-    </div>
-
-    <div class="project-grid">
-      <!-- B. Bursa Filing Agent -->
-      <article class="project-card" data-category="ai">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">NOV 2026 // AGENT + GUARDRAIL</span>
-            <span class="card-stat">0 WRONG OK</span>
-          </div>
-          <h3 class="project-title">Bursa Filing Agent</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Reads Bursa Malaysia quarterly reports and extracts the balance sheet. A guardrail checks that assets = liabilities + equity within 0.5% before any ratio is computed.</li>
-              <li>A LangGraph state machine tries rules first, then falls back to an LLM filling a Pydantic schema, with at most 3 extraction attempts per filing.</li>
-              <li>On 11 real filings (June/July 2026 quarter): 8 correct, 2 sent to review, 1 detected as unsupported (scanned PDF), 0 wrong numbers reported as ok. CI fails if that zero ever breaks. Tools are served over MCP (<code>list_filings</code>, <code>analyse_filing</code>, <code>compute_ratios</code>).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">LangGraph</span>
-            <span class="tech-pill">Pydantic</span>
-            <span class="tech-pill">MCP</span>
-            <span class="tech-pill">GitHub Actions</span>
-          </div>
-          <div class="project-footer">
-            <span>Agentic AI &amp; Finance</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/bursa-filing-agent" target="_blank" rel="noopener" class="project-link">GitHub →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- C. Belanjawan Bot (v2) -->
-      <article class="project-card" data-category="ai">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">NOV 2026 // HYBRID RAG + EVAL IN CI</span>
-            <span class="card-stat">RECALL@5 0.971</span>
-          </div>
-          <h3 class="project-title">Belanjawan Bot</h3>
-          <div class="project-desc">
-            <ul>
-              <li>RAG chatbot over Malaysia's Budget 2026 and Budget 2027 documents. It answers only from the official Ministry of Finance PDFs, cites the page each fact came from, and says so when the documents don't answer.</li>
-              <li>v2 moved to hybrid retrieval: BM25 keyword search and MiniLM vector search fused by Reciprocal Rank Fusion, then a cross-encoder rerank. On a 34-question golden set, recall@5 rose from 0.794 (v1, vector only) to 0.971 and hit@1 from 0.324 to 0.559. Caveat: most golden questions reuse the documents' own wording, which flatters keyword search.</li>
-              <li>CI re-runs the retrieval eval on every pull request and fails if any mode drops by more than 0.03. Guardrails refuse before calling the LLM when nothing relevant is found and drop citations that point at a page never retrieved. Served as a Streamlit chat and a FastAPI API sharing the same code.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">FastAPI</span>
-            <span class="tech-pill">Streamlit</span>
-            <span class="tech-pill">BM25 + MiniLM (RRF)</span>
-            <span class="tech-pill">FlashRank rerank</span>
-            <span class="tech-pill">Groq (GPT-OSS 120B)</span>
-            <span class="tech-pill">GitHub Actions</span>
-          </div>
-          <div class="project-footer">
-            <span>RAG &amp; Guardrails</span>
-            <div class="project-links">
-              <a href="https://belanjawan-bot-ut48esxousutb5xbp8ehqz.streamlit.app/" target="_blank" rel="noopener" class="project-link">Live App →</a>
-              <a href="https://github.com/Downey112/belanjawan-bot" target="_blank" rel="noopener" class="project-link">GitHub →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- A. Semiconductor Datasheet RAG -->
-      <article class="project-card" data-category="ai">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">NOV 2026 // RETRIEVAL &amp; RAG API</span>
-            <span class="card-stat">RECALL@5 0.667</span>
-          </div>
-          <h3 class="project-title">Semiconductor Datasheet RAG</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Compared table-aware chunking with plain page text on the same hybrid retriever (BM25 + bge-small-en-v1.5, Reciprocal Rank Fusion) over 6 public Texas Instruments datasheets (TI manufactures in Melaka).</li>
-              <li>On 30 golden questions about pins, I2C addresses and register values, keeping tables intact raised hit@1 from 0.233 to 0.400, recall@5 from 0.433 to 0.667 and MRR@10 from 0.309 to 0.525. The answer lands in the top 5 for 20 of 30 questions instead of 13. Most misses are TCA9555/TCA9535 pin tables where pdfplumber merges cells.</li>
-              <li>Served as a FastAPI <code>POST /v1/search</code> endpoint in a Docker image on GHCR, evaluated in CI and live on Render (free tier: the first request after 15 idle minutes takes about a minute).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">FastAPI</span>
-            <span class="tech-pill">BM25 + bge-small-en-v1.5</span>
-            <span class="tech-pill">Reciprocal Rank Fusion</span>
-            <span class="tech-pill">Docker</span>
-            <span class="tech-pill">GitHub Actions</span>
-            <span class="tech-pill">Render</span>
-          </div>
-          <div class="project-footer">
-            <span>RAG &amp; Retrieval</span>
-            <div class="project-links">
-              <a href="https://semicon-datasheet-rag.onrender.com/docs" target="_blank" rel="noopener" class="project-link">Live API →</a>
-              <a href="https://github.com/Downey112/semicon-datasheet-rag" target="_blank" rel="noopener" class="project-link">GitHub →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 0. Real-Time Retail Demand Forecasting (flagship) -->
-      <article class="project-card featured" data-category="pipelines">
-        <div>
-          <span class="card-label">Flagship</span>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // STREAMING REPLAY</span>
-            <span class="card-stat">12,196 SERIES</span>
-          </div>
-          <h3 class="project-title">Real-Time Retail Demand Forecasting</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Streamed 28 held-out days of Walmart M5 sales through Kafka into Spark Structured Streaming, landing events in a Hive-catalogued data lake and closing each business day only after control totals reconcile.</li>
-              <li>Forecast next-day demand for 12,196 SKU-store series with an MLlib random forest (backtest WAPE 0.710, live 0.725), with a weekly champion/challenger retrain that runs without blocking the stream.</li>
-              <li>Set reorder points from negative-binomial lead-time demand and a newsvendor service level; the simulated stores reached a 99.1% fill rate. Results published as a Power BI report and a live web dashboard.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Kafka</span>
-            <span class="tech-pill">Spark Structured Streaming</span>
-            <span class="tech-pill">Hive</span>
-            <span class="tech-pill">MLlib</span>
-            <span class="tech-pill">Power BI</span>
-          </div>
-          <div class="project-footer">
-            <span>Streaming ML & Inventory</span>
-            <div class="project-links">
-              <a href="https://downey112.github.io/retail-demand-rt/dashboard/" target="_blank" rel="noopener" class="project-link">Live Dashboard →</a>
-              <a href="https://github.com/Downey112/retail-demand-rt" target="_blank" rel="noopener" class="project-link">GitHub →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 1. Graduate Salary & Wage Floor Model -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // ECONOMETRIC SIMULATION</span>
-            <span class="card-stat">N = 109,414 GRADS</span>
-          </div>
-          <h3 class="project-title">Graduate Salary & Wage Floor Model</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Analysed published salary bands for 109,414 first-degree graduates (KPT Graduate Tracer Study 2024) and found 49.7% earned RM2,500 or less (Budget 2027 graduate wage floor), ranging from 27.7% in ICT to 77.2% in education.</li>
-              <li>Simulated the floor under 6 scenarios with a rank-preserving wage compression rule, estimating a 7.1–14.4% rise in the graduate wage bill.</li>
-              <li>Fitted a log-salary regression with HC3 robust errors and VIF, Breusch-Pagan, White, and RESET diagnostics on a 1,000-row calibrated sample, reproduced in Excel via <code>LINEST</code> and <code>MMULT</code>/<code>MINVERSE</code>.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">statsmodels (HC3 OLS)</span>
-            <span class="tech-pill">Excel (LINEST / MMULT)</span>
-            <span class="tech-pill">Policy Simulation</span>
-          </div>
-          <div class="project-footer">
-            <span>Econometrics & Policy</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/fresh-grad-salary-model" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2. E-Commerce Churn & Market-Basket Intelligence -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // CHURN + BASKET MINING</span>
-            <span class="card-stat">776,577 ORDER LINES</span>
-          </div>
-          <h3 class="project-title">E-Commerce Churn & Market-Basket Intelligence</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Loaded UCI Online Retail II (5,852 customers, 2009–2011) into a PostgreSQL schema with RFM views and point-in-time SQL functions that cannot look past their cut-off date; 24 tests check the database invariants.</li>
-              <li>Predicted 30-day churn with a logistic regression (out-of-time AUC 0.755 vs 0.684 for recency alone) and a decision tree, reporting Hosmer-Lemeshow calibration honestly: it passes in-sample but fails on the seasonal test month.</li>
-              <li>Mined 249 bundle rules with Apriori; all 259 frequent pairs match an independent SQL self-join, and FP-Growth reproduces all 873 itemsets. PCA + K-Means segmentation is reported as weak (silhouette 0.28).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">PostgreSQL</span>
-            <span class="tech-pill">Docker</span>
-            <span class="tech-pill">Logistic Regression</span>
-            <span class="tech-pill">Apriori</span>
-            <span class="tech-pill">PCA / K-Means</span>
-          </div>
-          <div class="project-footer">
-            <span>Churn & Cross-Sell</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/ecom-churn-basket" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2b. Employee Turnover: Survival Analysis & Retention Decisions -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // SURVIVAL + DECISION</span>
-            <span class="card-stat">1,116 REAL EMPLOYEES</span>
-          </div>
-          <h3 class="project-title">Employee Turnover: Who Leaves, and Is Retention Worth Paying For?</h3>
-          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
-            <figure>
-              <a href="assets/hr-attrition-who-leaves.webp" target="_blank" rel="noopener">
-                <img src="assets/hr-attrition-who-leaves.webp" width="1200" height="674" loading="lazy" alt="Power BI page 'who leaves, and how fast': KPI cards (1,116 employees, median tenure 51 months, 14.4% leave within 12 months, C-index 0.60), Kaplan–Meier curves by industry, first-year leaving rate by industry from 25% (state sector) to 11% (manufacturing), and tables of hazard ratios and factor tests.">
-              </a>
-              <figcaption>1 / 3 · Who leaves →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/hr-attrition-decision.webp" target="_blank" rel="noopener">
-                <img src="assets/hr-attrition-decision.webp" width="1200" height="674" loading="lazy" alt="Power BI retention decision simulator: dropdowns for loss, programme cost and effectiveness above KPI cards (risk threshold 33.3%, 4 staff to target, back-tested gain 0.0%), a histogram of 12-month leaving risk with the few bins above the threshold in blue, targeting rates by gender and age at hire, and the list of the 4 staff to target.">
-              </a>
-              <figcaption>2 / 3 · Decision simulator →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/hr-attrition-model-check.webp" target="_blank" rel="noopener">
-                <img src="assets/hr-attrition-model-check.webp" width="1200" height="674" loading="lazy" alt="Power BI model check page: predicted vs observed 12-month leaving by risk quintile (predictions squeezed, 9–21% vs 7–24% observed), the back-test table of 45 cost scenarios with the best gain 4.3%, calibration by age and gender showing under-prediction for hires aged 36+, and a how-to-read note.">
-              </a>
-              <figcaption>3 / 3 · Model check</figcaption>
-            </figure>
-          </div>
-          <div class="project-desc">
-            <ul>
-              <li>Kaplan–Meier curves, log-rank and cluster-robust tests (BH-corrected) and a Cox model on real survey data: grey-wage staff stay a median 26 months vs 54; probation mentoring shows no effect.</li>
-              <li>Turned 12-month risk into a cost rule (intervene if risk × effectiveness × loss &gt; cost) and back-tested it with IPCW over 45 scenarios: the model (C-index 0.60) beats "nobody" or "everybody" in only 4, so the honest advice is to pilot the intervention first.</li>
-              <li>Power BI decision simulator generated from code (TMDL + PBIR), a two-page HR memo, and a fairness audit showing that leaving age out under-predicts risk for older hires.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">lifelines (Cox PH)</span>
-            <span class="tech-pill">Survival Analysis</span>
-            <span class="tech-pill">Power BI (PBIP)</span>
-            <span class="tech-pill">Decision Analysis</span>
-          </div>
-          <div class="project-footer">
-            <span>People Analytics</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/hr-attrition-decision" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2c. PriceCatcher anomaly triage -->
-      <article class="project-card" data-category="pipelines">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // ANOMALY DETECTION + BI</span>
-            <span class="card-stat">16.6M REAL PRICES</span>
-          </div>
-          <h3 class="project-title">Which Shop Prices Should Inspectors Check This Week?</h3>
-          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
-            <figure>
-              <a href="assets/pricecatcher-this-week.webp" target="_blank" rel="noopener">
-                <img src="assets/pricecatcher-this-week.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Which shop prices should inspectors check this week?': KPI cards (3,285 flagged prices, 165 districts, typical flagged price 1.22 times peers, 45% persistent premium, 209 possible data issues), bars of flags by state, likely cause and item category, and the inspection shortlist table for the week of 19 Oct 2026 led by cooking oil at RM32.80 against a RM6.90 peer median.">
-              </a>
-              <figcaption>1 / 3 · This week's shortlist →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/pricecatcher-over-time.webp" target="_blank" rel="noopener">
-                <img src="assets/pricecatcher-over-time.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Is the pattern stable week to week?': stacked weekly columns of about 3,300 flagged prices across 40 weeks of 2026, split by likely cause (persistent premium in dark blue, spikes in red), and a table of the items flagged most often, led by an infant formula at 8.8%.">
-              </a>
-              <figcaption>2 / 3 · Over time →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/pricecatcher-does-it-work.webp" target="_blank" rel="noopener">
-                <img src="assets/pricecatcher-does-it-work.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Does the detector catch overpricing?': share of planted price rises caught by the MAD baseline, Isolation Forest and ECOD (baseline 21% of held +20% rises vs 9 to 11%), a paired bootstrap table of the differences with 95% intervals, and the data funnel from 16,572,022 raw records to 7,375,691 scored prices.">
-              </a>
-              <figcaption>3 / 3 · Does it work?</figcaption>
-            </figure>
-          </div>
-          <div class="project-desc">
-            <ul>
-              <li>Scored every KPDN PriceCatcher price from Jan to Oct 2026 (16.6M records, 7.4M shop-item-weeks) against the same item at similar shops nearby, and turned it into a weekly shortlist of 20 prices per district.</li>
-              <li>No profiteering labels exist, so I planted known price rises in held-out weeks: a simple robust z-score beat Isolation Forest and ECOD on modest and held markups (21% vs 9–11% of held +20% rises caught, paired bootstrap), while Isolation Forest wins only on big one-week jumps.</li>
-              <li>An adversarial review led to 12 fixes (batch-independent scoring, a held-markup test, 21-day history rule). Three-page Power BI report generated from code (TMDL + PBIR); a flag is presented as a lead, not proof.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">scikit-learn</span>
-            <span class="tech-pill">Anomaly Detection</span>
-            <span class="tech-pill">Power BI (PBIP)</span>
-            <span class="tech-pill">Open Data (data.gov.my)</span>
-          </div>
-          <div class="project-footer">
-            <span>Public Sector Analytics</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/pricecatcher-anomaly" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2d. MPL MY S18 playoffs forecast -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // SPORTS ANALYTICS + MONTE CARLO</span>
-            <span class="card-stat">50,000 BRACKETS</span>
-          </div>
-          <h3 class="project-title">Who Wins MPL Malaysia Season 18?</h3>
-          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
-            <figure>
-              <a href="assets/mpl-s18-forecast.webp" target="_blank" rel="noopener">
-                <img src="assets/mpl-s18-forecast.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'MPL MY S18 playoffs forecast' in a dark navy and gold esports theme: KPI cards (title favourite SRG 62.9%, race for the second M8 slot TR 50% vs VMS 43%, most likely Grand Final SRG vs TR 39.7%, title chance for seeds 4 to 6 combined 4.1%), bars of title and Grand Final odds by team, each team's finishing distribution in medal colours, key series odds and the regular-season standings.">
-              </a>
-              <figcaption>1 / 2 · Playoffs forecast →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/mpl-s18-model-check.webp" target="_blank" rel="noopener">
-                <img src="assets/mpl-s18-model-check.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Model check, how much to trust the forecast': standardised logistic regression weights led by towers per game (+1.07) with pre-match Elo at −1.06, a cross-validation table (blended model ROC-AUC 0.776 vs 0.675 for the leak-free pre-match Elo reference), and a list of limitations.">
-              </a>
-              <figcaption>2 / 2 · Model check</figcaption>
-            </figure>
-          </div>
-          <div class="project-desc">
-            <ul>
-              <li>Forecasts the Mobile Legends MPL Malaysia S18 playoffs (Oct 28 – Nov 1, 2026) from the 56 regular-season Bo3 results, all checked against Liquipedia: Elo, Bradley-Terry and a from-scratch NumPy logistic model give game odds, exact Bo5/Bo7 maths turns them into series odds, and 50,000 simulated brackets give each team's finish.</li>
-              <li>SRG win the title in 62.9% of runs and take an M8 World Championship slot in 86.9%; the second slot is close (TR 50% vs VMS 43%).</li>
-              <li>A review found the team-season averages leak the outcome, so the model's cross-validation (AUC 0.776) is optimistic; the report shows the leak-free pre-match Elo bar (AUC 0.675) beside it. Two-page Power BI report generated from code (TMDL + PBIR).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">NumPy</span>
-            <span class="tech-pill">Monte Carlo</span>
-            <span class="tech-pill">Power BI (PBIP)</span>
-            <span class="tech-pill">Esports Data</span>
-          </div>
-          <div class="project-footer">
-            <span>Sports Analytics</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/mpl-my-s18-ml-predictor" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2e. Klang Valley rail fare and network events -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // TRANSPORT + CAUSAL INFERENCE</span>
-            <span class="card-stat">6 EVENTS · 3 CHECKS</span>
-          </div>
-          <h3 class="project-title">Did Fares and Network Changes Move KL Rail Riders?</h3>
-          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
-            <figure>
-              <a href="assets/lrt-overview.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-overview.webp" width="1200" height="675" loading="lazy" alt="Power BI page with a Kelana Jaya LRT train photo panel and the question 'Did fares and network changes move rail riders?': cards of riders vs 2019 for Jan to Aug 2026 (LRT Kelana Jaya 96%, LRT Ampang/Sri Petaling 114%, MRT Kajang 153%, KL Monorail 177%) in each line's map colour, monthly riders per day from 2019 to 2026 on seven lines including MRT Putrajaya and LRT Shah Alam, the six events tested, and a summary of what changed riders.">
-              </a>
-              <figcaption>1 / 4 · Overview →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/lrt-event-effects.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-event-effects.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'What did each event change?' for the June to July 2022 free month: a table of effects by line with the noise band and two checks (LRT Kelana Jaya +16% but not robust against the comparison line, Ampang/Sri Petaling +19%, MRT Kajang +30% and KL Monorail +34% clear rises), and a daily chart of Kelana Jaya actual riders against two expected lines.">
-              </a>
-              <figcaption>2 / 4 · Event effects →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/lrt-recovery-my50.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-recovery-my50.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'Are riders back to 2019 levels?': monthly riders as a share of the same month in 2019 by line from 2022 to 2026, weekly riders around the My50 relaunch, Monorail riders per 100 LRT riders stepping up in Nov 2022 and Feb 2023, and a list of limits.">
-              </a>
-              <figcaption>3 / 4 · Recovery &amp; My50 →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/lrt-new-lines.webp" target="_blank" rel="noopener">
-                <img src="assets/lrt-new-lines.webp" width="1200" height="675" loading="lazy" alt="Power BI page 'How are the newer lines doing?': monthly riders on MRT Putrajaya (rising to about 165,000 a day), KTM Komuter in the Klang Valley (slipping) and LRT Shah Alam, and LRT Shah Alam weekday riders by fare phase: 55,418 while free, 45,839 in the extension and 33,729 once paid.">
-              </a>
-              <figcaption>4 / 4 · New lines</figcaption>
-            </figure>
-          </div>
-          <div class="project-desc">
-            <ul>
-              <li>Daily ridership on seven Klang Valley rail lines, 2019 to Aug 2026 (data.gov.my), including MRT Putrajaya and the new LRT Shah Alam: for six dated events, each line is compared with a holiday-, Ramadan-, school-break- and trend-aware baseline, then checked against placebo dates, the level just before, and KTM Komuter Utara as a comparison line.</li>
-              <li>Free fares added riders: +19% to +34% on three lines in the June 2022 free month, and LRT Shah Alam lost about 4 in 10 weekday riders when its free rides ended (55k to 34k). While Kelana Jaya was shut, the Monorail gained 16%.</li>
-              <li>The My50 pass still can't be measured: inside ±12–17% noise, and the comparison line is distorted by holiday travel. Four-page LRT-themed Power BI report generated from code (TMDL + PBIR) and validated against Microsoft's schemas.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">Placebo Tests</span>
-            <span class="tech-pill">Power BI (PBIP)</span>
-            <span class="tech-pill">Open Data</span>
-          </div>
-          <div class="project-footer">
-            <span>Public Transport</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/lrt-ridership-events" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2f. Malaysia Affordability Atlas -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">NOV 2026 // COST OF LIVING + OPEN DATA</span>
-            <span class="card-stat">16 STATES · 45 CHECKS</span>
-          </div>
-          <h3 class="project-title">Malaysia Affordability Atlas: Who Is Under the Most Pressure?</h3>
-          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
-            <figure>
-              <a href="assets/affordability-pressure.webp" target="_blank" rel="noopener">
-                <img src="assets/affordability-pressure.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'Who is under pressure?' under an illustrated street from a kampung house to city towers: Kelantan has the highest burden at 30.8% and Selangor the lowest at 10.6%, with a bar chart by state, ten coins for every RM10 earned and a table of pressure ranks.">
-              </a>
-              <figcaption>1 / 4 · Who is under pressure →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/affordability-drivers.webp" target="_blank" rel="noopener">
-                <img src="assets/affordability-drivers.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'What drives it?' under an illustrated pasar stall and balance scale: 102.7% of the gap between states comes from income and -2.7% from prices, with income and basket cost by state and each burden recalculated with a typical price and with Malaysia's income.">
-              </a>
-              <figcaption>2 / 4 · What drives it →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/affordability-budgets.webp" target="_blank" rel="noopener">
-                <img src="assets/affordability-budgets.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'Can households meet a reference budget?' under an illustrated terrace house, flats and families: ten figures per state show the share of households earning under the Belanjawanku budget, from 73% in Kelantan to 20% in Selangor, beside budgets and poverty rates.">
-              </a>
-              <figcaption>3 / 4 · Reference budgets →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/affordability-growth.webp" target="_blank" rel="noopener">
-                <img src="assets/affordability-growth.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'What has changed, and where within states?' under an illustrated landscape of paddy terraces and a longhouse: real income growth and real formal wage growth by state, and a table of districts sorted by poverty rate.">
-              </a>
-              <figcaption>4 / 4 · What has changed</figcaption>
-            </figure>
-          </div>
-          <div class="project-desc">
-            <ul>
-              <li>Joins KPDN PriceCatcher shelf prices to DOSM income, spending, CPI and wage data, the official poverty line and the Belanjawanku reference budgets, to measure pressure by state, income position and household type.</li>
-              <li>It is an income gap, not a price gap: a 17-item basket costs RM143 to RM159 across states, yet four purchases a month (an assumption) take 30.8% of a 10th-percentile income in Kelantan and 10.6% in Selangor. Income accounts for 101–106% of the gap between states, and prices slightly offset it.</li>
-              <li>73% of Kelantan households earn under the family budget, against 20% in Selangor. Four-page illustrated Power BI report generated from code (TMDL + PBIR), with original banners, people and coin pictograms drawn by DAX, and a pipeline that reruns to identical files.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">SQL (DuckDB)</span>
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">Power BI (PBIP)</span>
-            <span class="tech-pill">Open Data</span>
-          </div>
-          <div class="project-footer">
-            <span>Cost of Living</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/malaysia-affordability-atlas" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2g. Korea's AI bet -->
-      <article class="project-card" data-category="pipelines">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">NOV 2026 // AI BUDGET + CHIP CYCLE</span>
-            <span class="card-stat">321 MONTHS · 17 CHECKS</span>
-          </div>
-          <h3 class="project-title">Korea's AI Bet: Smart Move or Bigger Risk?</h3>
-          <div class="project-shots" tabindex="0" aria-label="Power BI report pages, scroll sideways for more">
-            <figure>
-              <a href="assets/korea-pressure.webp" target="_blank" rel="noopener">
-                <img src="assets/korea-pressure.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'Why would Korea bet on AI?': Korea's fertility rate of 0.75, 20.3% of people aged 65 and over, potential growth of about 1.8% and R&D at 4.94% of GDP, with ageing and fertility lines for Korea, Japan and Malaysia and an R&D bar chart.">
-              </a>
-              <figcaption>1 / 4 · Why bet on AI →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/korea-boom.webp" target="_blank" rel="noopener">
-                <img src="assets/korea-boom.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'This chip boom runs on prices': chip export value up 917% from February 2023 to September 2026 with 55% of the rise from higher prices, value, volume and price index charts since 2000, the price share of each upswing and a table of six downturns.">
-              </a>
-              <figcaption>2 / 4 · The boom runs on prices →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/korea-exposure.webp" target="_blank" rel="noopener">
-                <img src="assets/korea-exposure.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'A bust would hit the budget twice': chips at an estimated 41.8% of Korea's exports, corporate tax tracking the previous year's chip exports with r = 0.50, and a 2027 plan that needs 3.0 times the corporate tax of 2024, with the 2027 budget lines.">
-              </a>
-              <figcaption>3 / 4 · A bust hits the budget twice →</figcaption>
-            </figure>
-            <figure>
-              <a href="assets/korea-malaysia.webp" target="_blank" rel="noopener">
-                <img src="assets/korea-malaysia.webp" width="1200" height="841" loading="lazy" alt="Power BI page 'What it means for Malaysia': chips were 23.3% of Malaysia's exports in 2024 against 17.6% for Korea, Malaysia spends 1.01% of GDP on R&D, with chip export shares for three countries since 2000 and three takeaways.">
-              </a>
-              <figcaption>4 / 4 · What it means for Malaysia</figcaption>
-            </figure>
-          </div>
-          <div class="project-desc">
-            <ul>
-              <li>Joins Bank of Korea ECOS monthly chip export value, price and volume indices (2000 to 2026) with UN Comtrade, OECD tax revenue and World Bank data, to test whether a chip boom can pay for Korea's proposed 2027 AI and chip megaprojects (21.3 trillion won, up 97.2%).</li>
-              <li>This boom runs on prices: chip export value rose about tenfold from February 2023 to September 2026, and higher prices drove 55% of it, where every earlier upswing since 2001 was led by volume. Corporate tax tracks the previous year's chip exports (r = 0.50), and the plan needs 3.0 times the corporate tax of 2024.</li>
-              <li>Malaysia is more concentrated in chips (23.3% of 2024 exports against Korea's 17.6%) on 1.01% of GDP in R&amp;D. Four-page Power BI report generated from code (TMDL + PBIR); cross-checks against DOSM caught and flagged two bad Comtrade rows.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">SQL (DuckDB)</span>
-            <span class="tech-pill">Power BI (PBIP)</span>
-            <span class="tech-pill">Open Data APIs</span>
-          </div>
-          <div class="project-footer">
-            <span>Trade &amp; Fiscal</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/korea-ai-bet" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 3. Multi-Channel Marketing ROI (simulation study) -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // MARKETING MIX + PROMO EXPERIMENT</span>
-            <span class="card-stat">SIMULATION STUDY</span>
-          </div>
-          <h3 class="project-title">Multi-Channel Retail Demand & Marketing ROI</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Asks which promotion to run, where to move media budget and how much to spend for a simulated 12-store Malaysian chain. The sales and spend come from a generator with known true parameters; the festive calendar and OpenDOSM CPI are real.</li>
-              <li>Split-plot ANOVA on a randomised promo experiment, an ADBUDG response curve with adstock (block-bootstrap intervals), and a 13-week forecast whose festive, promo and media regressors beat seasonal naive on the holdout (MAPE 2.2% vs 6.3%). The data and forecasts are stored in a 3NF PostgreSQL schema.</li>
-              <li>A 100-run Monte Carlo checks whether the methods recover the truth: promo lifts and the profit-optimal budget do, while the curve's ceiling is reported as weakly identified and two intervals as slightly too narrow. A test blocks the analysis from reading the simulator.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">PostgreSQL</span>
-            <span class="tech-pill">Docker</span>
-            <span class="tech-pill">Split-plot ANOVA</span>
-            <span class="tech-pill">Marketing Mix Model</span>
-            <span class="tech-pill">Streamlit</span>
-          </div>
-          <div class="project-footer">
-            <span>Promo & Media ROI</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/Multi-Channel-Retail-Demand-Forecasting-Marketing-ROI-Optimizer" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 4. DOSM Trade Engine -->
-      <article class="project-card" data-category="pipelines">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">OCT 2026 // STAR-SCHEMA & DAX</span>
-            <span class="card-stat">320 MONTHS • 51 DAX</span>
-          </div>
-          <h3 class="project-title">DOSM Trade Engine</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Built a 3-step Python pipeline (ingest, transform, validate) converting 3 OpenDOSM tables into star-schema fact and dimension tables covering 320 months of Malaysian trade (Jan 2000–Aug 2026) and 3,190 month-by-sector rows.</li>
-              <li>Flagged 8 export anomaly months and 25 sector spikes with z-score rules on YoY growth; validation checks halt on failure and report a 10–16% source revision gap (Jun–Jul 2024).</li>
-              <li>Modelled in Power BI with a date table and 51 DAX measures (YoY growth, 3-month moving averages, latest-month KPI cards).</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">pandas</span>
-            <span class="tech-pill">Power BI</span>
-            <span class="tech-pill">51 DAX Measures</span>
-            <span class="tech-pill">Z-Score Anomaly</span>
-          </div>
-          <div class="project-footer">
-            <span>ETL & Star-Schema BI</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/dosm_trade_engine" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 5. BudiPulse: Fuel Subsidy Tracker -->
-      <article class="project-card" data-category="apps">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">SEP 2026 – PRESENT // LIVE STREAMLIT</span>
-            <span class="card-stat">2X/WK AUTOMATED ETL</span>
-          </div>
-          <h3 class="project-title">BudiPulse: Fuel Subsidy Tracker</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Built and deployed a live dashboard tracking the weekly gap between market fuel prices and BUDI MADANI subsidised caps for RON95 and diesel, refreshed twice weekly by a scheduled GitHub Actions ETL job.</li>
-              <li>Loaded cleaned OpenDOSM price data into PostgreSQL with primary-key upserts that prevent duplicate records.</li>
-              <li>Added an interactive calculator estimating each user's monthly fuel cost against the 300 L subsidised quota.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">PostgreSQL</span>
-            <span class="tech-pill">Streamlit</span>
-            <span class="tech-pill">GitHub Actions</span>
-            <span class="tech-pill">OpenDOSM</span>
-          </div>
-          <div class="project-footer">
-            <span>Automated Public Data App</span>
-            <div class="project-links">
-              <a href="https://budi-pulse.streamlit.app" target="_blank" rel="noopener" class="project-link">Live App →</a>
-              <a href="https://github.com/Downey112/budi-pulse" target="_blank" rel="noopener" class="project-link">GitHub →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 6. Smartphone Purchase Intention Study (Final Year Project) -->
-      <article class="project-card" data-category="econometrics">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">2024 – PRESENT // FINAL YEAR PROJECT</span>
-            <span class="card-stat">ADJ. R² = 0.640</span>
-          </div>
-          <h3 class="project-title">Smartphone Purchase Intention Study (FYP)</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Built a Multiple Linear Regression (MLR) model on 100 respondents (sample size determined via G*Power) that explained 64.0% of variance in purchase intention (adj. R² = 0.640).</li>
-              <li>Identified Product Features (β = 0.431, p &lt; 0.001) and Brand Image (β = 0.404) as the strongest predictors.</li>
-              <li>Validated full parametric assumptions including multicollinearity, homoscedasticity, and normality diagnostics.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">R</span>
-            <span class="tech-pill">SPSS</span>
-            <span class="tech-pill">G*Power</span>
-            <span class="tech-pill">Multiple Linear Regression</span>
-          </div>
-          <div class="project-footer">
-            <span>UiTM Honours Thesis</span>
-          </div>
-        </div>
-      </article>
-
-      <!-- 7. Telco Customer Churn Dashboard (DSC651) -->
-      <article class="project-card" data-category="pipelines">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">2024 // DSC651 BI ANALYTICS</span>
-            <span class="card-stat">7,043 CUSTOMERS</span>
-          </div>
-          <h3 class="project-title">Telco Customer Churn Dashboard (DSC651)</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Analysed 7,043 IBM Telco customers in Power BI and uncovered an overall 26.54% customer churn rate.</li>
-              <li>Demonstrated that month-to-month contracts accounted for 88.55% of all churned accounts.</li>
-              <li>Isolated early-tenure vulnerability with 1,037 customers churning within their first 12 months of service.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">Power BI</span>
-            <span class="tech-pill">DAX</span>
-            <span class="tech-pill">Customer Retention</span>
-            <span class="tech-pill">Cohort Analysis</span>
-          </div>
-          <div class="project-footer">
-            <span>Retention Intelligence</span>
-            <div class="project-links">
-              <a href="https://github.com/Downey112/DSC651-TelcoChurn-PowerBI" target="_blank" rel="noopener" class="project-link">GitHub Repo →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 8. WealthWatch: Personal Finance Tracker -->
-      <article class="project-card" data-category="apps">
-        <div>
-          <div class="project-top">
-            <span class="card-meta">MAY 2026 – OCT 2026 // FULL-STACK SQL</span>
-            <span class="card-stat">53 AUTOMATED TESTS</span>
-          </div>
-          <h3 class="project-title">WealthWatch: Personal Finance Tracker</h3>
-          <div class="project-desc">
-            <ul>
-              <li>Built and deployed a live finance tracker serving monthly income, expense, and per-category totals from SQL aggregation queries on PostgreSQL through a 5-endpoint FastAPI service.</li>
-              <li>Engineered secure JWT sign-in and Supabase PostgreSQL Row-Level Security (RLS).</li>
-              <li>Verified backend reliability with a suite of 53 automated tests and deployed frontend on Vercel.</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div class="tech-stack">
-            <span class="tech-pill">React</span>
-            <span class="tech-pill">FastAPI</span>
-            <span class="tech-pill">Supabase (PostgreSQL)</span>
-            <span class="tech-pill">Vercel</span>
-            <span class="tech-pill">Pytest (53 Tests)</span>
-          </div>
-          <div class="project-footer">
-            <span>Full-Stack Financial App</span>
-            <div class="project-links">
-              <a href="https://wealthwatch-six.vercel.app" target="_blank" rel="noopener" class="project-link">Live App →</a>
-              <a href="https://github.com/Downey112/wealthwatch" target="_blank" rel="noopener" class="project-link">GitHub →</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- MORE PROJECTS (ALL OTHER PUBLIC REPOS) -->
-  <section class="section-container" id="more-projects">
-    <div class="section-header">
-      <div class="section-title-wrap">
-        <h2 class="section-title">More Projects</h2>
-      </div>
-    </div>
-    <div class="mini-grid">
-        <article class="mini-card">
-          <h3 class="mini-title">SpaceX Falcon 9 Landing Prediction</h3>
-          <p class="mini-desc">IBM Data Science capstone: predicts first-stage landings across 90 launches. Four tuned classifiers reach 83.3% test accuracy, and the Decision Tree has the best cross-validation score at 86.3%.</p>
-          <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">SQL</span><span class="tech-pill">Folium</span><span class="tech-pill">Plotly Dash</span><span class="tech-pill">scikit-learn</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/ibm-ds-capstone-spacex" target="_blank" rel="noopener" class="project-link" aria-label="SpaceX Falcon 9 Landing Prediction: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">Program Risk MY</h3>
-          <p class="mini-desc">Field-of-study risk index and forecast for Malaysian graduates, built on MOHE Graduate Tracer Study data (2020–2025).</p>
-          <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Streamlit</span><span class="tech-pill">Forecasting</span></div>
-          <div class="project-links"><a href="https://programriskmy.streamlit.app/" target="_blank" rel="noopener" class="project-link" aria-label="Program Risk MY: live site">Live →</a><a href="https://github.com/Downey112/program-risk-my" target="_blank" rel="noopener" class="project-link" aria-label="Program Risk MY: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">PriceCatcher Retail Pricing</h3>
-          <p class="mini-desc">Grocery price dispersion and store-format gap model across 20M+ PriceCatcher records.</p>
-          <div class="tech-stack"><span class="tech-pill">DuckDB</span><span class="tech-pill">Fixed-effects OLS</span><span class="tech-pill">Power BI (34 measures)</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/pricecatcher-retail-pricing" target="_blank" rel="noopener" class="project-link" aria-label="PriceCatcher Retail Pricing: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">EV Conformal</h3>
-          <p class="mini-desc">Stress-tests conformal prediction intervals for hierarchical EV charging forecasts, re-examining arXiv:2610.13588.</p>
-          <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Conformal Prediction</span><span class="tech-pill">Hierarchical Forecasting</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/ev-conformal" target="_blank" rel="noopener" class="project-link" aria-label="EV Conformal: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">Audit Fraud Detection</h3>
-          <p class="mini-desc">End-to-end anomaly and fraud detection pipeline on 1M+ imbalanced transactions.</p>
-          <div class="tech-stack"><span class="tech-pill">SMOTE</span><span class="tech-pill">Logistic Regression</span><span class="tech-pill">Neural Networks</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/audit-fraud-detection" target="_blank" rel="noopener" class="project-link" aria-label="Audit Fraud Detection: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">ESG Multi-Agent Auditor</h3>
-          <p class="mini-desc">Event-driven multi-agent architecture for auditing corporate greenhouse gas emissions (Scope 1, 2 and 3).</p>
-          <div class="tech-stack"><span class="tech-pill">Multi-Agent AI</span><span class="tech-pill">Gemini Enterprise Agent Platform</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/esg-multiagent-auditor" target="_blank" rel="noopener" class="project-link" aria-label="ESG Multi-Agent Auditor: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">Belanjawan 2027 Wage Cost Model</h3>
-          <p class="mini-desc">Formula-driven payroll and fiscal model of employer cost and take-home pay across the Budget 2027 wage tiers (RM2,000, RM2,500, RM3,400).</p>
-          <div class="tech-stack"><span class="tech-pill">Excel</span><span class="tech-pill">Payroll Modelling</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/belanjawan-2027-wage-cost-model" target="_blank" rel="noopener" class="project-link" aria-label="Belanjawan 2027 Wage Cost Model: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">Malaysia Inclusive Economy Blueprint</h3>
-          <p class="mini-desc">Interactive policy simulator modelling progressive fiscal reforms, living-wage staircases and PPR urban safety nets.</p>
-          <div class="tech-stack"><span class="tech-pill">Interactive SPA</span><span class="tech-pill">Data Visualisation</span></div>
-          <div class="project-links"><a href="https://Downey112.github.io/malaysia-inclusive-economy-blueprint/" target="_blank" rel="noopener" class="project-link" aria-label="Malaysia Inclusive Economy Blueprint: live site">Live →</a><a href="https://github.com/Downey112/malaysia-inclusive-economy-blueprint" target="_blank" rel="noopener" class="project-link" aria-label="Malaysia Inclusive Economy Blueprint: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">Perasaan Malaysia</h3>
-          <p class="mini-desc">Automated daily ETL pulling MetMalaysia 7-day weather forecasts from the data.gov.my API into Google Sheets.</p>
-          <div class="tech-stack"><span class="tech-pill">GitHub Actions</span><span class="tech-pill">data.gov.my API</span><span class="tech-pill">Google Sheets</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/perasaan-malaysia" target="_blank" rel="noopener" class="project-link" aria-label="Perasaan Malaysia: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">Antigravity GitHub Ecosystem</h3>
-          <p class="mini-desc">Repository maintenance agent for dependency audits, issue triage and portfolio health checks.</p>
-          <div class="tech-stack"><span class="tech-pill">GitHub Actions</span><span class="tech-pill">Automation</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/antigravity-github-ecosystem" target="_blank" rel="noopener" class="project-link" aria-label="Antigravity GitHub Ecosystem: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">free-worker</h3>
-          <p class="mini-desc">Read-only MCP worker for Claude Code that sends each task to the first free AI model with quota left (Antigravity, Gemini, Groq, Mistral, OpenRouter) and falls back automatically when one runs out.</p>
-          <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">MCP</span><span class="tech-pill">Claude Code</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/free-worker" target="_blank" rel="noopener" class="project-link" aria-label="free-worker: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">threads-mcp</h3>
-          <p class="mini-desc">Read-only connector to the official Threads (Meta) API for topic analysis in Claude Code: keyword and topic-tag search, profile lookups, replies and insights, with CSV export.</p>
-          <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">MCP</span><span class="tech-pill">Threads API</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/threads-mcp" target="_blank" rel="noopener" class="project-link" aria-label="threads-mcp: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">GAIA Agent (Hugging Face Agents Course)</h3>
-          <p class="mini-desc">Final-assignment agent that scored 85% (17/20) on level-1 GAIA questions: a code-writing agent that searches the web, reads Wikipedia tables, and understands images, audio, spreadsheets and YouTube videos.</p>
-          <div class="tech-stack"><span class="tech-pill">smolagents</span><span class="tech-pill">Gemini API</span><span class="tech-pill">GAIA 85%</span></div>
-          <div class="project-links"><a href="https://github.com/Downey112/hf-agents-course-gaia" target="_blank" rel="noopener" class="project-link" aria-label="GAIA Agent: GitHub repository">GitHub →</a></div>
-        </article>
-        <article class="mini-card">
-          <h3 class="mini-title">The Residual</h3>
-          <p class="mini-desc">Analytics blog exploring the residual in Malaysian open data: the part the headline leaves out.</p>
-          <div class="tech-stack"><span class="tech-pill">Vercel</span><span class="tech-pill">Data Writing</span></div>
-          <div class="project-links"><a href="https://the-residual-lilac.vercel.app" target="_blank" rel="noopener" class="project-link" aria-label="The Residual: live site">Live →</a><a href="https://github.com/Downey112/the-residual" target="_blank" rel="noopener" class="project-link" aria-label="The Residual: GitHub repository">GitHub →</a></div>
-        </article>
-    </div>
-  </section>
-
-  <!-- TECHNICAL SKILLS, EDUCATION, EXPERIENCE & CERTIFICATIONS -->
-  <section class="section-container" id="skills">
-    <div class="section-header">
-      <div class="section-title-wrap">
-        <h2 class="section-title">Skills, experience and education</h2>
-      </div>
-    </div>
-
-    <div class="bio-grid" id="experience">
-      <!-- Left Column: Technical Skills & Experience -->
-      <div class="bio-panel">
-        <h3 class="panel-h">Technical Stack</h3>
-
-        <div class="skill-row">
-          <div class="skill-cat">AI Engineering</div>
-          <div class="tech-stack"><span class="tech-pill">LangGraph</span><span class="tech-pill">MCP servers</span><span class="tech-pill">RAG (BM25 + embeddings)</span><span class="tech-pill">Pydantic</span><span class="tech-pill">FastAPI</span><span class="tech-pill">Docker</span><span class="tech-pill">CI/CD (GitHub Actions)</span></div>
-        </div>
-
-        <div class="skill-row">
-          <div class="skill-cat">Languages &amp; Query</div>
-          <div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">pandas</span><span class="tech-pill">statsmodels</span><span class="tech-pill">scikit-learn</span><span class="tech-pill">NumPy</span><span class="tech-pill">Plotly</span><span class="tech-pill">Streamlit</span><span class="tech-pill">FastAPI</span><span class="tech-pill">SQL</span><span class="tech-pill">DuckDB</span><span class="tech-pill">R</span><span class="tech-pill">SAS</span></div>
-        </div>
-
-        <div class="skill-row">
-          <div class="skill-cat">BI &amp; Visualisation</div>
-          <div class="tech-stack"><span class="tech-pill">Power BI (DAX, star schema)</span><span class="tech-pill">Tableau</span><span class="tech-pill">Looker Studio</span><span class="tech-pill">Excel (LINEST, matrix formulas)</span></div>
-        </div>
-
-        <div class="skill-row">
-          <div class="skill-cat">Statistics</div>
-          <div class="tech-stack"><span class="tech-pill">Multiple linear regression</span><span class="tech-pill">Fixed-effects regression</span><span class="tech-pill">Survival analysis</span><span class="tech-pill">Conformal prediction</span><span class="tech-pill">Monte Carlo simulation</span><span class="tech-pill">OLS diagnostics</span><span class="tech-pill">Hypothesis testing</span><span class="tech-pill">Correlation</span><span class="tech-pill">T-tests</span><span class="tech-pill">Z-score anomaly detection</span></div>
-        </div>
-
-        <div class="skill-row">
-          <div class="skill-cat">Data &amp; Cloud</div>
-          <div class="tech-stack"><span class="tech-pill">PySpark</span><span class="tech-pill">Kafka</span><span class="tech-pill">Supabase (PostgreSQL)</span><span class="tech-pill">Vercel</span><span class="tech-pill">GitHub Actions</span><span class="tech-pill">Git</span><span class="tech-pill">Azure</span><span class="tech-pill">Google Cloud</span><span class="tech-pill">AWS</span></div>
-        </div>
-
-        <div class="skill-row">
-          <div class="skill-cat">Statistical Software</div>
-          <div class="tech-stack"><span class="tech-pill">SPSS</span><span class="tech-pill">SAS Enterprise Miner</span><span class="tech-pill">RapidMiner</span><span class="tech-pill">G*Power</span></div>
-        </div>
-
-        <h3 class="panel-h">Experience</h3>
-        <div class="timeline-list">
-          <div class="timeline-item">
-            <div class="timeline-head">
-              <span>Business Analyst Intern — Alto Soft Sdn Bhd</span>
-              <span class="timeline-date">OCT 2026 – PRESENT</span>
-            </div>
-            <div class="timeline-sub">
-              Wrote the user requirements specification and 235 UAT cases for v2 of a public-sector attendance, booking and complaints system with 17 user roles, found an HTTP 500 bug during UAT, and retest developer fixes against their Jira tickets. Updating the user manuals for each role, writing the first SOP for setting up fingerprint attendance devices (nothing was documented before) and taking meeting minutes.
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-head">
-              <span>Customer Service Agent (Part-time) — SRG Asia Pacific / Maxis</span>
-              <span class="timeline-date">AUG 2025 – SEP 2025</span>
-            </div>
-            <div class="timeline-sub">
-              Resolved 20+ technical and billing inquiries daily in CRM platforms.
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-head">
-              <span>Committee Member, Multimedia & Publicity — COMOBISTA, UiTM</span>
-              <span class="timeline-date">OCT 2023 – FEB 2024</span>
-            </div>
-            <div class="timeline-sub">
-              Produced digital and print publicity content for faculty events under tight deadlines.
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-head">
-              <span>Retail Assistant (Part-time) — Zara</span>
-              <span class="timeline-date">AUG 2023 – OCT 2023</span>
-            </div>
-            <div class="timeline-sub">
-              Met monthly sales targets and kept floor inventory and merchandising to brand standard in a high-traffic Kuala Lumpur store.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column: Education & Verified Certifications -->
-      <div class="bio-panel" id="certifications">
-        <h3 class="panel-h">Education</h3>
-        <div class="timeline-list">
-          <div class="timeline-item">
-            <div class="timeline-head">
-              <span>B.Sc. (Hons.) Statistics — Universiti Teknologi MARA (UiTM), Kota Bharu</span>
-              <span class="timeline-date">OCT 2023 – FEB 2027</span>
-            </div>
-            <div class="timeline-sub">
-              <strong>CGPA 3.11.</strong> Coursework: Programming for Data Science (R/Python), Business Data Analytics, Data Reporting & Visualisation.
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-head">
-              <span>Foundation in Engineering — UiTM Selangor</span>
-              <span class="timeline-date">AUG 2022 – JUN 2023</span>
-            </div>
-            <div class="timeline-sub">
-              <strong>CGPA 3.44.</strong> Silver Medal, PIITRAM 2023 Pre-University Innovation Competition.
-            </div>
-          </div>
-        </div>
-
-        <h3 class="panel-h">Certifications</h3>
-        <div class="cert-item cert-exam">
-          <span>EXAM-BASED • DATACAMP (NOV 2026, VALID TO 2028)</span>
+<div class="page">
+<div class="ticker"><marquee scrollamount="4" behavior="scroll" direction="left" aria-label="Portfolio news ticker">Open to graduate AI Engineer roles in Kuala Lumpur from March 2027 &#9733; NEW CERT: SAS – UiTM Academic Specialization in Data Analytics (Nov 2026) &#9733; EXAM-BASED • DATACAMP (NOV 2026, VALID TO 2028) Data Scientist • AI Engineer for Data Scientists Associate • AI Engineer for Developers Associate &#9733; 32 PROJECTS SHIPPED &#9733; Graduating February 2027</marquee></div>
+<header class="hdr">
+  <span class="badgenew" aria-hidden="true">NEW CERT!</span>
+  <span class="hotstar" aria-hidden="true"><span>OPEN TO WORK</span></span>
+  <span class="credstick" aria-hidden="true">Mar 2027</span>
+  <div class="hdr-left">
+    <h1 class="logo"><span class="t">Muhammad</span> <span class="1">Luqman</span> <span class="2">Hakim</span></h1>
+    <p class="tagline">AI engineer · B.Sc. Statistics, UiTM · Kuala Lumpur</p>
+    <p class="counter">Projects shipped: <span id="shipped">32</span></p>
+    <p class="hdr-note">Open to graduate AI Engineer roles from March 2027</p>
+  </div>
+  <svg class="hdr-sky" viewBox="0 0 220 90" aria-hidden="true" focusable="false">
+<rect x="0" y="0" width="220" height="90" fill="#1b2a55"/>
+<rect x="12" y="12" width="2" height="2" fill="#fff"/><rect x="60" y="8" width="2" height="2" fill="#fff"/>
+<rect x="150" y="14" width="2" height="2" fill="#fff"/><rect x="188" y="20" width="2" height="2" fill="#fff"/>
+<circle cx="200" cy="14" r="7" fill="#fff7c0"/><rect x="194" y="16" width="4" height="4" fill="#1b2a55"/>
+<polygon points="2,88 2,50 12,50 12,38 22,38 22,88" fill="#5a8fd6"/>
+<rect x="6" y="56" width="4" height="4" fill="#fff8b0"/><rect x="14" y="56" width="4" height="4" fill="#fff8b0"/>
+<rect x="6" y="66" width="4" height="4" fill="#fff8b0"/><rect x="14" y="66" width="4" height="4" fill="#8fb6d6"/>
+<rect x="6" y="76" width="4" height="4" fill="#fff8b0"/>
+<polygon points="26,88 26,18 36,18 36,8 56,8 56,88" fill="#7aa7e0"/>
+<rect x="30" y="24" width="4" height="4" fill="#fff8b0"/><rect x="40" y="24" width="4" height="4" fill="#fff8b0"/>
+<rect x="48" y="24" width="4" height="4" fill="#fff8b0"/><rect x="30" y="36" width="4" height="4" fill="#8fb6d6"/>
+<rect x="40" y="36" width="4" height="4" fill="#fff8b0"/><rect x="48" y="36" width="4" height="4" fill="#fff8b0"/>
+<rect x="30" y="48" width="4" height="4" fill="#fff8b0"/><rect x="40" y="48" width="4" height="4" fill="#fff8b0"/>
+<rect x="30" y="60" width="4" height="4" fill="#fff8b0"/><rect x="48" y="60" width="4" height="4" fill="#fff8b0"/>
+<polygon points="60,88 60,58 70,58 70,44 90,44 90,88" fill="#6b9bd8"/>
+<rect x="64" y="64" width="4" height="4" fill="#fff8b0"/><rect x="76" y="64" width="4" height="4" fill="#8fb6d6"/>
+<rect x="64" y="74" width="4" height="4" fill="#fff8b0"/><rect x="76" y="74" width="4" height="4" fill="#fff8b0"/>
+<polygon points="94,88 94,24 104,24 104,14 124,14 124,88" fill="#8db4e8"/>
+<rect x="111" y="0" width="3" height="14" fill="#4a6a9a"/><circle cx="112.5" cy="1" r="2.5" fill="#ff5050"/>
+<rect x="106" y="30" width="16" height="10" fill="#14143c"/>
+<text x="114" y="38" text-anchor="middle" font-family="Silkscreen, monospace" font-size="6" fill="#ffd23f">KL</text>
+<rect x="98" y="44" width="4" height="4" fill="#fff8b0"/><rect x="110" y="44" width="4" height="4" fill="#fff8b0"/>
+<rect x="98" y="56" width="4" height="4" fill="#fff8b0"/><rect x="116" y="56" width="4" height="4" fill="#8fb6d6"/>
+<polygon points="128,88 128,52 138,52 138,34 158,34 158,88" fill="#6b9bd8"/>
+<rect x="132" y="58" width="4" height="4" fill="#fff8b0"/><rect x="144" y="58" width="4" height="4" fill="#fff8b0"/>
+<rect x="132" y="68" width="4" height="4" fill="#fff8b0"/><rect x="144" y="68" width="4" height="4" fill="#fff8b0"/>
+<polygon points="162,88 162,28 172,28 172,48 192,48 192,88" fill="#7aa7e0"/>
+<rect x="166" y="54" width="4" height="4" fill="#fff8b0"/><rect x="178" y="54" width="4" height="4" fill="#fff8b0"/>
+<rect x="166" y="66" width="4" height="4" fill="#8fb6d6"/><rect x="178" y="66" width="4" height="4" fill="#fff8b0"/>
+<polygon points="196,88 196,40 204,40 204,30 216,30 216,88" fill="#5a8fd6"/>
+<rect x="199" y="46" width="4" height="4" fill="#fff8b0"/><rect x="208" y="46" width="4" height="4" fill="#fff8b0"/>
+<rect x="63" y="40" width="10" height="6" fill="#ffd23f"/><rect x="71" y="35" width="6" height="6" fill="#ffd23f"/>
+<rect x="77" y="37" width="3" height="3" fill="#ff8c00"/><rect x="72" y="36" width="2" height="2" fill="#222"/>
+<rect x="0" y="88" width="220" height="2" fill="#0d1c30"/>
+</svg>
+</header>
+<nav aria-label="Primary"><ul class="nav"><li class="on"><a href="#projects">Projects</a></li><li><a href="#more-projects">More</a></li><li><a href="#skills">Skills</a></li><li><a href="about/">About</a></li><li><a href="https://github.com/Downey112" target="_blank" rel="noopener">GitHub</a></li><li><a href="classic/">Classic view</a></li></ul></nav>
+<div class="adstrip" role="complementary" aria-label="New certification announcement">
+  <span class="adtag">NEW</span>
+  <span class="adbig">&#9733; <span class="blink">NEW! SAS – UiTM Academic Specialization in Data Analytics</span> &#9733;</span>
+  <span class="adsmall">new, Nov 2026</span>
+  <a class="adcta" href="https://www.linkedin.com/in/luqmansyahrulnizam/details/certifications/" target="_blank" rel="noopener">View on LinkedIn</a>
+</div>
+<main id="main">
+<div class="layout">
+<span class="flt wow" aria-hidden="true">WOW!</span>
+<span class="flt tape" aria-hidden="true"></span>
+<span class="flt rad" aria-hidden="true">so rad!!</span>
+<span class="flt pix" aria-hidden="true">LVL UP!</span>
+<div class="colL">
+<div class="box h-news rA">
+  <h3>About me</h3>
+  <div class="bd">
+    <div class="aboutme">I build LLM agents, RAG systems, econometric models, OpenDOSM pipelines and live Python apps. Right now I'm a business analyst intern at Alto Soft while I finish my Statistics degree.</div>
+    <div class="hero-actions">
+<a class="btn-primary" href="mailto:luqmansyahrulnizam@gmail.com?subject=Graduate%20role">Email me about a role</a>
+<a class="link-secondary" href="#projects">See the projects</a>
+</div>
+  </div>
+</div>
+<div class="box h-status rB">
+  <h3>Stats</h3>
+  <div class="bd"><dl class="stats-list">
+<div class="stat">
+<dt>Retail fill rate</dt>
+<dd class="stat-value">99.1%</dd>
+<dd class="stat-sub">12,196 SKU-Store Series • Kafka + Spark</dd>
+</div>
+<div class="stat">
+<dt>KPT Tracer Study Sample</dt>
+<dd class="stat-value">109,414</dd>
+<dd class="stat-sub">Graduates Modeled • Budget 2027 Floor</dd>
+</div>
+<div class="stat">
+<dt>OpenDOSM Trade Horizon</dt>
+<dd class="stat-value">320 months</dd>
+<dd class="stat-sub">3,190 Sector Rows • 51 DAX Measures</dd>
+</div>
+<div class="stat">
+<dt>FYP OLS Explanatory Power</dt>
+<dd class="stat-value">64.0%</dd>
+<dd class="stat-sub">Adj. R² = 0.640 • N = 100 (G*Power)</dd>
+</div>
+<div class="stat">
+<dt>Live Deployments</dt>
+<dd class="stat-value">8 live</dd>
+<dd class="stat-sub">Apps, Sites &amp; APIs • Streamlit • Vercel • Render • GitHub Pages</dd>
+</div>
+</dl></div>
+</div>
+<div class="box h-shout rC">
+  <h3>Contact</h3>
+  <div class="bd"><ul class="contact-list">
+<li><a href="mailto:luqmansyahrulnizam@gmail.com">luqmansyahrulnizam@gmail.com</a></li>
+<li><a href="tel:+60102477357">+6010-247-7357</a></li>
+<li><a href="https://linkedin.com/in/luqmansyahrulnizam" rel="noopener" target="_blank">LinkedIn</a></li>
+<li><a href="https://github.com/Downey112" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="#main">Back to top</a></li>
+</ul></div>
+</div>
+<div class="box h-lb rD" id="certifications">
+  <h3>Certifications</h3>
+  <div class="bd">
+    <div class="cert-item cert-exam">
+<span>EXAM-BASED • DATACAMP (NOV 2026, VALID TO 2028)</span>
           Data Scientist • AI Engineer for Data Scientists Associate • AI Engineer for Developers Associate
         </div>
-        <dl class="cert-list">
-          <dt>IBM professional certificates (Coursera)</dt>
-          <dd>Data Science (2026) • Data Analyst (2025)</dd>
-          <dt>Google professional certificates (Coursera)</dt>
-          <dd>Advanced Data Analytics • Business Intelligence • Data Analytics • Cloud Data Analytics • Project Management</dd>
-          <dt>Coursera specializations &amp; courses</dt>
-          <dd>AWS Cloud Solutions Architect (AWS) • Certified AI Practitioner (CertNexus) • AI Agent Developer (Vanderbilt) • Statistical Business Analyst (SAS) • Generative AI for Everyone (DeepLearning.AI) • Understanding Digital Transformation (MyDIGITAL)</dd>
-          <dt>LinkedIn Learning (Microsoft)</dt>
-          <dd>Azure AI Essentials • Career Essentials in Data Analysis</dd>
-          <dt>Other</dt>
-          <dd>Hugging Face AI Agents Course (final GAIA agent scored 85%) • Oracle Academy Database Programming with SQL</dd>
-          <dt>Awards</dt>
-          <dd>PIITRAM 2023 Silver Medal (UPM) • Arduino Showcase 2022 Consolation Prize (UiTM) • Class Representative Leadership Course (UiTM)</dd>
-        </dl>
-      </div>
-    </div>
-  </section>
+    <dl class="cert-list">
+<dt class="isnew">SAS (new, Nov 2026) <span class="newbadge">NEW!</span></dt>
+<dd class="isnew">SAS – UiTM Academic Specialization in Data Analytics</dd>
+<dt>IBM professional certificates (Coursera)</dt>
+<dd>Data Science (2026) • Data Analyst (2025)</dd>
+<dt>Google professional certificates (Coursera)</dt>
+<dd>Advanced Data Analytics • Business Intelligence • Data Analytics • Cloud Data Analytics • Project Management</dd>
+<dt>Coursera specializations &amp; courses</dt>
+<dd>AWS Cloud Solutions Architect (AWS) • Certified AI Practitioner (CertNexus) • AI Agent Developer (Vanderbilt) • Statistical Business Analyst (SAS) • Generative AI for Everyone (DeepLearning.AI) • Understanding Digital Transformation (MyDIGITAL)</dd>
+<dt>LinkedIn Learning (Microsoft)</dt>
+<dd>Azure AI Essentials • Career Essentials in Data Analysis</dd>
+<dt>Other</dt>
+<dd>Hugging Face AI Agents Course (final GAIA agent scored 85%) • Oracle Academy Database Programming with SQL</dd>
+<dt>Awards</dt>
+<dd>PIITRAM 2023 Silver Medal (UPM) • Arduino Showcase 2022 Consolation Prize (UiTM) • Class Representative Leadership Course (UiTM)</dd>
+</dl>
+  </div>
+</div>
+</div>
+<div class="colC">
+<div class="enter rC">
+  <h2>&#9654; Luqman Hakim | AI Engineer Portfolio &#9664;</h2>
+  <a class="bigbtn" href="#projects">Enter my portfolio</a>
+  <p class="fine">Graduating February 2027</p>
+</div>
+<section id="projects">
+<h2 class="sechdr">Projects &amp; Production Pipelines</h2>
+<article class="box proj h-news pr1" data-category="ai"><h3><span class="pmeta">NOV 2026 // AGENT + GUARDRAIL</span><span class="ptitle">Bursa Filing Agent</span><span class="pstat">0 WRONG OK</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Reads Bursa Malaysia quarterly reports and extracts the balance sheet. A guardrail checks that assets = liabilities + equity within 0.5% before any ratio is computed.</li>
+<li>A LangGraph state machine tries rules first, then falls back to an LLM filling a Pydantic schema, with at most 3 extraction attempts per filing.</li>
+<li>On 11 real filings (June/July 2026 quarter): 8 correct, 2 sent to review, 1 detected as unsupported (scanned PDF), 0 wrong numbers reported as ok. CI fails if that zero ever breaks. Tools are served over MCP (<code>list_filings</code>, <code>analyse_filing</code>, <code>compute_ratios</code>).</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">LangGraph</span>
+<span class="tech-pill">Pydantic</span>
+<span class="tech-pill">MCP</span>
+<span class="tech-pill">GitHub Actions</span>
+</div><div class="project-footer">
+<span>Agentic AI &amp; Finance</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/bursa-filing-agent" rel="noopener" target="_blank">GitHub →</a>
+</div>
+</div></div></article>
+<article class="box proj h-room pr2 push" data-category="ai"><h3><span class="pmeta">NOV 2026 // HYBRID RAG + EVAL IN CI</span><span class="ptitle">Belanjawan Bot</span><span class="pstat">RECALL@5 0.971</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>RAG chatbot over Malaysia's Budget 2026 and Budget 2027 documents. It answers only from the official Ministry of Finance PDFs, cites the page each fact came from, and says so when the documents don't answer.</li>
+<li>v2 moved to hybrid retrieval: BM25 keyword search and MiniLM vector search fused by Reciprocal Rank Fusion, then a cross-encoder rerank. On a 34-question golden set, recall@5 rose from 0.794 (v1, vector only) to 0.971 and hit@1 from 0.324 to 0.559. Caveat: most golden questions reuse the documents' own wording, which flatters keyword search.</li>
+<li>CI re-runs the retrieval eval on every pull request and fails if any mode drops by more than 0.03. Guardrails refuse before calling the LLM when nothing relevant is found and drop citations that point at a page never retrieved. Served as a Streamlit chat and a FastAPI API sharing the same code.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">FastAPI</span>
+<span class="tech-pill">Streamlit</span>
+<span class="tech-pill">BM25 + MiniLM (RRF)</span>
+<span class="tech-pill">FlashRank rerank</span>
+<span class="tech-pill">Groq (GPT-OSS 120B)</span>
+<span class="tech-pill">GitHub Actions</span>
+</div><div class="project-footer">
+<span>RAG &amp; Guardrails</span>
+<div class="project-links">
+<a class="project-link" href="https://belanjawan-bot-ut48esxousutb5xbp8ehqz.streamlit.app/" rel="noopener" target="_blank">Live App →</a>
+<a class="project-link" href="https://github.com/Downey112/belanjawan-bot" rel="noopener" target="_blank">GitHub →</a>
+</div>
+</div></div></article>
+<article class="box proj h-lb pr3 offL" data-category="ai"><h3><span class="pmeta">NOV 2026 // RETRIEVAL &amp; RAG API</span><span class="ptitle">Semiconductor Datasheet RAG</span><span class="pstat">RECALL@5 0.667</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Compared table-aware chunking with plain page text on the same hybrid retriever (BM25 + bge-small-en-v1.5, Reciprocal Rank Fusion) over 6 public Texas Instruments datasheets (TI manufactures in Melaka).</li>
+<li>On 30 golden questions about pins, I2C addresses and register values, keeping tables intact raised hit@1 from 0.233 to 0.400, recall@5 from 0.433 to 0.667 and MRR@10 from 0.309 to 0.525. The answer lands in the top 5 for 20 of 30 questions instead of 13. Most misses are TCA9555/TCA9535 pin tables where pdfplumber merges cells.</li>
+<li>Served as a FastAPI <code>POST /v1/search</code> endpoint in a Docker image on GHCR, evaluated in CI and live on Render (free tier: the first request after 15 idle minutes takes about a minute).</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">FastAPI</span>
+<span class="tech-pill">BM25 + bge-small-en-v1.5</span>
+<span class="tech-pill">Reciprocal Rank Fusion</span>
+<span class="tech-pill">Docker</span>
+<span class="tech-pill">GitHub Actions</span>
+<span class="tech-pill">Render</span>
+</div><div class="project-footer">
+<span>RAG &amp; Retrieval</span>
+<div class="project-links">
+<a class="project-link" href="https://semicon-datasheet-rag.onrender.com/docs" rel="noopener" target="_blank">Live API →</a>
+<a class="project-link" href="https://github.com/Downey112/semicon-datasheet-rag" rel="noopener" target="_blank">GitHub →</a>
+</div>
+</div></div></article>
+<article class="box proj h-poll pr4" data-category="pipelines"><h3><span class="flag">Flagship</span><span class="pmeta">OCT 2026 // STREAMING REPLAY</span><span class="ptitle">Real-Time Retail Demand Forecasting</span><span class="pstat">12,196 SERIES</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Streamed 28 held-out days of Walmart M5 sales through Kafka into Spark Structured Streaming, landing events in a Hive-catalogued data lake and closing each business day only after control totals reconcile.</li>
+<li>Forecast next-day demand for 12,196 SKU-store series with an MLlib random forest (backtest WAPE 0.710, live 0.725), with a weekly champion/challenger retrain that runs without blocking the stream.</li>
+<li>Set reorder points from negative-binomial lead-time demand and a newsvendor service level; the simulated stores reached a 99.1% fill rate. Results published as a Power BI report and a live web dashboard.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Kafka</span>
+<span class="tech-pill">Spark Structured Streaming</span>
+<span class="tech-pill">Hive</span>
+<span class="tech-pill">MLlib</span>
+<span class="tech-pill">Power BI</span>
+</div><div class="project-footer">
+<span>Streaming ML &amp; Inventory</span>
+<div class="project-links">
+<a class="project-link" href="https://downey112.github.io/retail-demand-rt/dashboard/" rel="noopener" target="_blank">Live Dashboard →</a>
+<a class="project-link" href="https://github.com/Downey112/retail-demand-rt" rel="noopener" target="_blank">GitHub →</a>
+</div>
+</div></div></article>
+</section>
+</div>
+<div class="colR">
+<section id="skills">
+<h2 class="sechdr">Skills, experience and education</h2>
+<div class="box h-picks rB">
+  <h3>Technical Stack</h3>
+  <div class="bd"><div class="skill-row">
+<div class="skill-cat">AI Engineering</div>
+<div class="tech-stack"><span class="tech-pill">LangGraph</span><span class="tech-pill">MCP servers</span><span class="tech-pill">RAG (BM25 + embeddings)</span><span class="tech-pill">Pydantic</span><span class="tech-pill">FastAPI</span><span class="tech-pill">Docker</span><span class="tech-pill">CI/CD (GitHub Actions)</span></div>
+</div>
+<div class="skill-row">
+<div class="skill-cat">Languages &amp; Query</div>
+<div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">pandas</span><span class="tech-pill">statsmodels</span><span class="tech-pill">scikit-learn</span><span class="tech-pill">NumPy</span><span class="tech-pill">Plotly</span><span class="tech-pill">Streamlit</span><span class="tech-pill">FastAPI</span><span class="tech-pill">SQL</span><span class="tech-pill">DuckDB</span><span class="tech-pill">R</span><span class="tech-pill">SAS</span></div>
+</div>
+<div class="skill-row">
+<div class="skill-cat">BI &amp; Visualisation</div>
+<div class="tech-stack"><span class="tech-pill">Power BI (DAX, star schema)</span><span class="tech-pill">Tableau</span><span class="tech-pill">Looker Studio</span><span class="tech-pill">Excel (LINEST, matrix formulas)</span></div>
+</div>
+<div class="skill-row">
+<div class="skill-cat">Statistics</div>
+<div class="tech-stack"><span class="tech-pill">Multiple linear regression</span><span class="tech-pill">Fixed-effects regression</span><span class="tech-pill">Survival analysis</span><span class="tech-pill">Conformal prediction</span><span class="tech-pill">Monte Carlo simulation</span><span class="tech-pill">OLS diagnostics</span><span class="tech-pill">Hypothesis testing</span><span class="tech-pill">Correlation</span><span class="tech-pill">T-tests</span><span class="tech-pill">Z-score anomaly detection</span></div>
+</div>
+<div class="skill-row">
+<div class="skill-cat">Data &amp; Cloud</div>
+<div class="tech-stack"><span class="tech-pill">PySpark</span><span class="tech-pill">Kafka</span><span class="tech-pill">Supabase (PostgreSQL)</span><span class="tech-pill">Vercel</span><span class="tech-pill">GitHub Actions</span><span class="tech-pill">Git</span><span class="tech-pill">Azure</span><span class="tech-pill">Google Cloud</span><span class="tech-pill">AWS</span></div>
+</div>
+<div class="skill-row">
+<div class="skill-cat">Statistical Software</div>
+<div class="tech-stack"><span class="tech-pill">SPSS</span><span class="tech-pill">SAS Enterprise Miner</span><span class="tech-pill">RapidMiner</span><span class="tech-pill">G*Power</span></div>
+</div></div>
+</div>
+<div class="box h-poll rD" id="experience">
+  <h3>Experience</h3>
+  <div class="bd"><div class="timeline-list">
+<div class="timeline-item">
+<div class="timeline-head">
+<span>Business Analyst Intern — Alto Soft Sdn Bhd</span>
+<span class="timeline-date">OCT 2026 – PRESENT</span>
+</div>
+<div class="timeline-sub">
+              Wrote the user requirements specification and 235 UAT cases for v2 of a public-sector attendance, booking and complaints system with 17 user roles, found an HTTP 500 bug during UAT, and retest developer fixes against their Jira tickets. Updating the user manuals for each role, writing the first SOP for setting up fingerprint attendance devices (nothing was documented before) and taking meeting minutes.
+            </div>
+</div>
+<div class="timeline-item">
+<div class="timeline-head">
+<span>Customer Service Agent (Part-time) — SRG Asia Pacific / Maxis</span>
+<span class="timeline-date">AUG 2025 – SEP 2025</span>
+</div>
+<div class="timeline-sub">
+              Resolved 20+ technical and billing inquiries daily in CRM platforms.
+            </div>
+</div>
+<div class="timeline-item">
+<div class="timeline-head">
+<span>Committee Member, Multimedia &amp; Publicity — COMOBISTA, UiTM</span>
+<span class="timeline-date">OCT 2023 – FEB 2024</span>
+</div>
+<div class="timeline-sub">
+              Produced digital and print publicity content for faculty events under tight deadlines.
+            </div>
+</div>
+<div class="timeline-item">
+<div class="timeline-head">
+<span>Retail Assistant (Part-time) — Zara</span>
+<span class="timeline-date">AUG 2023 – OCT 2023</span>
+</div>
+<div class="timeline-sub">
+              Met monthly sales targets and kept floor inventory and merchandising to brand standard in a high-traffic Kuala Lumpur store.
+            </div>
+</div>
+</div></div>
+</div>
+<div class="box h-status rA">
+  <h3>Education</h3>
+  <div class="bd"><div class="timeline-list">
+<div class="timeline-item">
+<div class="timeline-head">
+<span>B.Sc. (Hons.) Statistics — Universiti Teknologi MARA (UiTM), Kota Bharu</span>
+<span class="timeline-date">OCT 2023 – FEB 2027</span>
+</div>
+<div class="timeline-sub">
+<strong>CGPA 3.11.</strong> Coursework: Programming for Data Science (R/Python), Business Data Analytics, Data Reporting &amp; Visualisation.
+            </div>
+</div>
+<div class="timeline-item">
+<div class="timeline-head">
+<span>Foundation in Engineering — UiTM Selangor</span>
+<span class="timeline-date">AUG 2022 – JUN 2023</span>
+</div>
+<div class="timeline-sub">
+<strong>CGPA 3.44.</strong> Silver Medal, PIITRAM 2023 Pre-University Innovation Competition.
+            </div>
+</div>
+</div></div>
+</div>
+</section>
+<div class="box h-link rB offL">
+  <h3>Find me</h3>
+  <div class="bd">
+    <a class="tbtn a" href="https://github.com/Downey112" target="_blank" rel="noopener">GITHUB</a>
+    <a class="tbtn b" href="https://linkedin.com/in/luqmansyahrulnizam" target="_blank" rel="noopener">LINKEDIN</a>
+    <a class="tbtn a" href="classic/">CLASSIC VIEW</a>
+  </div>
+</div>
+</div>
+</div>
+<section class="hall" aria-label="Projects, continued">
+<article class="box proj h-picks pr5 push" data-category="econometrics"><h3><span class="pmeta">OCT 2026 // ECONOMETRIC SIMULATION</span><span class="ptitle">Graduate Salary &amp; Wage Floor Model</span><span class="pstat">N = 109,414 GRADS</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Analysed published salary bands for 109,414 first-degree graduates (KPT Graduate Tracer Study 2024) and found 49.7% earned RM2,500 or less (Budget 2027 graduate wage floor), ranging from 27.7% in ICT to 77.2% in education.</li>
+<li>Simulated the floor under 6 scenarios with a rank-preserving wage compression rule, estimating a 7.1–14.4% rise in the graduate wage bill.</li>
+<li>Fitted a log-salary regression with HC3 robust errors and VIF, Breusch-Pagan, White, and RESET diagnostics on a 1,000-row calibrated sample, reproduced in Excel via <code>LINEST</code> and <code>MMULT</code>/<code>MINVERSE</code>.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">statsmodels (HC3 OLS)</span>
+<span class="tech-pill">Excel (LINEST / MMULT)</span>
+<span class="tech-pill">Policy Simulation</span>
+</div><div class="project-footer">
+<span>Econometrics &amp; Policy</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/fresh-grad-salary-model" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-status pr1 offL" data-category="econometrics"><h3><span class="pmeta">OCT 2026 // CHURN + BASKET MINING</span><span class="ptitle">E-Commerce Churn &amp; Market-Basket Intelligence</span><span class="pstat">776,577 ORDER LINES</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Loaded UCI Online Retail II (5,852 customers, 2009–2011) into a PostgreSQL schema with RFM views and point-in-time SQL functions that cannot look past their cut-off date; 24 tests check the database invariants.</li>
+<li>Predicted 30-day churn with a logistic regression (out-of-time AUC 0.755 vs 0.684 for recency alone) and a decision tree, reporting Hosmer-Lemeshow calibration honestly: it passes in-sample but fails on the seasonal test month.</li>
+<li>Mined 249 bundle rules with Apriori; all 259 frequent pairs match an independent SQL self-join, and FP-Growth reproduces all 873 itemsets. PCA + K-Means segmentation is reported as weak (silhouette 0.28).</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">PostgreSQL</span>
+<span class="tech-pill">Docker</span>
+<span class="tech-pill">Logistic Regression</span>
+<span class="tech-pill">Apriori</span>
+<span class="tech-pill">PCA / K-Means</span>
+</div><div class="project-footer">
+<span>Churn &amp; Cross-Sell</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/ecom-churn-basket" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-hot pr2" data-category="econometrics"><h3><span class="pmeta">OCT 2026 // SURVIVAL + DECISION</span><span class="ptitle">Employee Turnover: Who Leaves, and Is Retention Worth Paying For?</span><span class="pstat">1,116 REAL EMPLOYEES</span></h3><div class="bd"><div aria-label="Power BI report pages, scroll sideways for more" class="project-shots" tabindex="0">
+<figure>
+<a href="assets/hr-attrition-who-leaves.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'who leaves, and how fast': KPI cards (1,116 employees, median tenure 51 months, 14.4% leave within 12 months, C-index 0.60), Kaplan–Meier curves by industry, first-year leaving rate by industry from 25% (state sector) to 11% (manufacturing), and tables of hazard ratios and factor tests." height="674" loading="lazy" src="assets/hr-attrition-who-leaves.webp" width="1200"/>
+</a>
+<figcaption>1 / 3 · Who leaves →</figcaption>
+</figure>
+<figure>
+<a href="assets/hr-attrition-decision.webp" rel="noopener" target="_blank">
+<img alt="Power BI retention decision simulator: dropdowns for loss, programme cost and effectiveness above KPI cards (risk threshold 33.3%, 4 staff to target, back-tested gain 0.0%), a histogram of 12-month leaving risk with the few bins above the threshold in blue, targeting rates by gender and age at hire, and the list of the 4 staff to target." height="674" loading="lazy" src="assets/hr-attrition-decision.webp" width="1200"/>
+</a>
+<figcaption>2 / 3 · Decision simulator →</figcaption>
+</figure>
+<figure>
+<a href="assets/hr-attrition-model-check.webp" rel="noopener" target="_blank">
+<img alt="Power BI model check page: predicted vs observed 12-month leaving by risk quintile (predictions squeezed, 9–21% vs 7–24% observed), the back-test table of 45 cost scenarios with the best gain 4.3%, calibration by age and gender showing under-prediction for hires aged 36+, and a how-to-read note." height="674" loading="lazy" src="assets/hr-attrition-model-check.webp" width="1200"/>
+</a>
+<figcaption>3 / 3 · Model check</figcaption>
+</figure>
+</div><div class="project-desc">
+<ul>
+<li>Kaplan–Meier curves, log-rank and cluster-robust tests (BH-corrected) and a Cox model on real survey data: grey-wage staff stay a median 26 months vs 54; probation mentoring shows no effect.</li>
+<li>Turned 12-month risk into a cost rule (intervene if risk × effectiveness × loss &gt; cost) and back-tested it with IPCW over 45 scenarios: the model (C-index 0.60) beats "nobody" or "everybody" in only 4, so the honest advice is to pilot the intervention first.</li>
+<li>Power BI decision simulator generated from code (TMDL + PBIR), a two-page HR memo, and a fairness audit showing that leaving age out under-predicts risk for older hires.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">lifelines (Cox PH)</span>
+<span class="tech-pill">Survival Analysis</span>
+<span class="tech-pill">Power BI (PBIP)</span>
+<span class="tech-pill">Decision Analysis</span>
+</div><div class="project-footer">
+<span>People Analytics</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/hr-attrition-decision" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-pals pr3 push" data-category="pipelines"><h3><span class="pmeta">OCT 2026 // ANOMALY DETECTION + BI</span><span class="ptitle">Which Shop Prices Should Inspectors Check This Week?</span><span class="pstat">16.6M REAL PRICES</span></h3><div class="bd"><div aria-label="Power BI report pages, scroll sideways for more" class="project-shots" tabindex="0">
+<figure>
+<a href="assets/pricecatcher-this-week.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Which shop prices should inspectors check this week?': KPI cards (3,285 flagged prices, 165 districts, typical flagged price 1.22 times peers, 45% persistent premium, 209 possible data issues), bars of flags by state, likely cause and item category, and the inspection shortlist table for the week of 19 Oct 2026 led by cooking oil at RM32.80 against a RM6.90 peer median." height="675" loading="lazy" src="assets/pricecatcher-this-week.webp" width="1200"/>
+</a>
+<figcaption>1 / 3 · This week's shortlist →</figcaption>
+</figure>
+<figure>
+<a href="assets/pricecatcher-over-time.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Is the pattern stable week to week?': stacked weekly columns of about 3,300 flagged prices across 40 weeks of 2026, split by likely cause (persistent premium in dark blue, spikes in red), and a table of the items flagged most often, led by an infant formula at 8.8%." height="675" loading="lazy" src="assets/pricecatcher-over-time.webp" width="1200"/>
+</a>
+<figcaption>2 / 3 · Over time →</figcaption>
+</figure>
+<figure>
+<a href="assets/pricecatcher-does-it-work.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Does the detector catch overpricing?': share of planted price rises caught by the MAD baseline, Isolation Forest and ECOD (baseline 21% of held +20% rises vs 9 to 11%), a paired bootstrap table of the differences with 95% intervals, and the data funnel from 16,572,022 raw records to 7,375,691 scored prices." height="675" loading="lazy" src="assets/pricecatcher-does-it-work.webp" width="1200"/>
+</a>
+<figcaption>3 / 3 · Does it work?</figcaption>
+</figure>
+</div><div class="project-desc">
+<ul>
+<li>Scored every KPDN PriceCatcher price from Jan to Oct 2026 (16.6M records, 7.4M shop-item-weeks) against the same item at similar shops nearby, and turned it into a weekly shortlist of 20 prices per district.</li>
+<li>No profiteering labels exist, so I planted known price rises in held-out weeks: a simple robust z-score beat Isolation Forest and ECOD on modest and held markups (21% vs 9–11% of held +20% rises caught, paired bootstrap), while Isolation Forest wins only on big one-week jumps.</li>
+<li>An adversarial review led to 12 fixes (batch-independent scoring, a held-markup test, 21-day history rule). Three-page Power BI report generated from code (TMDL + PBIR); a flag is presented as a lead, not proof.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">scikit-learn</span>
+<span class="tech-pill">Anomaly Detection</span>
+<span class="tech-pill">Power BI (PBIP)</span>
+<span class="tech-pill">Open Data (data.gov.my)</span>
+</div><div class="project-footer">
+<span>Public Sector Analytics</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/pricecatcher-anomaly" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-news pr4 offL" data-category="econometrics"><h3><span class="pmeta">OCT 2026 // SPORTS ANALYTICS + MONTE CARLO</span><span class="ptitle">Who Wins MPL Malaysia Season 18?</span><span class="pstat">50,000 BRACKETS</span></h3><div class="bd"><div aria-label="Power BI report pages, scroll sideways for more" class="project-shots" tabindex="0">
+<figure>
+<a href="assets/mpl-s18-forecast.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'MPL MY S18 playoffs forecast' in a dark navy and gold esports theme: KPI cards (title favourite SRG 62.9%, race for the second M8 slot TR 50% vs VMS 43%, most likely Grand Final SRG vs TR 39.7%, title chance for seeds 4 to 6 combined 4.1%), bars of title and Grand Final odds by team, each team's finishing distribution in medal colours, key series odds and the regular-season standings." height="675" loading="lazy" src="assets/mpl-s18-forecast.webp" width="1200"/>
+</a>
+<figcaption>1 / 2 · Playoffs forecast →</figcaption>
+</figure>
+<figure>
+<a href="assets/mpl-s18-model-check.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Model check, how much to trust the forecast': standardised logistic regression weights led by towers per game (+1.07) with pre-match Elo at −1.06, a cross-validation table (blended model ROC-AUC 0.776 vs 0.675 for the leak-free pre-match Elo reference), and a list of limitations." height="675" loading="lazy" src="assets/mpl-s18-model-check.webp" width="1200"/>
+</a>
+<figcaption>2 / 2 · Model check</figcaption>
+</figure>
+</div><div class="project-desc">
+<ul>
+<li>Forecasts the Mobile Legends MPL Malaysia S18 playoffs (Oct 28 – Nov 1, 2026) from the 56 regular-season Bo3 results, all checked against Liquipedia: Elo, Bradley-Terry and a from-scratch NumPy logistic model give game odds, exact Bo5/Bo7 maths turns them into series odds, and 50,000 simulated brackets give each team's finish.</li>
+<li>SRG win the title in 62.9% of runs and take an M8 World Championship slot in 86.9%; the second slot is close (TR 50% vs VMS 43%).</li>
+<li>A review found the team-season averages leak the outcome, so the model's cross-validation (AUC 0.776) is optimistic; the report shows the leak-free pre-match Elo bar (AUC 0.675) beside it. Two-page Power BI report generated from code (TMDL + PBIR).</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">NumPy</span>
+<span class="tech-pill">Monte Carlo</span>
+<span class="tech-pill">Power BI (PBIP)</span>
+<span class="tech-pill">Esports Data</span>
+</div><div class="project-footer">
+<span>Sports Analytics</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/mpl-my-s18-ml-predictor" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-room pr5" data-category="econometrics"><h3><span class="pmeta">OCT 2026 // TRANSPORT + CAUSAL INFERENCE</span><span class="ptitle">Did Fares and Network Changes Move KL Rail Riders?</span><span class="pstat">6 EVENTS · 3 CHECKS</span></h3><div class="bd"><div aria-label="Power BI report pages, scroll sideways for more" class="project-shots" tabindex="0">
+<figure>
+<a href="assets/lrt-overview.webp" rel="noopener" target="_blank">
+<img alt="Power BI page with a Kelana Jaya LRT train photo panel and the question 'Did fares and network changes move rail riders?': cards of riders vs 2019 for Jan to Aug 2026 (LRT Kelana Jaya 96%, LRT Ampang/Sri Petaling 114%, MRT Kajang 153%, KL Monorail 177%) in each line's map colour, monthly riders per day from 2019 to 2026 on seven lines including MRT Putrajaya and LRT Shah Alam, the six events tested, and a summary of what changed riders." height="675" loading="lazy" src="assets/lrt-overview.webp" width="1200"/>
+</a>
+<figcaption>1 / 4 · Overview →</figcaption>
+</figure>
+<figure>
+<a href="assets/lrt-event-effects.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'What did each event change?' for the June to July 2022 free month: a table of effects by line with the noise band and two checks (LRT Kelana Jaya +16% but not robust against the comparison line, Ampang/Sri Petaling +19%, MRT Kajang +30% and KL Monorail +34% clear rises), and a daily chart of Kelana Jaya actual riders against two expected lines." height="675" loading="lazy" src="assets/lrt-event-effects.webp" width="1200"/>
+</a>
+<figcaption>2 / 4 · Event effects →</figcaption>
+</figure>
+<figure>
+<a href="assets/lrt-recovery-my50.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Are riders back to 2019 levels?': monthly riders as a share of the same month in 2019 by line from 2022 to 2026, weekly riders around the My50 relaunch, Monorail riders per 100 LRT riders stepping up in Nov 2022 and Feb 2023, and a list of limits." height="675" loading="lazy" src="assets/lrt-recovery-my50.webp" width="1200"/>
+</a>
+<figcaption>3 / 4 · Recovery &amp; My50 →</figcaption>
+</figure>
+<figure>
+<a href="assets/lrt-new-lines.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'How are the newer lines doing?': monthly riders on MRT Putrajaya (rising to about 165,000 a day), KTM Komuter in the Klang Valley (slipping) and LRT Shah Alam, and LRT Shah Alam weekday riders by fare phase: 55,418 while free, 45,839 in the extension and 33,729 once paid." height="675" loading="lazy" src="assets/lrt-new-lines.webp" width="1200"/>
+</a>
+<figcaption>4 / 4 · New lines</figcaption>
+</figure>
+</div><div class="project-desc">
+<ul>
+<li>Daily ridership on seven Klang Valley rail lines, 2019 to Aug 2026 (data.gov.my), including MRT Putrajaya and the new LRT Shah Alam: for six dated events, each line is compared with a holiday-, Ramadan-, school-break- and trend-aware baseline, then checked against placebo dates, the level just before, and KTM Komuter Utara as a comparison line.</li>
+<li>Free fares added riders: +19% to +34% on three lines in the June 2022 free month, and LRT Shah Alam lost about 4 in 10 weekday riders when its free rides ended (55k to 34k). While Kelana Jaya was shut, the Monorail gained 16%.</li>
+<li>The My50 pass still can't be measured: inside ±12–17% noise, and the comparison line is distorted by holiday travel. Four-page LRT-themed Power BI report generated from code (TMDL + PBIR) and validated against Microsoft's schemas.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">Placebo Tests</span>
+<span class="tech-pill">Power BI (PBIP)</span>
+<span class="tech-pill">Open Data</span>
+</div><div class="project-footer">
+<span>Public Transport</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/lrt-ridership-events" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-lb pr1 push" data-category="econometrics"><h3><span class="pmeta">NOV 2026 // COST OF LIVING + OPEN DATA</span><span class="ptitle">Malaysia Affordability Atlas: Who Is Under the Most Pressure?</span><span class="pstat">16 STATES · 45 CHECKS</span></h3><div class="bd"><div aria-label="Power BI report pages, scroll sideways for more" class="project-shots" tabindex="0">
+<figure>
+<a href="assets/affordability-pressure.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Who is under pressure?' under an illustrated street from a kampung house to city towers: Kelantan has the highest burden at 30.8% and Selangor the lowest at 10.6%, with a bar chart by state, ten coins for every RM10 earned and a table of pressure ranks." height="841" loading="lazy" src="assets/affordability-pressure.webp" width="1200"/>
+</a>
+<figcaption>1 / 4 · Who is under pressure →</figcaption>
+</figure>
+<figure>
+<a href="assets/affordability-drivers.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'What drives it?' under an illustrated pasar stall and balance scale: 102.7% of the gap between states comes from income and -2.7% from prices, with income and basket cost by state and each burden recalculated with a typical price and with Malaysia's income." height="841" loading="lazy" src="assets/affordability-drivers.webp" width="1200"/>
+</a>
+<figcaption>2 / 4 · What drives it →</figcaption>
+</figure>
+<figure>
+<a href="assets/affordability-budgets.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Can households meet a reference budget?' under an illustrated terrace house, flats and families: ten figures per state show the share of households earning under the Belanjawanku budget, from 73% in Kelantan to 20% in Selangor, beside budgets and poverty rates." height="841" loading="lazy" src="assets/affordability-budgets.webp" width="1200"/>
+</a>
+<figcaption>3 / 4 · Reference budgets →</figcaption>
+</figure>
+<figure>
+<a href="assets/affordability-growth.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'What has changed, and where within states?' under an illustrated landscape of paddy terraces and a longhouse: real income growth and real formal wage growth by state, and a table of districts sorted by poverty rate." height="841" loading="lazy" src="assets/affordability-growth.webp" width="1200"/>
+</a>
+<figcaption>4 / 4 · What has changed</figcaption>
+</figure>
+</div><div class="project-desc">
+<ul>
+<li>Joins KPDN PriceCatcher shelf prices to DOSM income, spending, CPI and wage data, the official poverty line and the Belanjawanku reference budgets, to measure pressure by state, income position and household type.</li>
+<li>It is an income gap, not a price gap: a 17-item basket costs RM143 to RM159 across states, yet four purchases a month (an assumption) take 30.8% of a 10th-percentile income in Kelantan and 10.6% in Selangor. Income accounts for 101–106% of the gap between states, and prices slightly offset it.</li>
+<li>73% of Kelantan households earn under the family budget, against 20% in Selangor. Four-page illustrated Power BI report generated from code (TMDL + PBIR), with original banners, people and coin pictograms drawn by DAX, and a pipeline that reruns to identical files.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">SQL (DuckDB)</span>
+<span class="tech-pill">Python</span>
+<span class="tech-pill">Power BI (PBIP)</span>
+<span class="tech-pill">Open Data</span>
+</div><div class="project-footer">
+<span>Cost of Living</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/malaysia-affordability-atlas" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-poll pr2 offL" data-category="pipelines"><h3><span class="pmeta">NOV 2026 // AI BUDGET + CHIP CYCLE</span><span class="ptitle">Korea's AI Bet: Smart Move or Bigger Risk?</span><span class="pstat">321 MONTHS · 17 CHECKS</span></h3><div class="bd"><div aria-label="Power BI report pages, scroll sideways for more" class="project-shots" tabindex="0">
+<figure>
+<a href="assets/korea-pressure.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'Why would Korea bet on AI?': Korea's fertility rate of 0.75, 20.3% of people aged 65 and over, potential growth of about 1.8% and R&amp;D at 4.94% of GDP, with ageing and fertility lines for Korea, Japan and Malaysia and an R&amp;D bar chart." height="841" loading="lazy" src="assets/korea-pressure.webp" width="1200"/>
+</a>
+<figcaption>1 / 4 · Why bet on AI →</figcaption>
+</figure>
+<figure>
+<a href="assets/korea-boom.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'This chip boom runs on prices': chip export value up 917% from February 2023 to September 2026 with 55% of the rise from higher prices, value, volume and price index charts since 2000, the price share of each upswing and a table of six downturns." height="841" loading="lazy" src="assets/korea-boom.webp" width="1200"/>
+</a>
+<figcaption>2 / 4 · The boom runs on prices →</figcaption>
+</figure>
+<figure>
+<a href="assets/korea-exposure.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'A bust would hit the budget twice': chips at an estimated 41.8% of Korea's exports, corporate tax tracking the previous year's chip exports with r = 0.50, and a 2027 plan that needs 3.0 times the corporate tax of 2024, with the 2027 budget lines." height="841" loading="lazy" src="assets/korea-exposure.webp" width="1200"/>
+</a>
+<figcaption>3 / 4 · A bust hits the budget twice →</figcaption>
+</figure>
+<figure>
+<a href="assets/korea-malaysia.webp" rel="noopener" target="_blank">
+<img alt="Power BI page 'What it means for Malaysia': chips were 23.3% of Malaysia's exports in 2024 against 17.6% for Korea, Malaysia spends 1.01% of GDP on R&amp;D, with chip export shares for three countries since 2000 and three takeaways." height="841" loading="lazy" src="assets/korea-malaysia.webp" width="1200"/>
+</a>
+<figcaption>4 / 4 · What it means for Malaysia</figcaption>
+</figure>
+</div><div class="project-desc">
+<ul>
+<li>Joins Bank of Korea ECOS monthly chip export value, price and volume indices (2000 to 2026) with UN Comtrade, OECD tax revenue and World Bank data, to test whether a chip boom can pay for Korea's proposed 2027 AI and chip megaprojects (21.3 trillion won, up 97.2%).</li>
+<li>This boom runs on prices: chip export value rose about tenfold from February 2023 to September 2026, and higher prices drove 55% of it, where every earlier upswing since 2001 was led by volume. Corporate tax tracks the previous year's chip exports (r = 0.50), and the plan needs 3.0 times the corporate tax of 2024.</li>
+<li>Malaysia is more concentrated in chips (23.3% of 2024 exports against Korea's 17.6%) on 1.01% of GDP in R&amp;D. Four-page Power BI report generated from code (TMDL + PBIR); cross-checks against DOSM caught and flagged two bad Comtrade rows.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">SQL (DuckDB)</span>
+<span class="tech-pill">Power BI (PBIP)</span>
+<span class="tech-pill">Open Data APIs</span>
+</div><div class="project-footer">
+<span>Trade &amp; Fiscal</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/korea-ai-bet" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-picks pr3" data-category="econometrics"><h3><span class="pmeta">OCT 2026 // MARKETING MIX + PROMO EXPERIMENT</span><span class="ptitle">Multi-Channel Retail Demand &amp; Marketing ROI</span><span class="pstat">SIMULATION STUDY</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Asks which promotion to run, where to move media budget and how much to spend for a simulated 12-store Malaysian chain. The sales and spend come from a generator with known true parameters; the festive calendar and OpenDOSM CPI are real.</li>
+<li>Split-plot ANOVA on a randomised promo experiment, an ADBUDG response curve with adstock (block-bootstrap intervals), and a 13-week forecast whose festive, promo and media regressors beat seasonal naive on the holdout (MAPE 2.2% vs 6.3%). The data and forecasts are stored in a 3NF PostgreSQL schema.</li>
+<li>A 100-run Monte Carlo checks whether the methods recover the truth: promo lifts and the profit-optimal budget do, while the curve's ceiling is reported as weakly identified and two intervals as slightly too narrow. A test blocks the analysis from reading the simulator.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">PostgreSQL</span>
+<span class="tech-pill">Docker</span>
+<span class="tech-pill">Split-plot ANOVA</span>
+<span class="tech-pill">Marketing Mix Model</span>
+<span class="tech-pill">Streamlit</span>
+</div><div class="project-footer">
+<span>Promo &amp; Media ROI</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/Multi-Channel-Retail-Demand-Forecasting-Marketing-ROI-Optimizer" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-status pr4 push" data-category="pipelines"><h3><span class="pmeta">OCT 2026 // STAR-SCHEMA &amp; DAX</span><span class="ptitle">DOSM Trade Engine</span><span class="pstat">320 MONTHS • 51 DAX</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Built a 3-step Python pipeline (ingest, transform, validate) converting 3 OpenDOSM tables into star-schema fact and dimension tables covering 320 months of Malaysian trade (Jan 2000–Aug 2026) and 3,190 month-by-sector rows.</li>
+<li>Flagged 8 export anomaly months and 25 sector spikes with z-score rules on YoY growth; validation checks halt on failure and report a 10–16% source revision gap (Jun–Jul 2024).</li>
+<li>Modelled in Power BI with a date table and 51 DAX measures (YoY growth, 3-month moving averages, latest-month KPI cards).</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">pandas</span>
+<span class="tech-pill">Power BI</span>
+<span class="tech-pill">51 DAX Measures</span>
+<span class="tech-pill">Z-Score Anomaly</span>
+</div><div class="project-footer">
+<span>ETL &amp; Star-Schema BI</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/dosm_trade_engine" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-hot pr5 offL" data-category="apps"><h3><span class="pmeta">SEP 2026 – PRESENT // LIVE STREAMLIT</span><span class="ptitle">BudiPulse: Fuel Subsidy Tracker</span><span class="pstat">2X/WK AUTOMATED ETL</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Built and deployed a live dashboard tracking the weekly gap between market fuel prices and BUDI MADANI subsidised caps for RON95 and diesel, refreshed twice weekly by a scheduled GitHub Actions ETL job.</li>
+<li>Loaded cleaned OpenDOSM price data into PostgreSQL with primary-key upserts that prevent duplicate records.</li>
+<li>Added an interactive calculator estimating each user's monthly fuel cost against the 300 L subsidised quota.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Python</span>
+<span class="tech-pill">PostgreSQL</span>
+<span class="tech-pill">Streamlit</span>
+<span class="tech-pill">GitHub Actions</span>
+<span class="tech-pill">OpenDOSM</span>
+</div><div class="project-footer">
+<span>Automated Public Data App</span>
+<div class="project-links">
+<a class="project-link" href="https://budi-pulse.streamlit.app" rel="noopener" target="_blank">Live App →</a>
+<a class="project-link" href="https://github.com/Downey112/budi-pulse" rel="noopener" target="_blank">GitHub →</a>
+</div>
+</div></div></article>
+<article class="box proj h-pals pr1" data-category="econometrics"><h3><span class="pmeta">2024 – PRESENT // FINAL YEAR PROJECT</span><span class="ptitle">Smartphone Purchase Intention Study (FYP)</span><span class="pstat">ADJ. R² = 0.640</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Built a Multiple Linear Regression (MLR) model on 100 respondents (sample size determined via G*Power) that explained 64.0% of variance in purchase intention (adj. R² = 0.640).</li>
+<li>Identified Product Features (β = 0.431, p &lt; 0.001) and Brand Image (β = 0.404) as the strongest predictors.</li>
+<li>Validated full parametric assumptions including multicollinearity, homoscedasticity, and normality diagnostics.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">R</span>
+<span class="tech-pill">SPSS</span>
+<span class="tech-pill">G*Power</span>
+<span class="tech-pill">Multiple Linear Regression</span>
+</div><div class="project-footer">
+<span>UiTM Honours Thesis</span>
+</div></div></article>
+<article class="box proj h-news pr2 push" data-category="pipelines"><h3><span class="pmeta">2024 // DSC651 BI ANALYTICS</span><span class="ptitle">Telco Customer Churn Dashboard (DSC651)</span><span class="pstat">7,043 CUSTOMERS</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Analysed 7,043 IBM Telco customers in Power BI and uncovered an overall 26.54% customer churn rate.</li>
+<li>Demonstrated that month-to-month contracts accounted for 88.55% of all churned accounts.</li>
+<li>Isolated early-tenure vulnerability with 1,037 customers churning within their first 12 months of service.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">Power BI</span>
+<span class="tech-pill">DAX</span>
+<span class="tech-pill">Customer Retention</span>
+<span class="tech-pill">Cohort Analysis</span>
+</div><div class="project-footer">
+<span>Retention Intelligence</span>
+<div class="project-links">
+<a class="project-link" href="https://github.com/Downey112/DSC651-TelcoChurn-PowerBI" rel="noopener" target="_blank">GitHub Repo →</a>
+</div>
+</div></div></article>
+<article class="box proj h-room pr3 offL" data-category="apps"><h3><span class="pmeta">MAY 2026 – OCT 2026 // FULL-STACK SQL</span><span class="ptitle">WealthWatch: Personal Finance Tracker</span><span class="pstat">53 AUTOMATED TESTS</span></h3><div class="bd"><div class="project-desc">
+<ul>
+<li>Built and deployed a live finance tracker serving monthly income, expense, and per-category totals from SQL aggregation queries on PostgreSQL through a 5-endpoint FastAPI service.</li>
+<li>Engineered secure JWT sign-in and Supabase PostgreSQL Row-Level Security (RLS).</li>
+<li>Verified backend reliability with a suite of 53 automated tests and deployed frontend on Vercel.</li>
+</ul>
+</div><div class="tech-stack">
+<span class="tech-pill">React</span>
+<span class="tech-pill">FastAPI</span>
+<span class="tech-pill">Supabase (PostgreSQL)</span>
+<span class="tech-pill">Vercel</span>
+<span class="tech-pill">Pytest (53 Tests)</span>
+</div><div class="project-footer">
+<span>Full-Stack Financial App</span>
+<div class="project-links">
+<a class="project-link" href="https://wealthwatch-six.vercel.app" rel="noopener" target="_blank">Live App →</a>
+<a class="project-link" href="https://github.com/Downey112/wealthwatch" rel="noopener" target="_blank">GitHub →</a>
+</div>
+</div></div></article>
+</section>
+<section class="box h-hot morehall" id="more-projects">
+  <h2>More Projects</h2>
+  <div class="bd moregrid"><article class="mini-card"><h3 class="mini-title">SpaceX Falcon 9 Landing Prediction</h3><p class="mini-desc">IBM Data Science capstone: predicts first-stage landings across 90 launches. Four tuned classifiers reach 83.3% test accuracy, and the Decision Tree has the best cross-validation score at 86.3%.</p><div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">SQL</span><span class="tech-pill">Folium</span><span class="tech-pill">Plotly Dash</span><span class="tech-pill">scikit-learn</span></div><div class="project-links"><a aria-label="SpaceX Falcon 9 Landing Prediction: GitHub repository" class="project-link" href="https://github.com/Downey112/ibm-ds-capstone-spacex" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">Program Risk MY</h3><p class="mini-desc">Field-of-study risk index and forecast for Malaysian graduates, built on MOHE Graduate Tracer Study data (2020–2025).</p><div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Streamlit</span><span class="tech-pill">Forecasting</span></div><div class="project-links"><a aria-label="Program Risk MY: live site" class="project-link" href="https://programriskmy.streamlit.app/" rel="noopener" target="_blank">Live →</a><a aria-label="Program Risk MY: GitHub repository" class="project-link" href="https://github.com/Downey112/program-risk-my" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">PriceCatcher Retail Pricing</h3><p class="mini-desc">Grocery price dispersion and store-format gap model across 20M+ PriceCatcher records.</p><div class="tech-stack"><span class="tech-pill">DuckDB</span><span class="tech-pill">Fixed-effects OLS</span><span class="tech-pill">Power BI (34 measures)</span></div><div class="project-links"><a aria-label="PriceCatcher Retail Pricing: GitHub repository" class="project-link" href="https://github.com/Downey112/pricecatcher-retail-pricing" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">EV Conformal</h3><p class="mini-desc">Stress-tests conformal prediction intervals for hierarchical EV charging forecasts, re-examining arXiv:2610.13588.</p><div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">Conformal Prediction</span><span class="tech-pill">Hierarchical Forecasting</span></div><div class="project-links"><a aria-label="EV Conformal: GitHub repository" class="project-link" href="https://github.com/Downey112/ev-conformal" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">Audit Fraud Detection</h3><p class="mini-desc">End-to-end anomaly and fraud detection pipeline on 1M+ imbalanced transactions.</p><div class="tech-stack"><span class="tech-pill">SMOTE</span><span class="tech-pill">Logistic Regression</span><span class="tech-pill">Neural Networks</span></div><div class="project-links"><a aria-label="Audit Fraud Detection: GitHub repository" class="project-link" href="https://github.com/Downey112/audit-fraud-detection" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">ESG Multi-Agent Auditor</h3><p class="mini-desc">Event-driven multi-agent architecture for auditing corporate greenhouse gas emissions (Scope 1, 2 and 3).</p><div class="tech-stack"><span class="tech-pill">Multi-Agent AI</span><span class="tech-pill">Gemini Enterprise Agent Platform</span></div><div class="project-links"><a aria-label="ESG Multi-Agent Auditor: GitHub repository" class="project-link" href="https://github.com/Downey112/esg-multiagent-auditor" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">Belanjawan 2027 Wage Cost Model</h3><p class="mini-desc">Formula-driven payroll and fiscal model of employer cost and take-home pay across the Budget 2027 wage tiers (RM2,000, RM2,500, RM3,400).</p><div class="tech-stack"><span class="tech-pill">Excel</span><span class="tech-pill">Payroll Modelling</span></div><div class="project-links"><a aria-label="Belanjawan 2027 Wage Cost Model: GitHub repository" class="project-link" href="https://github.com/Downey112/belanjawan-2027-wage-cost-model" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">Malaysia Inclusive Economy Blueprint</h3><p class="mini-desc">Interactive policy simulator modelling progressive fiscal reforms, living-wage staircases and PPR urban safety nets.</p><div class="tech-stack"><span class="tech-pill">Interactive SPA</span><span class="tech-pill">Data Visualisation</span></div><div class="project-links"><a aria-label="Malaysia Inclusive Economy Blueprint: live site" class="project-link" href="https://Downey112.github.io/malaysia-inclusive-economy-blueprint/" rel="noopener" target="_blank">Live →</a><a aria-label="Malaysia Inclusive Economy Blueprint: GitHub repository" class="project-link" href="https://github.com/Downey112/malaysia-inclusive-economy-blueprint" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">Perasaan Malaysia</h3><p class="mini-desc">Automated daily ETL pulling MetMalaysia 7-day weather forecasts from the data.gov.my API into Google Sheets.</p><div class="tech-stack"><span class="tech-pill">GitHub Actions</span><span class="tech-pill">data.gov.my API</span><span class="tech-pill">Google Sheets</span></div><div class="project-links"><a aria-label="Perasaan Malaysia: GitHub repository" class="project-link" href="https://github.com/Downey112/perasaan-malaysia" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">Antigravity GitHub Ecosystem</h3><p class="mini-desc">Repository maintenance agent for dependency audits, issue triage and portfolio health checks.</p><div class="tech-stack"><span class="tech-pill">GitHub Actions</span><span class="tech-pill">Automation</span></div><div class="project-links"><a aria-label="Antigravity GitHub Ecosystem: GitHub repository" class="project-link" href="https://github.com/Downey112/antigravity-github-ecosystem" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">free-worker</h3><p class="mini-desc">Read-only MCP worker for Claude Code that sends each task to the first free AI model with quota left (Antigravity, Gemini, Groq, Mistral, OpenRouter) and falls back automatically when one runs out.</p><div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">MCP</span><span class="tech-pill">Claude Code</span></div><div class="project-links"><a aria-label="free-worker: GitHub repository" class="project-link" href="https://github.com/Downey112/free-worker" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">threads-mcp</h3><p class="mini-desc">Read-only connector to the official Threads (Meta) API for topic analysis in Claude Code: keyword and topic-tag search, profile lookups, replies and insights, with CSV export.</p><div class="tech-stack"><span class="tech-pill">Python</span><span class="tech-pill">MCP</span><span class="tech-pill">Threads API</span></div><div class="project-links"><a aria-label="threads-mcp: GitHub repository" class="project-link" href="https://github.com/Downey112/threads-mcp" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">GAIA Agent (Hugging Face Agents Course)</h3><p class="mini-desc">Final-assignment agent that scored 85% (17/20) on level-1 GAIA questions: a code-writing agent that searches the web, reads Wikipedia tables, and understands images, audio, spreadsheets and YouTube videos.</p><div class="tech-stack"><span class="tech-pill">smolagents</span><span class="tech-pill">Gemini API</span><span class="tech-pill">GAIA 85%</span></div><div class="project-links"><a aria-label="GAIA Agent: GitHub repository" class="project-link" href="https://github.com/Downey112/hf-agents-course-gaia" rel="noopener" target="_blank">GitHub →</a></div></article>
+<article class="mini-card"><h3 class="mini-title">The Residual</h3><p class="mini-desc">Analytics blog exploring the residual in Malaysian open data: the part the headline leaves out.</p><div class="tech-stack"><span class="tech-pill">Vercel</span><span class="tech-pill">Data Writing</span></div><div class="project-links"><a aria-label="The Residual: live site" class="project-link" href="https://the-residual-lilac.vercel.app" rel="noopener" target="_blank">Live →</a><a aria-label="The Residual: GitHub repository" class="project-link" href="https://github.com/Downey112/the-residual" rel="noopener" target="_blank">GitHub →</a></div></article></div>
+</section>
 </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p class="footer-name">Muhammad Luqman Hakim bin Syahrulnizam · Kuala Lumpur, Malaysia</p>
-      <ul class="footer-links">
-        <li><a href="mailto:luqmansyahrulnizam@gmail.com">luqmansyahrulnizam@gmail.com</a></li>
-        <li><a href="tel:+60102477357">+6010-247-7357</a></li>
-        <li><a href="https://linkedin.com/in/luqmansyahrulnizam" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://github.com/Downey112" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="#main">Back to top</a></li>
-      </ul>
-      <p class="footer-copy">© 2026 Muhammad Luqman Hakim bin Syahrulnizam</p>
-    </div>
-  </footer>
+<footer class="footer">
+  <p class="fname">Muhammad Luqman Hakim bin Syahrulnizam · Kuala Lumpur, Malaysia</p>
+  <ul class="flinks-list">
+<li><a href="mailto:luqmansyahrulnizam@gmail.com">luqmansyahrulnizam@gmail.com</a></li>
+<li><a href="tel:+60102477357">+6010-247-7357</a></li>
+<li><a href="https://linkedin.com/in/luqmansyahrulnizam" rel="noopener" target="_blank">LinkedIn</a></li>
+<li><a href="https://github.com/Downey112" rel="noopener" target="_blank">GitHub</a></li>
+<li><a href="#main">Back to top</a></li>
+</ul>
+  <div class="fbadges">
+    <span class="fbadge">BEST VIEWED IN 1024x768</span>
+    <span class="fbadge">MADE IN KL</span>
+    <span class="fbadge">POWER BI INSIDE</span>
+  </div>
+  <div class="odigits" role="img" aria-label="Project counter: 32 projects shipped"><span>0</span><span>0</span><span>0</span><span>0</span><span>3</span><span>2</span></div>
+  <p class="fcopy">© 2026 Muhammad Luqman Hakim bin Syahrulnizam</p>
+</footer>
+</div>
 <script>
-  (function () {
-    'use strict';
-    var root = document.documentElement;
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    /* 1. Project filter */
-    var filterButtons = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
-    var projectCards = Array.prototype.slice.call(document.querySelectorAll('.project-card'));
-    function applyFilter(button) {
-      var filter = button.getAttribute('data-filter');
-      filterButtons.forEach(function (btn) {
-        var active = btn === button;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
-      var update = function () {
-        projectCards.forEach(function (card) {
-          card.hidden = !(filter === 'all' || card.getAttribute('data-category') === filter);
-        });
-      };
-      if ('startViewTransition' in document && !reduceMotion.matches) document.startViewTransition(update);
-      else update();
-    }
-    filterButtons.forEach(function (btn) {
-      btn.addEventListener('click', function () { applyFilter(btn); });
-    });
-
-    /* 2. Dealt reveal: only under html.js with motion allowed */
-    if (root.classList.contains('js') && !reduceMotion.matches) {
-      var revealTargets = Array.prototype.slice.call(document.querySelectorAll('.project-card, .mini-card'));
-      if ('IntersectionObserver' in window) {
-        var revealObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
-        revealTargets.forEach(function (el) { revealObserver.observe(el); });
-      } else {
-        revealTargets.forEach(function (el) { el.classList.add('is-revealed'); });
-      }
-    }
-
-    /* 3. Header nav aria-current for the section in view */
-    var navLinks = Array.prototype.slice.call(document.querySelectorAll('.site-nav a[href^="#"]'));
-    var sections = [];
-    navLinks.forEach(function (link) {
-      var section = document.getElementById(link.getAttribute('href').slice(1));
-      if (section && sections.indexOf(section) === -1) sections.push(section);
-    });
-    if (sections.length && 'IntersectionObserver' in window) {
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          navLinks.forEach(function (link) {
-            if (link.getAttribute('href') === '#' + entry.target.id) link.setAttribute('aria-current', 'true');
-            else link.removeAttribute('aria-current');
-          });
-        });
-      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-      sections.forEach(function (section) { spy.observe(section); });
-    }
-  })();
-  </script>
+(function () {
+  'use strict';
+  /* The only dynamic bit: a periodic wiggle on the (constant, real)
+     "Projects shipped" counter. No fake numbers are ever generated. */
+  var el = document.getElementById('shipped');
+  if (!el) { return; }
+  var box = el.parentElement;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+  setInterval(function () {
+    box.classList.add('wig');
+    setTimeout(function () { box.classList.remove('wig'); }, 330);
+  }, 4200);
+})();
+</script>
 </body>
 </html>
